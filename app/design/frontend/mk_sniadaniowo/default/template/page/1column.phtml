@@ -1,0 +1,280 @@
+<?php
+
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+
+<?php
+/**
+ * Template for Mage_Page_Block_Html
+ */
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->getLang() ?>" lang="<?php echo $this->getLang() ?>">
+<head>
+
+<?php echo $this->getChildHtml('head') ?>
+<script>
+jQuery(document).ready(function (){
+        jQuery(".login-button").colorbox({inline:true, width:"620px", opacity: 0.50, closeButton: true});
+        jQuery(".reghister-button").colorbox({inline:true, width:"620px", opacity: 0.50, height: "743px", closeButton: true});
+
+        jQuery(".back-link").click(function(){
+            jQuery('#cboxClose').trigger('click');
+        });
+
+        jQuery(".checkout-cart a.day-show").click(function(){
+            jQuery(this).next().slideToggle( "slow" );
+        });
+});
+</script>
+
+</head>
+
+<body<?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?>>
+<?php echo $this->getChildHtml('after_body_start') ?>
+<?php /*
+<!-- Login Form PopUp -->
+<div style='display:none'>
+    <div id="popup_form_mini_login" style='background:#fff;'>
+        <div class="shape-popup-top"></div>
+            <?php echo $this->getChildHtml('login') ?>
+        <div class="shape-popup-bottom"></div>
+    </div>
+</div>
+<!-- / End Login Form PopUp -->
+<div style='display:none'>
+    <div id="popup_form_register" style='background:#fff;height:705px;'>
+        <div class="shape-popup-top"></div>
+            <?php echo $this->getChildHtml('register') ?>
+        <div class="shape-popup-bottom"></div>
+    </div>
+</div>
+<!-- Register Form PopUp -->
+
+<div style='display:none'>
+    <div id="popup_form_checkaddress" style='background:#fff;'>
+        <div class="shape-popup-top"></div>
+            <?php echo $this->getChildHtml('checkaddress') ?>
+        <div class="shape-popup-bottom"></div>
+    </div>
+</div>
+ */ ?>
+
+<?php 
+    $checkout_days = Mage::getSingleton('core/session')->getWeeksCalendar();
+?>
+<div class="wrapper">
+    <?php echo $this->getChildHtml('global_notices') ?>
+    <div class="page">
+            <?php echo $this->getChildHtml('header') ?>
+
+        <div class="main-container-subpage">
+            <div class="chekcout">
+                <div class="col-left">
+                    <div class="col-left-header">
+                        <h1 class="page-title">Podsumowanie zamówienia</h1>
+                        <a class="back-list" href="<?php echo $this->getBaseUrl(); ?>index.php/pieczywo-1.html">wróć do listy produktuów</a>
+                        <div class="description">
+                        <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('checkout_description')->toHtml(); ?>  
+                        </div>
+                    </div>
+                    <div class="checkout-cart">
+                    <?php 
+$snhelper = Mage::helper('general');
+$snhelper->checkCart();
+
+$cart = Mage::getSingleton('checkout/cart');
+
+$day_change = array(
+    'Mon' => 'PN',
+    'Tue' => 'WT',
+    'Wed' => 'SR',
+    'Thu' => 'CZ',
+    'Fri' => 'PT',
+    'Sat' => 'SO',
+    'Sun' => 'ND',
+);
+
+$month_change = array(
+    'Jan' => 'Styczeń',
+    'Feb' => 'Luty',
+    'Mar' => 'Marzec',
+    'Apr' => 'Kwiecień',
+    'May' => 'Maj',
+    'Jun' => 'Czerwiec',
+    'Jul' => 'Lipiec',
+    'Aug' => 'Siepień',
+    'Sep' => 'Wrzesień',
+    'Oct' => 'Pazdziernik',
+    'Nov' => 'Listopad',
+    'Dec' => 'Grudzień',
+);
+
+$day_table = array();
+$_days = 42;
+
+$_day = new DateTime();
+$_day->setTimezone(new DateTimeZone('Europe/Warsaw'));
+$_day->add(new DateInterval('P1D'));
+$_day->sub(new DateInterval('P'.(intval($_day->format('N')) - 1).'D'));
+
+while($_days-- > 0){
+    $day_code = $snhelper->getDayDate($_day);
+    $day_table[$day_code] = array();
+    $_day->add(new DateInterval('P1D'));
+}
+foreach($cart->getQuote()->getAllItems() as $qi){
+    $_item_day_week_ob = $qi->getOptionByCode('day_week');
+    if(is_object($_item_day_week_ob)){
+        $_item_day_week = $_item_day_week_ob->getValue();
+        if(isset($day_table[$_item_day_week])){
+            $day_table[$_item_day_week][] = $qi;
+        }
+        else{
+            //todo: usunięcie produktu w pizdu
+        }
+    }
+    else{
+        continue;
+    }
+}
+
+
+foreach($day_table as $day_week => $dt){
+    if(!empty($dt)){
+//        $dw_block = $this->getChild('dayweek');
+        ?>
+                        <div id="day-container-<?php echo $day_week; ?>">
+                        <?
+        $dw_block = $block = $this->getLayout()->createBlock('core/template')->setTemplate('onepagecheckout/day.phtml');
+        $dw_block->assign('day_week', $day_week);
+        echo $dw_block->toHtml();
+        ?>
+                        </div>
+                        <?
+    }
+}
+                    ?> 
+                    </div>
+                <?php echo $this->getChildHtml('global_messages') ?>
+                </div>
+                
+                    <?php echo $this->getChildHtml('content') ?>
+                    <?php //echo $this->getChildHtml('right') ?>
+                 
+            </div> 
+        </div>
+        <?php echo $this->getChildHtml('footer') ?>
+        <?php echo $this->getChildHtml('global_cookie_notice') ?>
+        <?php echo $this->getChildHtml('before_body_end') ?>
+    </div>
+</div>
+<?php echo $this->getAbsoluteFooter() ?>
+
+<script type="text/javascript">
+    function days_hide(id){
+      jQuery('#' + id + '').fadeOut();  
+    }
+</script>
+
+<script type="text/javascript">
+    function add_product(product_id, day_week){
+        var day_html = get_html('add', product_id, day_week);
+    }
+    
+    function sub_product(item_id, day_week){
+        var day_html = get_html('sub', item_id, day_week);
+    }
+    
+    function remove_product(item_id, day_week){
+        var day_html = get_html('remove', item_id, day_week);
+    }
+    
+    function clear_day(day_week){
+        var day_html = get_html('clear', null, day_week, false, true);
+    }
+    
+    function get_html(action, iid, day_week, async, hide){
+        var result = false;
+        if(typeof async == "undefined"){
+            async = true;
+        }
+        if(typeof hide == "undefined"){
+            hide = false;
+        }
+        jQuery.ajax({
+            async: async,
+            url:'<?php echo $this->getBaseUrl();?>checkout/cart/getday',
+            type: 'post',
+            data:{
+                'day': day_week,
+                'action' : action,
+                'product_id': iid,
+                'checkout': 1
+            },
+            success: function(data){
+                //result =data;
+                jQuery('#day-container-'+day_week).html(data);
+                jQuery('#day-container-'+day_week).find("a.day-show").click(function(){
+                    jQuery(this).next().slideToggle( "slow" );
+                });
+                set_days();
+                if(hide){
+                    days_hide('day-container-'+day_week);
+                }
+            },
+            error: function(){
+                result = false;
+            },
+            complete: function(){
+                jQuery('.ajax_loader').hide();
+            }
+        });
+        return result;
+    }
+    
+    function set_days(){
+        checkout.update({
+            'review': 1
+        });
+    }
+    
+    jQuery(document).ready(function(){
+        set_days();
+    });
+    
+    function format_price(price){
+        price = parseFloat(price);
+        price = price.toFixed(2)+" zł";
+        return price.replace('.', ',');
+    }
+</script>
+</body>
+</html>
+
+<?php //print_r(get_included_files()); ?>
+
+

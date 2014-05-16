@@ -1,0 +1,61 @@
+<?php
+$snhelper = Mage::helper('general');
+$snhelper->checkCart();
+    $cart = Mage::getSingleton('checkout/cart');
+
+    $_day_subtotal = 0;
+    foreach($cart->getQuote()->getAllItems() as $item){
+        $_item_day_week_ob = $item->getOptionByCode('day_week');
+        if(is_object($_item_day_week_ob)){
+            $_item_day_week = $_item_day_week_ob->getValue();
+        }
+        else{
+            $_item_day_week = 'no day';
+        }
+        if($_item_day_week == $day_week){
+            $_day_subtotal += $item->getProduct()->getPrice()*$item->getQty();
+        }
+    }
+?>
+<a class="day-show" href="#<?php echo 'day-'.$day_week; ?>"><?php echo $snhelper->getDayName($day_week); ?><span id="price-head"><?php echo number_format($_day_subtotal, 2, ',', ''); ?> zł</span></a>
+                            <div class="content" id="<?php echo 'day-'.$day_week; ?>">
+                            <ul>
+
+        <?php foreach($cart->getQuote()->getAllItems() as $item):?>
+        <?php
+        $_item_day_week_ob = $item->getOptionByCode('day_week');
+        if(is_object($_item_day_week_ob)){
+            $_item_day_week = $_item_day_week_ob->getValue();
+        }
+        else{
+            $_item_day_week = 'no day';
+        }
+        ?>
+        <?php if($_item_day_week == $day_week): ?>
+        <?php $item_id = $item->getItemId(); ?>
+        <?php $_product = $item->getProduct(); ?>
+                                        <li id="product-<?php echo $_product->getId(); ?>">
+                                        <div class="product-<?php echo $_product->getId(); ?>-delete"></div>
+                                        <div class="name"><span><?php echo $_product->getName(); ?></span></div>
+                                        <div class="price">
+                                            <a href="#sub" onclick="sub_product('<?php echo $item_id; ?>', '<?php echo $day_week; ?>'); return false;">
+                                            <img src="<?php echo $this->getSkinUrl('images/calendar-button-remove.png') ?>" />
+                                            </a>
+                                            <span><?php echo $item->getQty(); ?>x</span>
+                                            <a href="#add" onclick="add_product('<?php echo $_product->getId(); ?>', '<?php echo $day_week; ?>'); return false;">
+                                            <img src="<?php echo $this->getSkinUrl('images/calendar-button-add.png'); ?>" />
+                                            </a>
+                                        </div>
+                                        <div class="count"><span><?php echo number_format($_product->getPrice(), 2, ',', ''); ?> zł za sztukę</span></div>
+
+                                        <div class="sum"><?php echo number_format($_product->getPrice()*$item->getQty(), 2, ',', ''); ?> zł<span></span></div><a class="checkout-delete" onclick="remove_product('<?php echo $item_id; ?>', '<?php echo $day_week; ?>');return false;" href="#delete"><img src="<?php echo $this->getSkinUrl('images/calendar-button-delete.png'); ?>" /></a>
+                                        </li>
+                                   <?php endif; ?>
+        <?php endforeach; ?>     
+                                </ul>
+                                <ul class="sum-info">
+                                    <div class="text"><span>razem za dzień: <strong><?php echo number_format($_day_subtotal, 2, ',', ''); ?> zł</strong></span></div>
+                                    <a id="day-hide" href="#hide-day" onclick="days_hide('<?php echo 'day-'.$day_week; ?>');">Gotowe</a>
+                                    <li><a id="day-clear" href="#clear-day" onclick="clear_day('<?php echo $day_week; ?>');return false;">opróżnij cały dzień</a></li>
+                                </ul>
+                            </div>

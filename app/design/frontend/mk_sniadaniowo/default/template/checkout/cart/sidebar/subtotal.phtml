@@ -1,0 +1,94 @@
+<?php
+
+$cart = Mage::getSingleton('checkout/cart');
+
+$days = 0;
+$productsprice = 0;
+$aboprice = 0;
+$overpayment = 0;
+$used_days = array();
+
+foreach($cart->getQuote()->getAllItems() as $item){
+    $_item_day_week_ob = $item->getOptionByCode('day_week');
+    if(is_object($_item_day_week_ob)){
+        $_item_day_week = $_item_day_week_ob->getValue();
+    }
+    else{
+        $_item_day_week = 'no day';
+    }
+    if($_item_day_week == 'no day'){
+        $aboprice += $item->getProduct()->getPrice()*$item->getQty();
+    }
+    else{
+        if(array_search($_item_day_week, $used_days) === false){
+            $used_days[] = $_item_day_week;
+            $days++;
+        }
+        $productsprice += $item->getProduct()->getPrice()*$item->getQty();
+    }
+}
+
+if(Mage::getSingleton('customer/session')->isLoggedIn()) {
+    $customer = Mage::getSingleton('customer/session')->getCustomer();
+    $overpayment = $customer->getOverpay();
+}
+
+if(Mage::getSingleton('customer/session')->isLoggedIn()) {
+    $customer = Mage::getSingleton('customer/session')->getCustomer();
+    $abonament_expiration = $customer->getAbonamentExpiration(true);
+}
+else{
+    $abonament_expiration = Sniadaniowo_Customer_Model_Customer::getAbonamenExpirationForNotLogged();
+}
+?>
+                    <span>zaplanowałeś dostawę na <span id="sum-days"><?php echo $days; ?></span> dni: 
+                        <strong>
+                            <?php echo number_format($productsprice, 2, ',', ''); ?> zł
+                        </strong>
+                    </span>
+                    
+                    <span>abonament dostawczy: <span id="abonament">
+                            <strong>
+                                <?php if($abonament_expiration <= 0): ?>
+                                brak
+                                <?php else: ?>
+                                <?php echo $abonament_expiration; ?> dni
+                                <?php if($aboprice > 0): ?>
+                                    <?php echo number_format($aboprice, 2, ',', ''); ?> zł
+                                <?php else: ?>
+                                    gratis
+                                <?php endif; ?>
+                                <?php endif; ?>
+                            </strong>
+                        </span>
+                    </span>
+                    <?php if($aboprice > 0): ?>
+<br>
+                    <span>
+                        <a class="remove_abo_trigger" href="#popup_remove_abo" onclick="">
+                            usuń ostatni orkes abonamentowy
+                        </a>
+                    </span>
+                    <?php endif; ?>
+                    <?php if($overpayment > 0): ?><br>
+                    <span>nadpłata: <span id="overpayment">
+                            <strong>
+                            <?php echo number_format($overpayment, 2, ',', ''); ?> zł
+                            </strong>
+                        </span>
+                    </span>
+                    <?php endif; ?>
+                    <div class="block-subtotal">
+                        <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('subtotal-info')->toHtml(); ?>
+                    </div>
+
+<script>
+    
+    jQuery(".remove_abo_trigger").colorbox({
+        inline:true,
+        width:"620px",
+        opacity: 0.50,
+        height: "238px",
+        closeButton: true
+    });
+ </script>

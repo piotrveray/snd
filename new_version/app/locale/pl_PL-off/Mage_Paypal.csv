@@ -1,0 +1,34 @@
+Amex,Amex
+Authorization,Autoryzacja
+"Billing Information","Informacje o płatności"
+"Change Payment Method","Zmień formę płatności"
+"Change Shipping Address","Zmień adres dla wysyłki"
+Discover,Discover
+"Edit Shopping Cart","Edytuj produkty w koszyku"
+"Invalid data","Nieprawidłowe dane"
+"Items in Your Shopping Cart","Produkty znajdujące się w koszyku"
+MasterCard,MasterCard
+N/A,N/D
+Order,Zamówienie
+"Payment Method","Forma płatności"
+"PayPal Account","Konto PayPal"
+"Paypal Checkout","Płatność Paypal"
+"Place an Order","Złóż zamówienie"
+"Please select a shipping method...","Wybierz formę wysyłki..."
+"Please select a valid shipping method","Wybierz prawidłową formę wysyłki."
+Price,Cena
+"Problem during communication with PayPal","Problem podczas komunikacji z serwerem PayPal"
+"Product Name","Nazwa produktu"
+Qty,Ilość
+"Review Order","Podgląd zamówienia"
+Sale,Sprzedaż
+"Shipping Address","Adres do wysyłki"
+"Shipping Information","Informacje o wysyłce"
+"Shipping Method","Forma wysyłki"
+"Sorry, no quotes are available for this order at this time.","Przepraszamy, nie udało się określić danych dla zamówienia."
+Subtotal,"Wartość produktów"
+"There was an error connecting to the Paypal server: %s","Nie udało się połączyć z serwerem Paypal: %s"
+"There was an error during communication with Paypal: %s - %s","Wystąpił błąd w trakcie komunikacji z Paypal: %s - %s"
+"Update Shipping Method","Uaktualnij formę wysyłki"
+Visa,Visa
+"Your billing address will be ignored and you will be redirected to PayPal website","Twój adres płatnika zostanie pominięty i zostaniesz przekierowany na stronę Paypal"

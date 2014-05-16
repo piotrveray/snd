@@ -1,0 +1,53 @@
+<?php
+$category = Mage::getSingleton('catalog/layer')->getCurrentCategory();
+$categories = $category->getCollection()
+        ->addAttributeToSelect(array('name', 'thumbnail'))
+        ->addAttributeToSelect('all_children')
+        ->addAttributeToFilter('is_active', 1)
+?>
+<!-- 
+for display image on category use:
+
+<img src="<?php //echo Mage::getBaseUrl('media') . 'catalog' . DS . 'category' . DS . $category->getThumbnail() ?>" alt="<?php //echo $this->htmlEscape($category->getName()) ?>" />
+
+-->
+<script>
+	jQuery(document).ready(function (){
+/**
+		var user_logging = "<?php echo $this->helper('customer')->isLoggedIn(); ?>";
+
+		if( user_logging != 1 ){
+			jQuery('.login-button').trigger('click');
+		}
+		
+        jQuery(".login-button").colorbox({inline:true, width:"50%", closeButton: true});
+        jQuery(".reghister-button").colorbox({inline:true, width:"50%", closeButton: true});
+
+        jQuery(".back-link").click(function(){
+        	jQuery('#cboxClose').trigger('click');
+        });
+**/
+    });
+</script>
+
+<div class="menu-subcategories">
+	<?php $current_id = Mage::getModel('catalog/layer')->getCurrentCategory()->getId();  ?>
+	<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('offert_info')->toHtml(); ?>
+	<ul class="subcategories">
+	    <?php foreach ($categories as $category): ?>
+	        <li>
+	        	<?php if( $category->getId() != 2 ){ ?>
+		        	<?php if( $category->getId() != 14 ){ ?>
+		        		<?php if( $current_id == $category->getId() ){ ?>
+		            		<a class="subcategories-button selected" href="<?php echo $category->getUrl() ?>">
+		                		<span><?php echo $category->getName() ?></span></a>
+		                <?php }else{ ?>
+		                	<a class="subcategories-button" href="<?php echo $category->getUrl() ?>">
+		                		<span><?php echo $category->getName() ?></span></a>
+		                <?php } ?>
+		            <?php } ?>
+	            <?php } ?>
+	        </li>
+	    <?php endforeach; ?>
+	</ul>
+</div>

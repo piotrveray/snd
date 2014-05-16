@@ -1,0 +1,181 @@
+<?php
+
+if(!isset($is_summary)) $is_summary = false;
+
+$customerAddressId = Mage::getSingleton('customer/session')->getCustomer()->getDefaultShipping();
+if ($customerAddressId){
+       $addr_data = Mage::getModel('customer/address')->load($customerAddressId)->getData();
+}
+else{
+    $addr_data = array();
+}
+?>
+<div class="change_shipping form-container" style="height:100%">
+    <div class="page-title">
+        <h1 class=""><?php echo $this->__('Zmień dane dostawy') ?></h1>
+    </div>
+    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+    <?php /* Extensions placeholder */ ?>
+        <div class="fieldset">
+            <ul class="form-list" id="checkaddress">
+                <li class="fields">
+                        <label for="s_firstname" class="required"><em>*</em><?php echo $this->__('Imię') ?></label>
+                        <div class="input-box">
+                            <input type="text" name="shipping[firstname]" value="<?php echo $this->escapeHtml($addr_data['firstname']) ?>" title="<?php echo $this->__('Imię') ?>" id="s_firstname" class="input-text required-entry <?php echo $this->helper('customer/address')->getAttributeValidationClass('firstname') ?>" />
+                        </div>
+                </li>
+                <li class="fields">
+                        <label for="s_lastname" class="required"><em>*</em><?php echo $this->__('Nazwisko') ?></label>
+                        <div class="input-box">
+                            <input type="text" name="shipping[lastname]" value="<?php echo $this->escapeHtml($addr_data['lastname']) ?>" title="<?php echo $this->__('Nazwisko') ?>" id="s_lastname" class="input-text required-entry <?php echo $this->helper('customer/address')->getAttributeValidationClass('lastname') ?>" />
+                        </div>
+                </li>
+                <li class="fields">
+                        <label for="s_city" class="required"><em>*</em><?php echo $this->__('Miasto') ?></label>
+                        <div class="input-box">
+                            <input type="text" name="shipping[city]" value="<?php echo $this->escapeHtml($addr_data['city']) ?>" title="<?php echo $this->__('Miasto') ?>" id="s_city" class="input-text required-entry <?php echo $this->helper('customer/address')->getAttributeValidationClass('city') ?>" />
+                        </div>
+                </li>
+                <li class="fields">
+                        <label for="s_postcode" class="required"><em>*</em><?php echo $this->__('Kod pocztowy') ?></label>
+                        <div class="input-box">
+                            <input type="text" name="shipping[postcode]" value="<?php echo $this->escapeHtml($addr_data['postcode']) ?>" title="<?php echo $this->__('Kod pocztowy') ?>" id="s_postcode" class="input-text required-entry <?php echo $this->helper('customer/address')->getAttributeValidationClass('postcode') ?>" />
+                        </div>
+                </li>
+                <li class="fields">
+                        <label for="s_street" class="required"><em>*</em><?php echo $this->__('Ulica') ?></label>
+                        <div class="input-box">
+                            <input type="text" name="shipping[street][]" value="<?php echo $this->escapeHtml($addr_data['street']) ?>" title="<?php echo $this->__('Ulica') ?>" id="s_street" class="input-text required-entry <?php echo $this->helper('customer/address')->getAttributeValidationClass('street') ?>" />
+                        </div>
+                </li>
+                <li class="fields">
+                        <label for="s_number" class="required"><em>*</em><?php echo $this->__('Numer domu') ?></label>
+                        <div class="input-box">
+                            <input type="text" name="shipping[number]" value="<?php echo $this->escapeHtml($addr_data['number']) ?>" title="<?php echo $this->__('Numer domu') ?>" id="s_number" class="input-text required-entry <?php echo $this->helper('customer/address')->getAttributeValidationClass('number') ?>" />
+                        </div>
+                </li>
+                <?php if($is_summary): ?>
+                <li class="fields">
+                        <label for="s_apartment" class="required"><?php echo $this->__('Numer mieszkania') ?></label>
+                        <div class="input-box">
+                            <input type="text" name="shipping[apartment]" value="<?php echo $this->escapeHtml($addr_data['apartment']) ?>" title="<?php echo $this->__('Numer mieszkania') ?>" id="s_apartment" class="input-text required-entry <?php echo $this->helper('customer/address')->getAttributeValidationClass('apartment') ?>" />
+                        </div>
+                </li>
+                <li class="fields">
+                        <label for="s_floor"><?php echo $this->__('Piętro') ?></label>
+                        <div class="input-box">
+                            <input type="text" name="shipping_floor" value="" title="<?php echo $this->__('Piętro') ?>" id="s_floor" style="width:50px" class="input-text <?php echo $this->helper('customer/address')->getAttributeValidationClass('floor') ?>" />
+                            <input type="hidden" name="was_used" value="1">
+                        </div>
+                </li>
+                <?php endif; ?>
+                <li class="fields">
+                        <label for="s_telphone"><?php echo $this->__('Telefon') ?></label>
+                        <div class="input-box">
+                            <input type="text" name="shipping[telphone]" value="<?php echo $this->escapeHtml($addr_data['telephone']) ?>" title="<?php echo $this->__('Telefon') ?>" id="s_telphone" class="input-text <?php echo $this->helper('customer/address')->getAttributeValidationClass('telephone') ?>" />
+                        </div>
+                </li>
+                <?php if($is_summary): ?>
+                <li class="fields">
+                        <label for="s_additional_info"><?php echo $this->__('Informacje dodatkowe') ?></label>
+                        <div class="input-box">
+                            <textarea name="shipping[additional_info]" title="<?php echo $this->__('Informacje dodatkowe') ?>" id="s_additional_info" class="input-text <?php echo $this->helper('customer/address')->getAttributeValidationClass('additional_info') ?>"><?php echo $this->escapeHtml($addr_data['telephone']) ?></textarea>
+                        </div>
+                </li>
+                <?php endif; ?>
+            </ul>
+        </div>
+        <div class="">
+            <div class="buttons-set">
+                <p class="required"><?php echo $this->__('* Wymagane pole') ?></p>
+                <p class="back-link"><a href="#" class="back-link"><?php echo $this->__('Powrót') ?></a></p>
+                <button id="button_save_address" type="button" title="<?php echo $this->__('Zapisz') ?>" class="button" style="margin-top:0px;"><span><span><?php echo $this->__('Zapisz') ?></span></span></button>
+            </div>
+        </div>
+        <div class="address_notverified" style="display:none;">
+            <span>
+                <?php echo __('Obecnie nie oferujemu dowozu pod wskazany adres'); ?>
+            </span>
+        </div>
+        
+        <div class="address_errorverified" style="display:none;">
+            <span>
+                <?php echo __('Wystapił błąd podczas sprawdzania proszę spróbować ponownie'); ?>
+            </span>
+        </div>
+    <?php /*
+    <script type="text/javascript">
+    //<![CDATA[
+        var dataForm = new VarienForm('form-validate', true);
+        <?php if($this->getShowAddressFields()): ?>
+        new RegionUpdater('country', 'region', 'region_id', <?php echo $this->helper('directory')->getRegionJson() ?>, undefined, 'zip');
+        <?php endif; ?>
+    //]]>
+    </script> */ ?>
+</div>
+
+<script type="text/javascript" src="<?php echo Mage::getBaseUrl('skin'); ?>frontend/mk_sniadaniowo/default/js/autocomplete/jquery-ui-autocomplete.min.js"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo Mage::getBaseUrl('skin'); ?>frontend/mk_sniadaniowo/default/js/autocomplete/jquery-ui-autocomplete.css" />
+
+<script type="text/javascript">
+    jQuery('input#city').autocomplete({
+        source: '<?php echo Mage::getBaseUrl(); ?>front/front/autocomplete?type=city'
+    });
+    jQuery('input#street').autocomplete({
+        source: '<?php echo Mage::getBaseUrl(); ?>front/front/autocomplete?type=street',
+        search: function( event, ui ) {
+            var city = encodeURIComponent(jQuery('input#city').val());
+            jQuery('input#street').autocomplete('option', 'source', '<?php echo Mage::getBaseUrl(); ?>front/front/autocomplete?type=street&city='+city);
+        }
+    });
+    jQuery('input#number').autocomplete({
+        source: '<?php echo Mage::getBaseUrl(); ?>front/front/autocomplete?type=number',
+        search: function( event, ui ) {
+            var city = encodeURIComponent(jQuery('input#city').val());
+            var street = encodeURIComponent(jQuery('input#street').val());
+            jQuery('input#number').autocomplete('option', 'source', '<?php echo Mage::getBaseUrl(); ?>front/front/autocomplete?type=number&city='+city+'&street='+street);
+        }
+    });
+    
+    jQuery('#button_save_address').click(function(){
+ 
+        jQuery.ajax({
+            url: '<?php echo Mage::getBaseUrl(); ?>front/front/verifyaddress',
+            type: 'post',
+            dataType: 'json',
+            data: {
+                city: jQuery('.change_shipping.form-container input#s_city').val(),
+                street: jQuery('.change_shipping.form-container input#s_street').val(),
+                number: jQuery('.change_shipping.form-container input#s_number').val()
+            },
+            success: function(resp){
+                if(resp.ok == 1){
+                    was_shipping_changed = 1;
+                    set_shipping_address();
+                    jQuery(".address-change-shipping").colorbox.close();
+                    jQuery('.address_errorverified').hide();
+                    jQuery('.address_verification').hide();
+                    jQuery('.address_verified').show();
+                    jQuery('.address_notverified').hide();
+                    var form = jQuery('.change_shipping_address');
+                    jQuery('.change_shipping.form-container input').each(function(){
+                        var el = form.find('input[name="'+jQuery(this).attr('name')+'"]');
+                        if(el.length){
+                            el.val(jQuery(this).val());
+                        }
+                    });
+                }
+                else{
+                    jQuery('.address_errorverified').hide();
+                    jQuery('.address_notverified').show();
+                    jQuery('.address_verification').show();
+                    jQuery('.address_verified').hide();
+                }
+            },
+            error: function(){
+                jQuery('.address_notverified').hide();
+                jQuery('.address_errorverified').show();
+            }
+        });
+    });
+</script>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <modules>
+        <Swift_OnepageCheckout>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Swift_OnepageCheckout>
+    </modules>
+</config>

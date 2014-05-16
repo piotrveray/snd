@@ -1,0 +1,119 @@
+"%s Item(s)","%s produkt(ów)"
+"Add Items to Cart","Dodaj produkty do koszyka"
+"Add to Cart","Do koszyka"
+"Add to Compare","Dodaj do porównania"
+"Add to My Wishlist","Dodaj do mojej listy życzeń"
+"Add to Wishlist","Dodaj do listy życzeń"
+"Additional Information","Informacje dodatkowe"
+All,Wszystko
+"Attribute model not defined","Model cechy nie został zdefiniowany"
+"Attribute saver ""%s"" not found","Attribute saver ""%s"" not found"
+"Attribute source ""%s"" not found","Źródło cechy ""%s"" nie zostało znalezione"
+"Availability: In stock. Ships within 24 hours.","Dostępność: W magazynie. Dostawa w ciągu 24 godzin."
+"Availability: In stock. Ships within 24hours.","Dostępność: W magazynie. Dostawa w ciągu 24 godzin."
+"Availability: Out of stock.","Dostępność: Brak."
+"Base Image","Zdjęcie podstawowe"
+"Best Selling Products",Bestsellery
+"Best Value","Najlepsza wartość"
+"Browse By","Przeglądaj wg."
+"Buy %s for %s each","Kup %s i zapłać <strong>%s za każdy</strong>"
+"Cannot retrieve current category object","Cannot retrieve current category object"
+Category,Kategoria
+"Category Navigation:","Nawigacja w kategorii:"
+"Check items to add to the cart or select all.","Zaznacz produkty które chcesz dodać do koszyka lub <a href=""#"" onclick=""selectAllRelated();return false;"">select all</a>."
+"Choose an Option...","Wybierz opcję..."
+"Choose option...","Wybierz opcję..."
+"Clear All Items","Usuń wszystkie produkty"
+"Close Window","Zamknij okno"
+"CMS Block","Blok systemu informacyjnego"
+Color,Kolor
+"Compare Items","Porównaj produkty"
+"Compare Products","Porównaj produkty"
+"Compare Products - %d Items","<span class=""count"">- %d produktów</span> w porównaniu"
+"Compare Products List","Lista produktów porównywanych"
+Cost,Koszt
+"Cross-sell Products","Produkty powiązane"
+"Currently Shopping by","Aktualnie przeglądasz wg."
+"Data integrity: No header row found for attribute","Integralność danych: Brak nagłówka dla cechy"
+Description,Opis
+"Display Mode","Tryb wyświetlania"
+"Filter model name must be declared","Nazwa typu filtra musi zostać ustalona"
+"Filter must be as object. Set correct filter please","Filtr musi być obiektem. Wybierz prawidłowy filtr"
+"Filters must be as array","Filtry muszą być tablicami"
+General,Ogólne
+"Go to Home Page","Wróć na stronę główną"
+Grid,Siatka
+Home,"Strona główna"
+Image,Zdjęcie
+"Image Gallery","Galeria zdjęć"
+Images,Zdjęcia
+"Invalid Attribute Requested","Wybrano nieprawidłową cechę"
+"Invalid block: %s","Nieprawidłowy blok: %s"
+"Is Active","Jest aktywny"
+"Is Anchor","Jest linkiem wewnętrznym"
+"Is Qty Decimal","Ilość jest wartością liczbową"
+"Items %s to %s of %s total","Wyświetlono produkty od <strong>%s</strong> do <strong>%s</strong> z <strong>%s</strong> "
+"Learn More","Zobacz więcej"
+List,Lista
+Manufacturer,Producent
+"Meta Description","Opis strony META"
+"Meta Information","Informacja META"
+"Meta Keywords","Słowa kluczowe"
+"Meta Title","Tytuł strony META"
+"Minimal Price","Cena minimalna"
+"More Views","Więcej widoków"
+Name,Nazwa
+Next,Następny
+"No layout updates","Brak aktualizacji wyglądu strony"
+"No options of this product are available.","Brak opcji dla tego produktu."
+"Old Price:","Poprzednia cena:"
+OR,LUB
+"Out of Stock","Brak w magazynie"
+"Page Layout","Wygląd strony"
+"Page Title","Tytuł strony"
+Page:,Strona:
+"per page","na stronę"
+"Please select static block ...","Wybierz blok statyczny ..."
+Prev,Poprzedni
+Previous,Poprzedni
+Price,Cena
+Prices,Ceny
+"Print This Page","Drukuj stronę"
+"Product Attribute Specs","Specyfikacje cech produktów"
+"Product Description","Opis produktu"
+"Product Name","Nazwa produktu"
+"Products only","Tylko produkty"
+Qty,Ilość
+"Quick Overview","Szybki podgląd"
+"Regular Price:","Cena podstawowa:"
+"Related Products","Produkty powiązane"
+"Remove Product","Usuń produkt"
+"Remove This Item","Usuń produkt"
+"See all %s","Zobacz wszystkie %s"
+"Set Ascending Direction"," Sortuj rosnąco"
+"Set Descending Direction","Sortuj malejąco"
+"Shop by","Szukaj produktów wg."
+"Shopping Options","Opcje zakupów"
+"Short Description","Krótki opis"
+Show,Pokaż
+SKU,"Kod producenta"
+"Small Image","Małe zdjęcie"
+"Sort by",Sortuj
+"Special Price:","Cena promocyjna:"
+"Static block and products","Bloki statyczne i produkty"
+"Static block only","Tylko blok statyczny"
+Status,Status
+"Tax Class","Klasa podatku"
+"There are no products matching the selection.","Brak produktów spełniających kryteria."
+"This bundle is out of stock.","Tego zestawu nie ma aktualnie w magazynie."
+Thumbnail,Miniaturka
+"Tier Price","Próg cenowy"
+"URL key","klucz adresu URL"
+"View as","Zobacz jako"
+"View Details","Zobacz szczegóły"
+Visibility,Widoczność
+Weight,Waga
+"You have no items to compare.","Nie ma produktów do porównania."
+"You may also be interested in the following product(s)","Być może jesteś zainteresowany poniższymi produktami"
+"Zoom In",Powiększ
+"Zoom Out",Zmniejsz

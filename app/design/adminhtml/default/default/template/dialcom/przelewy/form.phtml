@@ -1,0 +1,19 @@
+<fieldset class="form-list">
+    <ul id="payment_form_<?php echo $this->getMethodCode() ?>" style="display:none">
+		<li>
+			<?php echo $this->getMethod()->getText(); ?>
+		</li>
+        <li>
+            <div class="input-box">
+                <label for="payment_cc_type">Kanał płatności: <span class="required">*</span></label><br/>           
+				<select name="payment[cc_type]" id="payment_cc_type" class="required-entry">
+				<option value="">--- Wybierz kanał ---</option>
+	            <?php foreach($this->getMethod()->getChannels() as $key=>$value) : ?>
+					<option value="<?php echo $key; ?>"><?php echo $value; ?></option>
+				<?php endforeach; ?>
+	            </select>
+			</div>
+        </li>
+    </ul>
+    
+</fieldset>

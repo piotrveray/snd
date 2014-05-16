@@ -1,0 +1,44 @@
+<?php
+
+$cart = Mage::getSingleton('checkout/cart');
+$productsprice = 0;
+$aboprice = 0;
+
+foreach($cart->getQuote()->getAllItems() as $item){
+    $_item_day_week_ob = $item->getOptionByCode('day_week');
+    if(is_object($_item_day_week_ob)){
+        $_item_day_week = $_item_day_week_ob->getValue();
+    }
+    else{
+        $_item_day_week = 'no day';
+    }
+    if($_item_day_week == 'no day'){
+        $aboprice += $item->getProduct()->getPrice()*$item->getQty();
+    }
+    else{
+        if(array_search($_item_day_week, $used_days) === false){
+            $used_days[] = $_item_day_week;
+            $days++;
+        }
+        $productsprice += $item->getProduct()->getPrice()*$item->getQty();
+    }
+}
+
+$subtotal = $productsprice+$aboprice;
+
+if(Mage::getSingleton('customer/session')->isLoggedIn()) {
+    $customer = Mage::getSingleton('customer/session')->getCustomer();
+    $overpayment = $customer->getOverpay();
+    $subtotal -= $overpayment;
+}
+if($subtotal < 0 ){
+    $subtotal = 0;
+}
+
+?>
+
+<strong>
+    <span class="price">
+    <?php echo number_format($subtotal, 2, ',', ''); ?> zł
+    <span>
+</strong>

@@ -1,0 +1,83 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ */
+
+?>
+
+<div class="belt-container">
+    <div class="belt">
+        
+        <ul id="menu" class="links">
+            <li>
+            <?php  if( $customer = Mage::getSingleton('customer/session')->isLoggedIn() ){  
+                    $customerData = Mage::getSingleton('customer/session')->getCustomer();
+            ?>
+                <a href="#" class="logged-button">Witaj, <?php echo $customerData->getFirstname(); ?></a>
+                <?php echo $this->getChildHtml('topLinks') ?>
+            <?php }else{ ?>
+                <a href="#popup_form_mini_login" class="login-button">Zaloguj się</a>
+            <?php } ?>
+            </li>
+            <!--
+            <li><a href="#" >Poleć nas i otrzymaj darmowe śniadanie</a></li>
+            -->
+        </ul>
+    </div>
+</div>
+<div class="header-container">
+    <div class="header">
+        <?php if ($this->getIsHomePage()):?>
+        <h1 class="logo"><strong><?php echo $this->getLogoAlt() ?></strong><a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo"><img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" /></a></h1>
+        <?php else:?>
+        <a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo"><strong><?php echo $this->getLogoAlt() ?></strong><img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" /></a>
+        <?php endif?>
+
+        <ul id="nav">
+            <li><a href="<?php echo $this->getUrl('home')?>"><?php echo $this->__('Start') ?></a></li>
+            <!-- 
+            <li><a href="<?php //echo $this->getUrl('oferta')?>"><?php //echo $this->__('Oferta') ?></a></li> 
+            -->
+            <li><a href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?>index.php/pieczywo-1.html">Oferta</a></li>
+            <li><a href="<?php echo $this->getUrl('ogolne')?>"><?php echo $this->__('Jak to działa?') ?></a></li>
+            <li><a href="<?php echo $this->getUrl('gdzie-dostarczamy')?>"><?php echo $this->__('Gdzie dostarczamy?') ?></a></li>
+            <li><a href="<?php echo $this->getUrl('kontakt')?>"><?php echo $this->__('Kontakt') ?></a></li>
+            <li class="register">
+                <?php  if( $customer = Mage::getSingleton('customer/session')->isLoggedIn() ){ ?>
+                    <a href="http://sniadaniowo.stronazen.pl/index.php/pieczywo-1.html" class="order-button" >Zamów</a>
+                <?php }else{ ?>
+                    <a href="#popup_form_register" class="reghister-button" >Zarejestruj się</a>
+                <?php } ?>
+            </li>
+        </ul>
+
+        <?php echo $this->getChildHtml('topContainer'); ?>
+
+    </div>
+</div>
+<script type="text/javascript">
+jQuery(document).ready(function() {
+ 
+    var example = jQuery('#menu').superclick({
+        //add options here if required
+     });
+
+    });
+</script>

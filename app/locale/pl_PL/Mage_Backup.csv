@@ -1,0 +1,4 @@
+"Backup file doesn't exist","Kopia zapasowa nie istnieje"
+"Cannot read backup file","Nie można odczytać z pliku kopii zapasowej"
+"File compressed with Zlib, but this extension is not installed on server","Pliki są skompresowane Zlib, ale to rozszerzenie nie jest zainstalowane na serwerze"
+"Wrong order of creation for new backup","Zła kolejność tworzenia dla nowej kopii zapasowej"

@@ -1,0 +1,87 @@
+"About Your Order","Informacje o zamówieniu"
+"American Express","American Express"
+"Back to My Orders","Wróć do zamówień"
+Backordered,"Produkty brakujące do realizacji"
+"Base currency","Waluta bazowa"
+"Billing Address","Adres płatnika"
+Canceled,Anulowany
+City,Miasto
+Company,Firma
+Coupon,Kupon
+"Credit Memo","Dokument kredytowy"
+"Customer Notes","Notatki o kliencie"
+Date,Data
+Discount,Zniżka
+Discover,Discover
+Email,Email
+"Errors during order creation","Wystąpiły błędy w takcie tworzenia zamówienia"
+Fax,"Numer fax"
+"First Name",Imię
+"Gift certificate","Bon prezentowy"
+"Grand Total","Waluta wyceny"
+Invoice,Faktura
+"Invoice #%s","Faktura #%s"
+"Items Ordered","Ilość zamówionych produktów"
+"Last Name",Nazwisko
+"Master Card","Master Card"
+Mixed,Mieszany
+"My Orders","Moje zamówienia"
+"My Orders - Details","Zamówienia - dane szczegółowe"
+"No invoice for credit memo","Brak faktury dla dokumentu kredytowego"
+"No order for invoice","Brak zamówienia dla faktury"
+"Order #","Zamówienie nr."
+"Order #%s","Zamówienie nr.%s"
+"Order #%s - %s","Zamówienie nr.%s - <small><em>%s</em></small>"
+"Order Date: %s","<p><strong>Data zamówienia:</strong> %s</p>"
+"Order Details","Szczegóły zamówienia"
+"Order Invoices","Faktury dla zamówienia"
+"Order Status","Status zamówienia"
+"Order Subtotal","Wartość produktów"
+"Order Total","Suma zamowienia"
+"Original order ID","Numer ID oryginalnego zamówienia"
+Partial,Częściowy
+Payed,Opłacone
+"Payment Method","Forma płatności"
+Pending,Oczekujący
+Price,Cena
+"Print All Invoices","Wydrukuj wszystkie faktury"
+"Print Invoice","Drukuj fakturę"
+"Product Name","Nazwa produktu"
+"Qty Ordered","Ilość zamówiona"
+"Qty Shipped","Ilość wysłana"
+"Quote currency","Waluta "
+"Quote Status","Status wyceny"
+"Recent Orders","Ostatnie zamówienia"
+Returned,Zwrócony
+"Same as billing","Taki sam jak płatnika"
+Sent,Wysłany
+"Ship to","Wysyłka do"
+Shipped,Wysłany
+"Shipping & Handling","Wysyłka i obsługa"
+"Shipping Address","Adres dla dostawy"
+"Shipping Amount","Wartość wysyłki"
+"Shipping Method","Metoda wysyłki"
+State/Province,Województwo
+Status,Status
+"Store Credit","Kredyt w sklepie"
+"Store currency","Waluta sklepu"
+"Store to Base rate","Store to Base rate"
+"Store to Quote rate","Store to Quote rate"
+"Street Address",Ulica
+Subtotal,Podsuma
+Tax,Podatek
+"Tax Amount","Wartość podatku"
+Telephone,Telefon
+"There's not enough qty of product '%s' in invoice to return","Ilość produktu '%s' do zwrotu na fakturze jest niewystarczająca"
+"There's not enough qty of product '%s' in order to ship","Ilość produktu '%s' do wysłania jest niewystarczająca"
+"Track Order","Śledź status zamówienia"
+"Unknown invoice type","Nieznany typ faktury"
+"Unknown Status","Nieznany status"
+"Unknown Type","Nieznany rodzaj"
+"View All","Zobacz wszystkie"
+"View Invoices","Zobacz faktury"
+"View Order","Podgląd zamówienia"
+Visa,Visa
+Weight,Waga
+"You have placed no orders.","Nie złożyłeś jeszcze żadnych zamówień."
+"Zip/Postal Code","Kod pocztowy"

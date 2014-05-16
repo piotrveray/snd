@@ -1,0 +1,41 @@
+<?php
+ 
+$installer = $this;
+$installer->startSetup();
+ 
+$installer->addAttribute('customer', 'abonament', array(
+    'label'         => 'Abonament',
+    'type'          => 'int',
+    'input'         => 'text',
+    'visible'       => true,
+    'required'      => false,
+    'position'      => 9900,
+));
+$installer->addAttribute('customer', 'abonament_created', array(
+    'label'         => 'Abonament od',
+    'type'          => 'datetime',
+    'input'         => 'text',
+    'visible'       => true,
+    'required'      => false,
+    'position'      => 9910,
+));
+$installer->addAttribute('customer', 'abonament_probation', array(
+    'label'         => 'Okres próbny',
+    'type'          => 'int',
+    'input'         => 'text',
+    'default'       => 0,
+    'visible'       => true,
+    'required'      => false,
+    'position'      => 9920,
+));
+
+$installer->addAttribute('customer', 'abonament_expires', array(
+    'label'         => 'Abonament wygasa',
+    'type'          => 'datetime',
+    'input'         => 'text',
+    'visible'       => true,
+    'required'      => false,
+    'position'      => 9910,
+));
+ 
+$installer->endSetup();

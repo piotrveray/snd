@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Sniadaniowo_Snddelivery>
+            <version>0.1.0</version>
+        </Sniadaniowo_Snddelivery>
+    </modules>
+    
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Sniadaniowo_Snddelivery after="Mage_Adminhtml">Sniadaniowo_Snddelivery</Sniadaniowo_Snddelivery>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    
+</config>

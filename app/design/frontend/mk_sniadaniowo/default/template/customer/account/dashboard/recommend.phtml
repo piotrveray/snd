@@ -1,0 +1,28 @@
+<div class="std">
+    <div class="page-title">
+        <h1><?php echo __('Poleć nas'); ?></h1>
+    </div>
+    <div class="account-content widget-contact account-status" style="width: 575px;padding-left: 147px;">
+        <p class="gray"><big>Poleć nas swojemu znajomemu i dostań rabat na przyszłe zamówienie</big></p>
+        <p class="gray">Poleć nas swojemu znajomemu i pozwól mu się poczuć Śniadaniowo każdego ranka! Jeśli Twój znajomy złoży zamówienie, Ty otrzymasz kod rabatowy o wartości średniej Twoich dotychczasowych zamówień, który możesz wykorzystać przy kolejnych zakupach na Śniadaniowo.</p>
+        
+        <div class="account-form account-form-recommend">
+        <form method="post" action="<?php echo Mage::helper('core/url')->getCurrentUrl(); ?>">
+            <div class="row">
+                <label>E-mail znajomego</label>
+                <input type="text" name="recommend_email" class="validate-email" value="">
+            </div>
+            <div class="row">
+                <label>E-Wiadomość</label>
+                <textarea name="recommend_message">Cześć, polecam Ci dostawy produktów Śniadaniowo.pl. Jeśli założysz konto po kliknięciu w poniższy link, ty i ja otrzymamy zniżkę.
+                </textarea>
+            </div>
+            <div class="row">
+                <label for="recommend-submit"></label>
+                <input type="submit" value="<?php echo $this->__('Poleć nas!'); ?>">
+            </div>
+        </form>
+        </div>
+        
+    </div>
+</div>

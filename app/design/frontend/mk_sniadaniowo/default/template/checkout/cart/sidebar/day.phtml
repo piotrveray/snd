@@ -1,0 +1,114 @@
+<?php
+    $cart = Mage::getSingleton('checkout/cart');
+    
+    $bought_products = array();
+    $overpayment = 0;
+if(Mage::getSingleton('customer/session')->isLoggedIn()) {
+    $customer = Mage::getSingleton('customer/session')->getCustomer();
+    $bought_products = $customer->getBoughtProducts();
+    $overpayment = $customer->getDayOverpay($day_week);
+    //Zend_Debug::dump(array_keys($bought_products));
+}
+    
+//    Zend_Debug::dump(get_class($cart1));
+//    Zend_Debug::dump(get_class($cart2));
+    $_day_subtotal = 0;
+    foreach($cart->getQuote()->getAllItems() as $item){
+        $_item_day_week_ob = $item->getOptionByCode('day_week');
+        if(is_object($_item_day_week_ob)){
+            $_item_day_week = $_item_day_week_ob->getValue();
+        }
+        else{
+            $_item_day_week = 'no day';
+        }
+        if($_item_day_week == $day_week){
+            $_day_subtotal += $item->getProduct()->getPrice()*$item->getQty();
+        }
+    }
+    
+    $_day_subtotal -= $overpayment;
+    if($_day_subtotal < 0) $_day_subtotal = 0;
+    
+    $show_day = ($overpayment > 0 || $_day_subtotal > 0) ? '1' : '0';
+?>
+
+    <ul class="products" data-subtotal="<?php echo number_format($_day_subtotal, 2, ',', ''); ?>" data-showday="<?php echo $show_day; ?>">
+        <?php if(isset($bought_products[$day_week])): ?>
+            <?php foreach($bought_products[$day_week]['items'] as $bitem):?>
+                <?php $bi = $bitem['data']; ?>
+                <?php $bprod = $bi->getProduct(); ?>
+                <li id="bought-item-<?php echo $bi->getId(); ?>" class="bought-item<?php if(intval($bitem['qty']) ==0): ?> noitems<?php endif; ?>">
+                    <div class="deletion-line"></div>
+                    <div class="name"><span><?php echo $bprod->getName(); ?></span></div>
+                    <a class="controls" onclick="sub_bought_product('<?php echo $bi->getId(); ?>', '<?php echo $day_week; ?>');return false;" href="#remove">
+                        <img src="<?php echo $this->getSkinUrl('images/calendar-button-remove.png')?>"></a>
+                    <div class="price"><span><?php echo intval($bitem['qty']); ?>x</span></div>
+                    <a class="controls" onclick="add_bought_product('<?php echo $bi->getId(); ?>', '<?php echo $day_week; ?>');return false;" href="#add">
+                        <img src="<?php echo $this->getSkinUrl('images/calendar-button-add.png')?>">
+                    </a>
+                    <div class="count">
+                            <span class="payed">zapłacono</span>
+                    </div>
+                    <a class="controls remove-item" onclick="remove_bought_product('<?php echo $bi->getId(); ?>', '<?php echo $day_week; ?>');return false;" href="#delete">
+                        <img src="<?php echo $this->getSkinUrl('images/calendar-button-delete.png')?>">
+                    </a>
+                </li>
+                <?php if($bitem['sub'] > 0): ?>
+                <li id="bought-item-info-<?php echo $bi->getId(); ?>" class="bought-item-info">
+                    Usunięto <span class="remove_bought_count"><?php echo $bitem['sub']; ?></span> sztuk o wartości <span class="removed_bought_price"><?php echo number_format($bi->getPrice()*$bitem['sub'], 2, ',', ''); ?></span> zł
+                    <a href="#" onclick="undo_bought_product_sub('<?php echo $bi->getId(); ?>', '<?php echo $day_week; ?>'); return false;">cofnij</a>
+                </li>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        <?php endif; ?>
+        
+        <?php foreach($cart->getQuote()->getAllItems() as $item):?>
+        <?php
+        $_item_day_week_ob = $item->getOptionByCode('day_week');
+        if(is_object($_item_day_week_ob)){
+            $_item_day_week = $_item_day_week_ob->getValue();
+        }
+        else{
+            $_item_day_week = 'no day';
+        }
+        ?>
+        <?php if($_item_day_week == $day_week): ?>
+        <?php $item_id = $item->getItemId(); ?>
+        <?php $_product = $item->getProduct(); ?>
+        <li id="item-<?php echo $item_id; ?>">
+            <div class="<?php echo $day_week; ?>-<?php echo $item_id; ?>-delete"></div>
+            <div class="name"><span><?php echo $_product->getName(); ?></span></div>
+            <a class="controls" onclick="sub_product('<?php echo $item_id; ?>', '<?php echo $day_week; ?>');return false;" href="#remove">
+                <img src="<?php echo $this->getSkinUrl('images/calendar-button-remove.png')?>"></a>
+            <div class="price"><span><?php echo $item->getQty(); ?>x</span></div>
+            <a class="controls" onclick="add_product('<?php echo $_product->getId(); ?>', '<?php echo $day_week; ?>');return false;" href="#add">
+                <img src="<?php echo $this->getSkinUrl('images/calendar-button-add.png')?>">
+            </a>
+            <div class="count">
+                    <span><?php echo number_format($item->getProduct()->getPrice()*$item->getQty(), 2, ',', ''); ?> zł</span>
+            </div>
+            <a class="controls" onclick="remove_product('<?php echo $item_id; ?>', '<?php echo $day_week; ?>');return false;" href="#delete">
+                <img src="<?php echo $this->getSkinUrl('images/calendar-button-delete.png')?>">
+            </a>
+        </li>
+        <?php endif; ?>
+        <?php endforeach; ?>
+    </ul>
+<ul class="subtotals">
+    <li class="line">
+    </li>
+    <?php if($overpayment > 0): ?>
+    <li class="overpay">
+        nadpłata za dzień: <span><?php echo number_format($overpayment, 2, ',', ''); ?> zł</span>
+    </li>
+    <?php endif; ?>
+    <li class="topay">
+        razem do zapłaty: <span><?php echo number_format($_day_subtotal, 2, ',', ''); ?> zł</span>
+    </li>
+</ul>
+    <ul>
+        <a id="day-hide" class="day-hide" href="#hide-day" onclick="days_hide('row-<?php echo $day_week; ?>');return false;">Gotowe</a>
+        <li>
+            <a id="day-clear" class="day-clear" href="#clear-day" onclick="clear_day('<?php echo $day_week; ?>');return false;">opróżnij cały dzień</a>
+        </li>
+    </ul>

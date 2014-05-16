@@ -1,0 +1,215 @@
+<?php  
+$logged		= $this->isCustomerLoggedIn();
+$has_addr	= $this->customerHasAddresses();
+
+//$addr_data = $this->getCustomerBillAddr();
+//Zend_Debug::dump(get_class($this));
+
+$customerAddressId = Mage::getSingleton('customer/session')->getCustomer()->getDefaultBilling();
+if ($customerAddressId){
+       $addr_data = Mage::getModel('customer/address')->load($customerAddressId)->getData();
+}
+else{
+    $addr_data = array();
+}
+//Zend_Debug::dump($addr_data);
+$was_shipping_address_used = true;
+if(!isset($addr_data['was_used']) || $addr_data['was_used'] != '1'){
+    $was_shipping_address_used = false;
+}
+
+
+$show_code = true;
+
+if (!$this->getQuote()->isVirtual() && Mage::helper('onepagecheckout')->isShippingAddressAllowed()) 
+{ 
+?>
+<!--
+<ul>
+    <li class="options">
+        <input type="checkbox" class="checkbox" name="shipping[same_as_billing]" id="shipping:same_as_billing" value="1"<?php //if($this->getShipAddress()->getSameAsBilling()){//echo ' checked="checked" ';} ?> title="<?php //echo $this->__('Adres dostawy') ?>" onclick="shipping.setSameAsBilling(this.checked)" />
+        <label>
+        	<?php //echo $this->__('Ship to this address') ?>
+        </label>
+
+    </li>
+</ul>
+-->
+<script>
+    //var change_address = 1;
+    
+    var was_shipping_changed = 0;
+    
+    function set_shipping_address(){
+            jQuery('div.form-container.change_shipping input').add('div.form-container.change_shipping textarea').each(function(){
+                var el_id = jQuery(this).attr('id');
+                if(el_id){
+                    el_id = el_id.replace(/^s_/, '');
+                    var el = jQuery('#shipping_address_form span#shipping_'+el_id);
+                    if(el.length){
+                        var pre_text = el.attr('data-pre');
+                        if(!pre_text){
+                            pre_text = '';
+                        }
+                        el.text(pre_text+' '+jQuery(this).val());
+                    }
+                    
+                    var input_el = jQuery('#shipping_address_form input#sh_'+el_id);
+                    if(input_el.length){
+                        input_el.val(jQuery(this).val());
+                    }
+                }
+            });
+            if(was_shipping_changed){
+                jQuery('.shipping_address_data').show();
+                jQuery('.address-change-shipping').text(jQuery('.address-change-shipping').attr('data-aftertext'));
+                jQuery('.address-change-shipping').removeClass('form-button');
+            }
+        }
+    
+jQuery(document).ready(function (){
+        jQuery(".address-change-shipping").colorbox({
+            inline:true, 
+            width:"620px", 
+            opacity: 0.50, 
+            closeButton: true,
+        });
+
+        jQuery(".back-link").click(function(){
+            jQuery('#cboxClose').trigger('click');
+        });
+        /*
+        jQuery(".address-change-shipping").click(function(){
+            if(change_address == 0){
+                jQuery('#shipping_address_form input').show();
+                jQuery('#shipping_address_form label').hide();
+                change_address = 1;
+            }
+            else{
+                jQuery('#shipping_address_form input').each(function(){
+                    var input_label = jQuery('label[for="'+jQuery(this).attr('id')+'"]');
+                    if(input_label.length){
+                        var pre_text = input_label.attr('data-pre');
+                        if(!pre_text){
+                            pre_text = '';
+                        }
+                        input_label.text(pre_text+' '+jQuery(this).val());
+                    }
+                });
+                jQuery('#shipping_address_form input').hide();
+                jQuery('#shipping_address_form label').show();
+                change_address = 0;
+            }
+            
+        }).click();
+        */
+       
+       set_shipping_address();
+        
+});
+</script>
+<div id="ship_address_block" class="onepagecheckout_block">
+	<div class="step-title">
+    	<span class="number"><img src="<?php echo $this->getSkinUrl('images/checkout-shape-1.png') ?>" /></span>
+
+    	<h2><?php echo $this->__('Adres Dostawy') ?></h2>
+    </div>
+    <div class="form_fields">
+    <div class="full">
+            <div class="data_area" id="shipping_address_form">
+                <input type="hidden" name="shipping[firstname]" value="<?php echo $this->escapeHtml($addr_data['firstname']); ?>" id="sh_firstname">
+                <input type="hidden" name="shipping[lastname]" value="<?php echo $this->escapeHtml($addr_data['lastname']); ?>" id="sh_lastname">
+                <input type="hidden" name="shipping[street][]" value="<?php echo $this->escapeHtml($addr_data['street']); ?>" id="sh_street">
+                <input type="hidden" name="shipping[city]" value="<?php echo $this->escapeHtml($addr_data['city']); ?>" id="sh_city">
+                <input type="hidden" name="shipping[postcode]" value="<?php echo $this->escapeHtml($addr_data['postcode']); ?>" id="sh_postcode">
+                <input type="hidden" name="shipping[number]" value="<?php echo $this->escapeHtml($addr_data['number']); ?>" id="sh_number">
+                <input type="hidden" name="shipping[apartment]" value="<?php echo $this->escapeHtml($addr_data['apartment']); ?>" id="sh_apartment">
+                <input type="hidden" name="shipping[floor]" value="<?php echo $this->escapeHtml($addr_data['floor']); ?>" id="sh_floor">
+                <input type="hidden" name="shipping[was_used]" value="<?php echo $this->escapeHtml($addr_data['was_used']); ?>" id="sh_was_used">
+                <input type="hidden" name="shipping[telephone]" value="<?php echo $this->escapeHtml($addr_data['telephone']); ?>" id="sh_telephone">
+                <input type="hidden" name="shipping[additional_info]" value="<?php echo $this->escapeHtml($addr_data['additional_info']); ?>" id="sh_additional_info">
+                <div class="shipping_address_data"<?php if(!$was_shipping_address_used): ?> style="display:none;"<?php endif; ?>>
+                    <span id="shipping_firstname">
+                        <?php echo $addr_data['firstname']; ?>
+                    </span>
+                    <span id="shipping_lastname">
+                        <?php echo $addr_data['lastname']; ?>
+                    </span>
+                    <br>
+                    <span id="shipping_street">
+                        <?php echo $addr_data['street']; ?>
+                    </span>
+                    <span id="shipping_number">
+                        <?php echo $addr_data['number']; ?>
+                    </span>
+                    
+                    <span id="shipping_apartment" data-pre="/ ">
+                        <?php echo $addr_data['apartment']; ?>
+                    </span>
+                    <br>
+                    <span id="shipping_floor" data-pre="piętro: ">
+                        <?php echo $addr_data['floor']; ?>
+                    </span><br>
+                    <?php if($show_code):?>
+                    
+                    <span id="shipping_lokal">
+                        <?php echo $addr_data['phone']; ?>
+                    </span>
+                    <span id="shipping_intercom" data-pre="kod do domofonu:">
+                        <?php echo $addr_data['intercom']; ?>
+                    </span>
+                    
+                    <?php else: ?>
+                    <span id="shipping_lokal">
+                        <?php echo $addr_data['phone']; ?>
+                    </span>
+                    <?php endif; ?>
+                    
+                    <br>
+                    <span id="shipping_postcode">
+                        <?php echo $addr_data['postcode']; ?>
+                    </span>
+                    
+                    <span id="shipping_city">
+                        <?php echo $addr_data['city']; ?>
+                    </span>
+                </div>
+     <a class="address-change-shipping<?php if(!$was_shipping_address_used): ?> form-button<?php endif; ?>" style="width:182px !important" href="#popup_address_change_shipping" onclick="return false;" data-aftertext="<?php echo $this->__('zmień'); ?>"><?php if($was_shipping_address_used): ?>zmień<?php else: ?>Dodaj adres dostawy<?php endif; ?></a>
+            </div>
+    </div>
+<!-- PopUp Shipping  -->
+<div style='display:none'>
+    <div id="popup_address_change_shipping" class="general-popup" style='background:#fff;'>
+        <div class="shape-popup-top"></div>
+        <?php 
+            $cs_block = $block = $this->getLayout()->createBlock('core/template')->setTemplate('customer/form/setaddress.phtml');
+            $cs_block->assign('is_summary', true);
+            echo $cs_block->toHtml();
+        ?>
+        <div class="shape-popup-bottom"></div>
+    </div>
+</div>
+<!-- / End PopUp Shipping -->
+	</div>
+	<div class="data_area">
+		<select id="shipping:region_id" name="shipping[region_id]" title="<?php echo $this->__('State/Province') ?>" class="validate-select<?php if($state_r === 'required') { echo ' required-entry';}?>" style="display:none;">
+			<option value=""><?php echo $this->__('Select One') ?></option>
+		</select>
+		<script type="text/javascript">
+		//<![CDATA[
+			$('shipping:region_id').setAttribute('defaultValue',  "<?php echo $this->getShipAddress()->getRegionId() ?>");
+		//]]>
+		</script>
+			<input type="text" id="shipping:region" name="shipping[region]" value="<?php echo $this->htmlEscape($this->getShipAddress()->getRegion()) ?>"  title="<?php echo $this->__('State/Province') ?>" class="t1<?php if($state_r === 'required'){ echo ' required-entry';}?>" style="display:none;" />
+		</div>
+
+</div>
+<script type="text/javascript">
+//<![CDATA[
+	var shipping = new ShippingAddress('onepagecheckout_orderform');
+	var shippingRegionUpdater = new RegionUpdater('shipping:country_id', 'shipping:region', 'shipping:region_id', countryRegions, undefined, 'shipping:postcode');
+//]]>
+</script>
+<?php 
+} 
+?>

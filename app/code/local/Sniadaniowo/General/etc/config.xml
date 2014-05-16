@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Sniadaniowo_General>
+            <version>0.1.0</version>
+        </Sniadaniowo_General>
+    </modules>
+    
+    <global>
+        <helpers>
+            <general>
+                <class>Sniadaniowo_General_Helper</class>
+            </general>
+        </helpers>
+        <events>
+            <sales_quote_collect_totals_before>
+                <observers>
+                    <set_custom_discount_sniadaniowo>
+                        <type>singleton</type>
+                        <class>Sniadaniowo_General_Model_Observer</class>
+                        <method>setDiscount</method>
+                    </set_custom_discount_sniadaniowo>
+                </observers>
+            </sales_quote_collect_totals_before>
+            <sales_quote_collect_totals_after>
+                <observers>
+                    <set_custom_discount_sniadaniowo>
+                        <type>singleton</type>
+                        <class>Sniadaniowo_General_Model_Observer</class>
+                        <method>setDiscount</method>
+                    </set_custom_discount_sniadaniowo>
+                </observers>
+            </sales_quote_collect_totals_after>
+            <sales_order_save_after>
+                <observers>
+                    <customer_setabo>
+                        <type>singleton</type>
+                        <class>Sniadaniowo_General_Model_Observer</class>
+                        <method>updateCustomerAfterOrder</method>
+                    </customer_setabo>
+                </observers>
+            </sales_order_save_after>
+        </events>
+        <!--
+        <rewrite>
+            <sniadaniowo_general_checkout_cart>
+                <from><![CDATA[#^/customer/account/#]]></from>
+                <to>/general/customer_account/</to>
+            </sniadaniowo_general_checkout_cart>
+        </rewrite>
+        -->
+    </global>
+    
+    
+</config>

@@ -1,0 +1,23 @@
+<div class="std">
+    <div class="page-title">
+        <h1><?php echo __('Stan konta'); ?></h1>
+    </div>
+    <div class="account-content widget-contact account-status" style="width:527px;">
+        <p class="gray">Tutaj możesz zobaczyc jaka kwota nadpłaty pozostała Ci do wykorzystania z racji usunięcia juz oplaconych zamówień. Kwotę tę możesz przeznaczyć na poczet kolejnych zamówień lub poczekać na zwrot do 30. dnia bieżącego miesiąca.</p>
+        <p class="gray">Jeśli chcesz żeby kwota ta została zwrócona wpisz poniżej swój numer konta bankowego.</p>
+        <p class="gray"><big>Nadpłata: 0,00 zł</big></p>
+        <p class="gray">Wpisz swój numer konta, na który będziemy zwracać twoje nadpłaty:<br>
+        Jeśli nie chcesz podawać numeru konta, <a href="<?php echo Mage::getBaseUrl(); ?>/kontakt">skontaktuj się z nami</a></p>
+        <div class="account-form account-form-status">
+        <form method="post" action="<?php echo Mage::helper('core/url')->getCurrentUrl(); ?>">
+            <div class="row">
+                <input type="text" name="acount_number" value="">
+            </div>
+            <div class="row">
+                <input type="submit" value="<?php echo $this->__('Wyślij numer konta'); ?>">
+            </div>
+        </form>
+        </div>
+        
+    </div>
+</div>

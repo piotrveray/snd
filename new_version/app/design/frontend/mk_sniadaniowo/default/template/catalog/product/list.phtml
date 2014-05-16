@@ -1,0 +1,472 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Product list template
+ *
+ * @see Mage_Catalog_Block_Product_List
+ */
+?>
+<?php
+    $_productCollection=$this->getLoadedProductCollection();
+    $_helper = $this->helper('catalog/output');
+
+    $myData = Mage::getSingleton('core/session')->getWeeksCalendar();
+
+?>
+    <pre>
+    <?php
+       //print_r($myData); // Print session array
+    ?>
+    </pre>
+    <?php
+
+
+$session= Mage::getSingleton('checkout/session');
+foreach($session->getQuote()->getAllItems() as $item)
+{
+    //echo '================================<br />';
+   $productid = $item->getProductId();
+   $productsku = $item->getSku();
+   $productname = $item->getName();
+   $productqty = $item->getQty();
+
+    //echo $item->getId().'<br />';
+
+    //echo $productid.'<br />';
+    //echo $productsku.'<br />';
+    //echo $productname.'<br />';
+    //echo $productqty.'<br />';
+    //echo 'LINK: '.$this->helper('checkout/cart')->getRemoveUrl($item) .'<br />';
+    //echo '<a onclick="delete_product(\''. $this->helper('checkout/cart')->getRemoveUrl($item) .'\');" href="#delete"><img src="'. $this->getSkinUrl('images/calendar-button-delete.png') .'" /></a>';
+   //echo '<br />================================<br />';
+}
+
+
+?>
+
+<script type="text/javascript">
+jQuery(document).ready(function (){
+    jQuery(".iframe").colorbox({iframe:true, width:"80%", height:"80%", opacity: 0.50 });
+});
+</script>
+<?php if(!$_productCollection->count()): ?>
+<p class="note-msg"><?php echo $this->__('Brak produktów.') ?></p>
+<?php else: ?>
+<div class="category-products">
+    <?php //echo $this->getToolbarHtml() ?>
+    <?php // List mode ?>
+    <?php if($this->getMode()!='grid'): ?>
+    <?php $_iterator = 0; ?>
+    <ol class="products-list" id="products-list">
+    <?php foreach ($_productCollection as $_product): ?>
+        <li class="item<?php if( ++$_iterator == sizeof($_productCollection) ): ?> last<?php endif; ?>">
+            <?php // Product Image ?>
+            <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(135); ?>" width="135" height="135" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" /></a>
+            <?php // Product description ?>
+            <div class="product-shop">
+                <div class="f-fix">
+                    <?php $_productNameStripped = $this->stripTags($_product->getName(), null, true); ?>
+                    <h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $_productNameStripped; ?>"><?php echo $_helper->productAttribute($_product, $_product->getName() , 'name'); ?></a></h2>
+                    <?php if($_product->getRatingSummary()): ?>
+                    <?php echo $this->getReviewsSummaryHtml($_product) ?>
+                    <?php endif; ?>
+                    <?php echo $this->getPriceHtml($_product, true) ?>
+                    <?php if($_product->isSaleable()): ?>
+                        <p><button type="button" title="<?php echo $this->__('Dodaj') ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><span><?php echo $this->__('Dodaj') ?></span></span></button></p>
+
+                    <?php else: ?>
+                        <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+                    <?php endif; ?>
+                    <div class="desc std">
+                        <?php echo $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description') ?>
+                        <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $_productNameStripped ?>" class="link-learn"><?php echo $this->__('Learn More') ?></a>
+                    </div>
+                    <ul class="add-to-links">
+                        <?php if ($this->helper('wishlist')->isAllow()) : ?>
+                            <li><a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>" class="link-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></li>
+                        <?php endif; ?>
+                        <?php if($_compareUrl=$this->getAddToCompareUrl($_product)): ?>
+                            <li><span class="separator">|</span> <a href="<?php echo $_compareUrl ?>" class="link-compare"><?php echo $this->__('Add to Compare') ?></a></li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+            </div>
+        </li>
+    <?php endforeach; ?>
+    </ol>
+    <script type="text/javascript">decorateList('products-list', 'none-recursive')</script>
+
+    <?php else: ?>
+
+    <?php // Grid Mode ?>
+
+    <?php $_collectionSize = $_productCollection->count() ?>
+    <?php $_columnCount = $this->getColumnCount(); ?>
+    <?php $i=0; foreach ($_productCollection as $_product): ?>
+        <?php if ($i++%$_columnCount==0): ?>
+        <ul class="products-grid">
+        <?php endif ?>
+            <li class="item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>">
+                <a class='iframe' href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(135); ?>" width="135" height="135" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" /></a>
+                <h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></a>
+                    <p>
+                        <?php echo $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description') ?>
+                    </p>
+                </h2>
+
+                <?php if($_product->getRatingSummary()): ?>
+                <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
+                <?php endif; ?>
+                <?php echo $this->getPriceHtml($_product, true) ?>
+                <div class="attributes">
+                <?php 
+
+                $attribute = $_product->getResource()->getAttribute("days_week"); $af = $attribute->getFrontend(); 
+                $selectOptions = $af->getSelectOptions();
+
+                    foreach($selectOptions as $value) {
+                        echo '<span>'. $value['label'] .'</span>'; 
+                    }  
+                ?>
+                </div>
+
+                <div class="actions">
+                    <?php if($_product->isSaleable()): ?>
+                    <?php if ( !($_product->getTypeInstance(true)->hasRequiredOptions($_product) || $_product->isGrouped()) ) { ?>
+                        <p><button id="button-cart" type="button" title="<?php echo $this->__('Dodaj') ?>" class="button btn-cart" onclick="setLocationAjax('<?php echo $this->getAddToCartUrl($_product) ?>','<?php echo $_product->getId()?>')"><span><span><?php echo $this->__('Dodaj') ?></span></span></button></p>
+                        <span id='ajax_loader<?php echo $_product->getId()?>' style='position:relative; z-index: 9999; float: left; margin-top: -35px; margin-left: 20px; display: none;'><img src='<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif')?>'  width="20" height="20"/></span>
+                    <?php } else { ?>
+                            <button type="button" title="<?php echo $this->__('Dodaj') ?>" class="button btn-cart" onclick="showOptions('<?php echo $_product->getId()?>')"><span><span><?php echo $this->__('Dodaj') ?></span></span></button>
+                            <a href='<?php echo $this->getUrl('ajax/index/options',array('product_id'=>$_product->getId()));?>' class='fancybox' id='fancybox<?php echo $_product->getId()?>' style='display:none'>Test</a>
+                    <?php }  ?>
+
+
+                    <?php else: ?>
+                        <p class="availability out-of-stock"><span><?php echo $this->__('Brak towaru') ?></span></p>
+                    <?php endif; ?>
+                </div>
+            </li>
+        <?php if ($i%$_columnCount==0 || $i==$_collectionSize): ?>
+        </ul>
+        <?php endif ?>
+        <?php endforeach ?>
+        <script type="text/javascript">decorateGeneric($$('ul.products-grid'), ['odd','even','first','last'])</script>
+    <?php endif; ?>
+
+    <div class="toolbar-bottom">
+        <?php //echo $this->getToolbarHtml() ?>
+    </div>
+
+</div>
+
+<?php endif; ?>
+
+<script type="text/javascript">
+    jQuery(document).ready(function(){
+
+            jQuery('li.item').each(function(){
+                jQuery('#button-cart', this ).attr("disabled", "disabled");
+            });
+            //jQuery("#button-cart").attr("disabled", "disabled");
+
+            jQuery("#test-calendar").click(function(){
+                var i = 0;
+                console.log(jQuery('.bjqs-slide input:checkbox:checked').serialize());
+            /**
+                jQuery('ul.bjqs li').each(function() {
+                    if( jQuery(".single-day", this).hasClass('checked') )
+                    {
+                        console.log( jQuery(".single-day", this).attr('id') + '<br />' + i );  
+                        
+                    }
+                   i++;
+                });
+            **/
+            });
+
+            
+            jQuery(".single-day").click(function(){
+
+                if( jQuery(this).hasClass('checked') )
+                {
+                    jQuery( this ).removeClass("checked");
+                    jQuery(".actions p button").removeClass("checked");
+                    
+                    jQuery( this ).parent().parent().removeAttr( "id" );
+
+                    jQuery(".actions p button").addClass("button");
+
+                    jQuery('li.item').each(function(){
+                         jQuery('#button-cart', this ).attr("disabled", "disabled");
+                    });
+                     
+                }else{
+
+                    jQuery( this ).addClass("checked");
+                    jQuery( this ).addClass("checked");
+
+                    jQuery( this ).parent().parent().attr( "id", "selected" );
+                    
+                    jQuery(".actions p button").addClass("checked");
+
+                    jQuery('li.item').each(function(){
+                        jQuery('#button-cart', this ).removeAttr("disabled");
+                    });
+                    
+                }
+            
+
+            });
+
+
+
+  
+
+        jQuery('.fancybox').fancybox(
+            {
+               hideOnContentClick : true,
+               width: 382,
+               autoDimensions: true,
+               type : 'iframe',
+               showTitle: false,
+               scrolling: 'no',
+               onComplete: function(){ //Resize the iframe to correct size
+                jQuery('#fancybox-frame').load(function() { // wait for frame to load and then gets it's height
+                    jQuery('#fancybox-content').height(jQuery(this).contents().find('body').height()+30);
+                    jQuery.fancybox.resize();
+                 });
+ 
+               }
+            }
+        );
+    });
+
+    function showOptions(id){
+        jQuery('#fancybox'+id).trigger('click');
+    }
+
+    function precise_round(num,decimals) {
+        return Math.round(num * Math.pow(10, decimals)) / Math.pow(10, decimals);
+    }
+
+    function setAjaxData(data,iframe){
+        if(data.status == 'ERROR'){
+            alert(data.message);
+        }else{
+            if(data.datetime){
+                alert('Zamówienie jest niemożliwe zapraszamy jutro.');
+            }else{
+                var price = precise_round(data.product_price, 2);
+                price = ( price + "").replace("\.",",");
+                var total_sum = 0;
+                for (var i = 0; i < data.product_date.length; i++) {
+                    
+                    total_sum = total_sum + parseFloat(data.product_date[i].sum);
+                    var content = '<ul>';
+
+                    for (var j = 0; j < data.product_date[i].product.length; j++) {
+
+                        if( data.product_date[i].product[j].count > 0 ){
+                            var price = precise_round(data.product_date[i].product[j].price, 2);
+                            price = ( price + "").replace("\.",",");
+
+                            content += '<li id="' + data.product_date[i].product[j].id + '">';
+                            content += '<div class="' + data.product_date[i].data + '-' + data.product_date[i].product[j].id + '-delete"></div>';
+                            content += '<div class="name"><span>' + data.product_date[i].product[j].name + '</span></div>';
+                            content += '<a onclick="remove_product(\''+ data.product_date[i].product[j].product_url + '\',\'' + data.product_date[i].data + '\',\'' + data.product_date[i].product[j].price + '\',\'' + data.product_date[i].product[j].id + '\',\'' + data.product_date[i].sum + '\',\'' + 1 + '\');" href="#remove"><img src="<?php echo $this->getSkinUrl('images/calendar-button-remove.png') ?>" /></a><div class="price"><span>' + data.product_date[i].product[j].count + 'x</span></div><a onclick="add_product(\''+ data.product_date[i].product[j].product_url +'\',\''+ data.product_date[i].data +'\');" href="#delete"><img src="<?php echo $this->getSkinUrl('images/calendar-button-add.png') ?>" /></a>';
+                            content += '<div class="count"><span>' + price + ' zł</span></div><a onclick="remove_product(\''+ data.product_date[i].product[j].product_url + '\',\'' + data.product_date[i].data + '\',\'' + data.product_date[i].product[j].price + '\',\'' + data.product_date[i].product[j].id + '\',\'' + data.product_date[i].sum + '\',\'' + data.product_date[i].product[j].count + '\');" href="#remove"><img src="<?php echo $this->getSkinUrl('images/calendar-button-delete.png') ?>" /></a>';
+                            content +='</li>'; 
+                        }else{
+
+                        }
+
+                    }
+
+                    content += '</ul>';
+
+                    content += '<ul>';
+                    content += '<a id="day-hide" href="#hide-day" onclick="days_hide(\'' + data.product_date[i].data + '\');">Gotowe</a>';
+                    content += '<li><a id="day-clear" href="#clear-day" onclick="days_clear(\'' + data.product_date[i].data + '\');">opróżnij cały dzień</a></li>';
+                    content += '</ul>';
+
+                    var content_sum = precise_round(data.product_date[i].sum, 2);
+
+                    content_sum = ( content_sum + "").replace("\.",",");
+
+                    if( content_sum <= 0 ){ content_sum = ''; }
+                    jQuery( "#" + data.product_date[i].data ).html(content);
+                    jQuery( "." + data.product_date[i].data + '-sum' ).html(content_sum);
+                    //jQuery( "#" + data.product_date[i].data ).css("display", "block");
+                }
+
+                total_sum = precise_round(total_sum, 2);
+                total_sum = ( total_sum + "").replace("\.",",");
+
+                jQuery("#sum-days").html();
+                jQuery(".all-sum span.price").html();
+                jQuery(".all-sum span.price").html();
+                jQuery("#sum-days").html(data.product_date_count);
+                jQuery(".sum-subtotal span.price").html(total_sum + ' zł');
+                jQuery(".all-sum span.price").html(total_sum + ' zł');
+
+                if(jQuery('.block-cart')){
+                    
+                    jQuery('.block-cart').replaceWith(data.sidebar);
+                }
+                if(jQuery('.header .links')){
+                    jQuery('.header .links').replaceWith(data.toplink);
+                }
+                jQuery.fancybox.close();
+
+            }//End TimeZone Check
+        }
+    }
+    function setLocationAjax(url,id){
+        var product_url = url;
+
+        url += 'isAjax/1';
+        url = url;
+        
+        weeks = jQuery('.bjqs-slide input:checkbox:checked').serialize();
+
+        var values = {
+            nav : 1,
+            weeks : weeks,
+            product_url : product_url,
+        };
+
+        jQuery('#ajax_loader'+id).show();
+        try {
+            jQuery.ajax( {
+                url : url,
+                dataType : 'json',
+                data: ( values ),
+                success : function(data) {
+                    jQuery('#ajax_loader'+id).hide();
+                    setAjaxData(data,false);          
+                }
+            });
+        } catch (e) {
+        }
+    }
+
+
+    function remove_product(url, week, price, id_product, sum, count){
+        //alert('id_product: ' + id_product + '; url: ' + url + '; week: ' + week + '; price: ' + price );
+
+        var product_url = url;
+        url += 'isAjax/1';
+        url = url;
+
+
+        var values = {
+            nav : 3,
+            weeks : week,
+            id_product : id_product,
+            price : price,
+            product_url : product_url,
+            sum : sum,
+            count : count,
+        };
+
+        try {
+            jQuery.ajax( {
+                url : url,
+                dataType : 'json',
+                data: ( values ),
+                success : function(data) {
+                    setAjaxData(data,false);          
+                }
+            });
+        } catch (e) {
+        }
+    }
+    function delete_product(id_product){
+        //jQuery('.' + id + '-delete').html('<div class="delete-line"></div>');
+        
+        /**
+        url += 'isAjax/2';
+        url = url;
+        
+        weeks = jQuery('.bjqs-slide input:checkbox:checked').serialize();
+
+        var values = {
+            id_product : id_product,
+            weeks : weeks,
+        };
+
+        jQuery('#ajax_loader'+id).show();
+        try {
+            jQuery.ajax( {
+                url : url,
+                dataType : 'json',
+                data: ( values ),
+                success : function(data) {
+                    //jQuery('#ajax_loader'+id).hide();
+                    jQuery('.content ul li#' + id_product ).fadeOut();
+                    setAjaxData(data,false);          
+                }
+            });
+        } catch (e) {
+        }
+        **/
+    }
+
+    function add_product(url, week){
+        var product_url = url;
+        url += 'isAjax/1';
+        url = url;
+
+
+        var values = {
+            nav : 2,
+            weeks : week,
+            product_url : product_url,
+        };
+
+        try {
+            jQuery.ajax( {
+                url : url,
+                dataType : 'json',
+                data: ( values ),
+                success : function(data) {
+                    setAjaxData(data,false);          
+                }
+            });
+        } catch (e) {
+        }
+        
+    }
+    function days_hide(id){
+      jQuery('#' + id + '').fadeOut();  
+    }
+    function days_clear(id){
+        jQuery('#' + id +' ul.products').fadeOut();
+        jQuery('.' + id +'-sum').fadeOut();
+    }
+</script>

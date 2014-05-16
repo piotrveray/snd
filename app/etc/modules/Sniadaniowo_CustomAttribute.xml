@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Sniadaniowo_CustomAttribute>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends></depends>
+        </Sniadaniowo_CustomAttribute>
+    </modules>
+</config>

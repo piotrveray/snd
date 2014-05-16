@@ -1,0 +1,561 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Template for Mage_Page_Block_Html
+ */
+
+?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->getLang() ?>" lang="<?php echo $this->getLang() ?>">
+<head>
+<?php echo $this->getChildHtml('head') ?>
+
+<script>
+jQuery(document).ready(function (){
+        jQuery(".login-button").colorbox({inline:true, width:"620px", opacity: 0.50, closeButton: true});
+        jQuery(".reghister-button").colorbox({inline:true, width:"620px", opacity: 0.50, height: "743px", closeButton: true});
+
+        jQuery(".button-order-info").colorbox({inline:true, width:"620px", opacity: 0.50, closeButton: true});
+        jQuery("#popup_check_open").colorbox({inline:true, width:"620px", opacity: 0.50, height: "348px", closeButton: true});
+
+        jQuery(".back-link").click(function(){
+            jQuery('#cboxClose').trigger('click');
+        });
+
+        jQuery("#close").click(function(){
+            jQuery('#cboxClose').trigger('click');
+        });
+        
+        jQuery('#button-continue-shopping').click(function(){
+            //jQuery(".button-order-info").colorbox.close();
+            jQuery("#popup_check_open").click();
+        });
+        
+});
+</script>
+<?php if( !( $customer = Mage::getSingleton('customer/session')->isLoggedIn() ) ): ?>
+    <?php
+    $order_popup_shown = Mage::getSingleton('core/session')->getOrderPopupShown();
+    if($order_popup_shown != '1'):
+        Mage::getSingleton('core/session')->setOrderPopupShown('1');
+    ?>
+<script type="text/javascript">
+jQuery(document).ready(function (){
+    jQuery('#popup_order_open').trigger('click');
+});
+</script>
+<?php endif; ?>
+<?php endif; ?>
+</head>
+
+
+<body<?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?>>
+    
+    <?php
+
+$categories = Mage::getModel('catalog/category')
+    ->getCollection()
+    ->addAttributeToSelect('*')
+    ->addIsActiveFilter();
+$cat_count = count($categories);
+$current_id = Mage::getModel('catalog/layer')->getCurrentCategory()->getId();
+    ?>
+
+<a id="popup_order_open" href="#popup_order_info" class="button-order-info"></a>
+<a id="popup_check_open" href="#popup_check_delivery"></a>
+<?php echo $this->getChildHtml('after_body_start') ?>
+
+<!-- Login Form PopUp -->
+<div style='display:none'>
+    <div id="popup_form_mini_login" style='background:#fff;'>
+        <div class="shape-popup-top"></div>
+            <?php echo $this->getChildHtml('login') ?>
+        <div class="shape-popup-bottom"></div>
+    </div>
+</div>
+<!-- / End Login Form PopUp -->
+<div style='display:none'>
+    <div id="popup_form_register" style='background:#fff;height:705px;'>
+        <div class="shape-popup-top"></div>
+            <?php echo $this->getChildHtml('register') ?>
+        <div class="shape-popup-bottom"></div>
+    </div>
+</div>
+<!-- Register Form PopUp -->
+
+<div style='display:none'>
+    <div id="popup_check_delivery" class="general-popup" style='background:#fff;height:310px;'>
+        <div class="shape-popup-top"></div>
+            <?php echo $this->getChildHtml('checkaddress') ?>
+        <div class="shape-popup-bottom"></div>
+    </div>
+</div>
+
+<!-- Info PopUp -->
+<div style='display:none'>
+    <div id="popup_order_info" style='background:#fff;'>
+        <div class="shape-popup-top"></div>
+            <div class="content">
+                <h1 class="title-box">Witaj!</h1>
+                <p>
+                    Teraz możesz złożyć swoje pierwsze zamówienie.
+                </p>
+                <p>
+                    Przez najbliższe 7 dni nie pobieramy od Ciebie <strong>żadnych dodatkowych opłat.</strong><br />
+                    Płacisz jedynie za zamówione produkty.
+                </p>
+                <p>
+                    Po upływie tego okresu będziesz mógł dalej cieszyć się świeżym pieczywem dostarczanym<br /> rano pod Twoje drzwi wykupując 30-dniowy <strong>abonament dostawczy</strong> za jedyne 19,90 zł.
+                </p>
+                <div class="buttons-info">
+                    <a id="button-continue-shopping" href="#popup_check_delivery" class="form-button" onclick="return false;">Kontynuuj zakupy jako nowy klient</a>
+                    <br><br>
+                    <span>lub</span>
+                    <a href="#popup_form_mini_login" class="login-button">Zaloguj się</a> 
+                </div>
+            </div>
+        <div class="shape-popup-bottom"></div>
+    </div>
+</div>
+<!-- / End Info PopUp -->
+<div class="wrapper">
+    <?php echo $this->getChildHtml('global_notices') ?>
+    <div class="page">
+            <?php echo $this->getChildHtml('header') ?>
+
+        <div class="main-container-subpage">
+            <div class="product-list">
+                <?php 
+                $menu_block = $this->getLayout()->createBlock('cms/block')->setBlockId('category_menu');
+                echo $menu_block->toHtml(); ?>
+                 <div class="col-left">
+                     
+                     <?php foreach($categories as $cat): ?>
+                     <div class="category-container" data-categoryid="<?php echo $cat->getId(); ?>"<?php if($cat->getId()!=$current_id):?> style="display:none;" <?php endif; ?>>
+                        <?php
+                        $category_block = $this->getLayout()->getBlock('category.products');
+                        $category_block->setData('current_category', $cat);
+                        echo $category_block->toHtml();
+                        //echo $this->getChildHtml('content');;
+                        ?>
+                     </div>
+                     <?php endforeach; ?>
+                     
+                     
+                <?php /*echo $this->getChildHtml('global_messages') */ ?>
+                </div>
+                <div class="products-col-rights" style="float:right; width:270px;">
+                    <?php echo $this->getChildHtml('right') ?>
+                </div>
+                   
+            </div> 
+        </div>
+        <?php echo $this->getChildHtml('footer') ?>
+        <?php echo $this->getChildHtml('global_cookie_notice') ?>
+        <?php echo $this->getChildHtml('before_body_end') ?>
+    </div>
+</div>
+<?php echo $this->getAbsoluteFooter() ?>
+<script type="text/javascript">
+    jQuery('.subcategories-button').click(function(){
+        var new_cat_id = jQuery(this).attr('data-categoryid');
+        var new_cat = jQuery('.category-container[data-categoryid="'+new_cat_id+'"]');
+        if(new_cat.length){
+            jQuery('.subcategories-button').removeClass('selected');
+            jQuery('.category-container').hide();
+            new_cat.show();
+            jQuery(this).addClass('selected');
+        }
+    });
+</script>
+
+
+<script type="text/javascript">
+    jQuery(document).ready(function(){
+        
+        jQuery(".iframe").colorbox({iframe:true, width:"80%", height:"80%", opacity: 0.50 });
+            
+            jQuery('input.week').change(function(){
+                if(jQuery(this).attr('checked') == 'checked'){
+                    jQuery(this).parent().addClass('selected');
+                }
+                else{
+                    jQuery(this).parent().removeClass('selected');
+                }
+                set_availability();
+            });
+
+            jQuery('input.week').first().change();
+
+  
+
+        jQuery('.fancybox').fancybox(
+            {
+               hideOnContentClick : true,
+               width: 382,
+               autoDimensions: true,
+               type : 'iframe',
+               showTitle: false,
+               scrolling: 'no',
+               onComplete: function(){ //Resize the iframe to correct size
+                jQuery('#fancybox-frame').load(function() { // wait for frame to load and then gets it's height
+                    jQuery('#fancybox-content').height(jQuery(this).contents().find('body').height()+30);
+                    jQuery.fancybox.resize();
+                 });
+ 
+               }
+            }
+        );
+        
+    });
+
+    function showOptions(id){
+        jQuery('#fancybox'+id).trigger('click');
+    }
+
+    function precise_round(num,decimals) {
+        return Math.round(num * Math.pow(10, decimals)) / Math.pow(10, decimals);
+    }
+    
+
+    function days_hide(id){
+      jQuery('#' + id + '').fadeOut();  
+    }
+</script>
+
+<script type="text/javascript">
+    
+    var abo_days = [];
+    function add_product(product_id, day_week){
+        var updated_days = [];
+        var day_html;
+        var success = true;
+        if(day_week == null){
+            jQuery('input.week:checked').each(function(){
+                day_week = jQuery(this).val();
+                day_html = get_html('add', product_id, day_week);
+                if(day_week == false || day_week == ''){
+                    success = false;
+                }
+                else{
+                    updated_days[day_week] = day_html;
+                }
+            });
+        }
+        else{
+            day_html = get_html('add', product_id, day_week);
+            if(day_week == false || day_week == ''){
+                success = false;
+            }
+            else{
+                updated_days[day_week] = day_html;
+            }
+        }
+//        if(!success){
+//            alert('Błąd podczas dodawania danych!');
+//        }
+//        else{
+//            for(i in updated_days){
+//                jQuery('#row-'+i).html(updated_days[i]);
+//            }
+//        }
+//        set_days();
+    }
+    
+    function sub_product(item_id, day_week){
+        var day_html = get_html('sub', item_id, day_week);
+//        if(day_week == false || day_week == ''){
+//            alert('Błąd podczas dodawania danych!');
+//        }
+//        else{
+//            jQuery('#row-'+day_week).html(day_html);
+//        }
+//        set_days();
+    }
+    
+    function remove_product(item_id, day_week){
+        var day_html = get_html('remove', item_id, day_week);
+//        if(day_week == false || day_week == ''){
+//            alert('Błąd podczas dodawania danych!');
+//        }
+//        else{
+//            jQuery('#row-'+day_week).html(day_html);
+//        }
+//        set_days();
+    }
+    
+    function clear_day(day_week){
+        var day_html = get_html('clear', null, day_week, false);
+//        if(day_week == false || day_week == ''){
+//            alert('Błąd podczas dodawania danych!');
+//        }
+//        else{
+//            jQuery('#row-'+day_week).html(day_html);
+//        }
+//        set_days();
+    }
+    
+    function add_bought_product(item_id, day_week){
+        var day_html = get_html('add_bought', item_id, day_week);
+    }
+    
+    function sub_bought_product(item_id, day_week){
+        var day_html = get_html('sub_bought', item_id, day_week);
+    }
+    
+    function remove_bought_product(item_id, day_week){
+        var day_html = get_html('remove_bought', item_id, day_week);
+    }
+    
+    function undo_bought_product_sub(item_id, day_week){
+        var day_html = get_html('undo_bought', item_id, day_week);
+    }
+    
+    function get_html(action, iid, day_week, async){
+        var result = false;
+        if(typeof async == "undefined"){
+            async = true;
+        }
+        jQuery.ajax({
+            async: async,
+            url:'<?php echo $this->getBaseUrl();?>checkout/cart/getday',
+            type: 'post',
+            data:{
+                'day': day_week,
+                'action' : action,
+                'product_id': iid
+            },
+            success: function(data){
+                //result =data;
+                jQuery('#row-'+day_week).html(data);
+                if(action !== 'no_action'){
+                    set_days();
+                }
+            },
+            error: function(){
+                result = false;
+            },
+            complete: function(){
+                jQuery('.ajax_loader').hide();
+            }
+        });
+        return result;
+    }
+    
+    function set_days(){
+        var all_total = 0;
+        var all_days = 0;
+        var add_abo = false;
+        jQuery('ul.bjqs div.row.active').each(function(){
+            var subtotal = jQuery(this).find('ul.products').attr('data-subtotal');
+            var showit = jQuery(this).find('ul.products').attr('data-showday');
+            subtotal = (subtotal) ? parseFloat(subtotal.replace(',', '.')) : 0;
+            if(showit > 0){
+                all_total += subtotal;
+                all_days++;
+                if(jQuery(this).hasClass('noabo')){
+                    add_abo = true;
+                }
+                jQuery(this).addClass('selected');
+                jQuery(this).find('div.content').show();
+                jQuery(this).find('span.sum').html(format_price(subtotal));
+                jQuery(this).find('input.week').attr('checked', 'checked');
+                jQuery(this).find('span.single-day').addClass('checked');
+            }
+            else{
+                jQuery(this).removeClass('selected');
+                jQuery(this).find('div.content').hide();
+                jQuery(this).find('span.sum').html('');
+                jQuery(this).find('input.week').attr('checked', false);
+                jQuery(this).find('span.single-day').removeClass('checked');
+                jQuery(this).addClass('active');
+            }
+        });
+        if(add_abo && abo_days.length == 0){
+            jQuery('a.add_abo_trigger').trigger('click');
+        }
+        jQuery.ajax({
+            url:'<?php echo $this->getBaseUrl();?>checkout/cart/getsubtotal',
+            success: function(data){
+                jQuery('.sum-subtotal').html(data);
+            },
+            error: function(){
+                result = false;
+            }
+        });
+        jQuery.ajax({
+            url:'<?php echo $this->getBaseUrl();?>checkout/cart/getaboprice',
+            success: function(data){
+                jQuery('#price_total').html(data);
+            },
+            error: function(){
+                result = false;
+            }
+        });
+        set_availability();
+    }
+    
+    jQuery(document).ready(function(){
+        jQuery('input.week').attr('checked', false);
+        set_days();
+    });
+    
+    function show_loader(el){
+        jQuery(el).parent().parent().find('span.ajax_loader').show();
+    }
+    
+    function format_price(price){
+        price = parseFloat(price);
+        price = price.toFixed(2)+" zł";
+        return price.replace('.', ',');
+    }
+    
+    var abo_popup_active = false;
+    var abo_number = 1;
+    
+    function add_abo(){
+        abo_popup_active = false;
+//        jQuery('ul.bjqs div.row.active').each(function(){
+//            var showit = jQuery(this).find('ul.products').attr('data-showday');
+//            if(showit && jQuery(this).hasClass('noabo')){
+//                var abo_daytag = jQuery(this).attr('data-daytag');
+//                if(abo_days.search(abo_daytag) === -1){
+//                    abo_days.push()
+//                }
+//            }
+//        });
+        jQuery.ajax({
+            async: false,
+            url:'<?php echo $this->getBaseUrl();?>checkout/cart/addabo',
+            type: 'post',
+            data:{
+                abono: abo_number
+            },
+            success: function(){
+                var aboend = jQuery('ul.bjqs .noabo_sign');
+                for(i=1; i<=30;i++){
+                    var el = jQuery('ul.bjqs div.row.active.noabo').first();
+                    el.find('img.noabo').hide();
+                    el.removeClass('noabo');
+                    if(i == 30){
+                        el.after(aboend);
+                    }
+                }
+                abo_number++;
+                set_days();
+            },
+            error: function(){
+                result = false;
+                set_days();
+            }
+        });
+        jQuery(".add_abo_trigger").colorbox.close();
+    }
+    
+    function dont_add_abo(){
+        if(abo_popup_active){
+            jQuery('ul.bjqs div.row.noabo').each(function(){
+                var subtotal = jQuery(this).find('ul.products').attr('data-subtotal');
+                subtotal = (subtotal) ? parseFloat(subtotal.replace(',', '.')) : 0;
+                if(subtotal > 0){
+                    clear_day(jQuery(this).attr('data-daytag'));
+                }
+            });
+        }
+        jQuery(".add_abo_trigger").colorbox.close();
+        set_availability();
+    }
+    
+    function remove_abo(){
+        var last_day = '';
+        var last_day_cont = jQuery('ul.bjqs .noabo_sign').prev();
+        if(last_day_cont.length){
+            last_day = last_day_cont.attr('data-daytag');
+        }
+        jQuery.ajax({
+            async: true,
+            url:'<?php echo $this->getBaseUrl();?>checkout/cart/removeabo',
+            type: 'post',
+            data: {
+                'last_day' : last_day
+            },
+            success: function(last_daytag){
+                var aboend = jQuery('ul.bjqs .noabo_sign');
+                var day_html = jQuery('#day_week_empty_sample').html();
+                while(true){
+                    var elements_left = jQuery('ul.bjqs div.row.active').not('ul.bjqs div.noabo').length;
+                    var el = jQuery('ul.bjqs div.row.active').not('ul.bjqs div.noabo').last();
+                    el.find('img.noabo').show();
+                    el.addClass('noabo');
+                    
+                    var el_day_html = day_html;
+                    el_day_html.replace('{{dayweek}}', el.attr('data-daytag'));
+                    el.find('div.content').html(el_day_html);
+                    el.find('span.sum').text('');
+                    if(el.attr('data-daytag') == last_daytag || elements_left  == 1){
+                        el.before(aboend);
+                        break;
+                    }
+                }
+                set_days();
+                jQuery(".remove_abo_trigger").colorbox.close();
+            },
+            error: function(){
+                result = false;
+                set_days();
+                jQuery(".remove_abo_trigger").colorbox.close();
+            }
+        });
+    }
+    
+    function set_availability(){
+        var active_days = [];
+        jQuery('div.row.active input.week:checked').each(function(){
+            var input_day = jQuery(this).attr('data-daycode');
+            if(active_days.indexOf(input_day) === -1){
+                active_days.push(input_day);
+            }
+        });
+        jQuery('.btn-cart').attr('disabled', 'disabled');
+        jQuery('.btn-cart').removeClass('checked');
+        jQuery('.btn-cart').each(function(){
+            var product_days = jQuery(this).parents('.item_actions').attr('data-days').split(';');
+            for(var i in product_days){
+                if(active_days.indexOf(product_days[i]) !== -1){
+                    jQuery(this).attr('disabled', false);
+                    jQuery(this).addClass('checked');;
+                    break;
+                }
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

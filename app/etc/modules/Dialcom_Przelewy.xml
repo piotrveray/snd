@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+       <Dialcom_Przelewy>
+	       <active>true</active>
+	       <codePool>local</codePool>
+       </Dialcom_Przelewy>
+    </modules>
+</config>

@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Dialcom_Przelewy>
+      <version>0.2.0</version>
+      <depends>
+        <Mage_Payment />
+      </depends>
+    </Dialcom_Przelewy>
+  </modules>
+  <global>
+    <blocks>
+      <przelewy>
+        <class>Dialcom_Przelewy_Block</class>
+      </przelewy>
+    </blocks>
+    <models>
+      <przelewy>
+        <class>Dialcom_Przelewy_Model</class>
+      </przelewy>
+    </models>
+    <helpers>
+      <przelewy>
+        <class>Dialcom_Przelewy_Helper</class>
+      </przelewy>
+    </helpers>
+  </global>
+  <frontend>
+    <routers>
+      <przelewy>
+        <use>standard</use>
+        <args>
+          <module>Dialcom_Przelewy</module>
+          <frontName>przelewy</frontName>
+        </args>
+      </przelewy>
+    </routers>
+  </frontend>
+  <default>
+    <payment>
+      <dialcom_przelewy>
+        <active>0</active>
+        <model>przelewy/payment_przelewy</model>
+        <order_status>1</order_status>
+        <title>Przelewy24</title>
+        <text>Po złożeniu zamówienia zostaniesz przeniesiony na stronę serwisu Przelewy24 w celu dokonania płatności.</text>
+        <uri>https://secure.przelewy24.pl/</uri>
+        <min_order_total>0</min_order_total>
+        <max_order_total>0</max_order_total>
+      </dialcom_przelewy>
+    </payment>
+  </default>
+</config>

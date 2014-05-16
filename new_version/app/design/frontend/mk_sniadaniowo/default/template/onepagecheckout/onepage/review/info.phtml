@@ -1,0 +1,31 @@
+<?php echo $this->getChildHtml('items_before'); ?>
+<?php 
+ $order_days = Mage::getSingleton('core/session')->getWeeksCalendar();
+
+$total_sum = 0;
+ for( $i = 0; $i < count($order_days); $i++ ){
+    $total_sum = $total_sum + $order_days[$i]['sum'];
+ }
+ ?>
+ <pre>
+ <?php
+ //print_r($order_days);
+?>
+</pre>
+<div id="checkout-review-table-wrapper">
+
+        <span class="price-one">zaplanowałeś dostawę na <?php echo count($order_days); ?> dni: <strong><?php echo $total_sum; ?> zł</strong></span>
+        <div class="total-price">
+            <?php echo $this->getChildHtml('totals'); ?>
+        </div>
+        <?php foreach($this->getItems() as $_item): ?>
+            <?php //echo $this->getItemHtml($_item)?>
+        <?php endforeach ?>
+
+</div>
+<script type="text/javascript">
+//<![CDATA[
+    decorateTable('checkout-review-table');
+    truncateOptions();
+//]]>
+</script>

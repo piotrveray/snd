@@ -1,0 +1,22 @@
+<catalog_category_default>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>js/fancybox/jquery.fancybox-1.3.4.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/fancybox/jquery.easing-1.3.pack.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/fancybox/jquery.mousewheel-3.0.4.pack.js</name></action>
+            <action method="addCss"><stylesheet>js/fancybox/jquery.fancybox-1.3.4.css</stylesheet></action>
+        </reference>
+        <reference name='product_list'>
+            <action method='setTemplate'><template>ajax/catalog/product/view/list.phtml</template></action>
+        </reference>
+    </catalog_category_default>
+    <catalog_category_layered>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>js/fancybox/jquery.fancybox-1.3.4.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/fancybox/jquery.easing-1.3.pack.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>js/fancybox/jquery.mousewheel-3.0.4.pack.js</name></action>
+            <action method="addCss"><stylesheet>js/fancybox/jquery.fancybox-1.3.4.css</stylesheet></action>
+        </reference>
+        <reference name='product_list'>
+            <action method='setTemplate'><template>ajax/catalog/product/view/list.phtml</template></action>
+        </reference>
+    </catalog_category_layered>

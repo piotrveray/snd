@@ -1,0 +1,109 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<div class="col2-set mk-dashboard-shipping">
+    <div class="box">
+        <div class="box-title">
+            <h3><?php echo $this->__('Address dostawy') ?></h3>
+        </div>
+        <div class="box-content">
+            <p>
+                <?php echo $this->getPrimaryBillingAddressHtml() ?><br />
+                    <a  href="#popup_address_change_shipping" class="address-change-shipping" onclick="return false;"><?php echo $this->__('zmień') ?></a>
+            </p>
+        </div>
+    </div>
+</div>
+<div class="col2-set mk-dashboard-billing">
+    <div class="box">
+        <div class="box-title">
+            <h3><?php echo $this->__('Dane do faktury') ?></h3>
+        </div>
+        <div class="box-content">
+            <div class="input-billing-checkbox">
+                <div class="row">
+                    <input class="week" id="invoice" type="checkbox" value="" />
+                    <label for="invoice"><span id="invoice-buttons" class="single-day"></span></label>
+                    <span>Chcę otrzymywać fakturę</span>
+
+                </div>
+            </div>
+            <p class="show-billing" style="display:none;">
+               
+                <?php echo $this->getPrimaryBillingAddressHtml() ?><br />
+                <a href="#popup_address_change_billing" class="address-change-billing" onclick="return false;"><?php echo $this->__('zmień') ?></a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<div style='display:none'>
+    <div id="popup_address_change_shipping" class="general-popup" style='background:#fff;'>
+        <div class="shape-popup-top"></div>
+        <?php 
+            $cs_block = $this->getLayout()->createBlock('core/template')->setTemplate('customer/form/setaddress.phtml');
+            echo $cs_block->toHtml();
+        ?>
+        <div class="shape-popup-bottom"></div>
+    </div>
+</div>
+
+<div style='display:none'>
+    <div id="popup_address_change_billing" class="general-popup" style='background:#fff;'>
+        <div class="shape-popup-top"></div>
+        <?php 
+            $cb_block = $block = $this->getLayout()->createBlock('core/template')->setTemplate('customer/form/setbillingaddress.phtml');
+            echo $cb_block->toHtml();
+        ?>
+        <div class="shape-popup-bottom"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    jQuery(document).ready(function (){
+        jQuery(".address-change-shipping").colorbox({
+            inline:true, 
+            width:"620px", 
+            opacity: 0.50, 
+            closeButton: true
+        });
+        
+        jQuery(".address-change-billing").colorbox({
+            inline:true, 
+            width:"620px", 
+            opacity: 0.50, 
+            closeButton: true
+        });
+
+        jQuery(".back-link").click(function(){
+            jQuery('#cboxClose').trigger('click');
+        });
+        jQuery("#invoice").click(function(){
+            jQuery(".show-billing").fadeToggle();
+        });
+     
+    });
+</script>

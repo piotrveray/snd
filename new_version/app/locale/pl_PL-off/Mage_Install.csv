@@ -1,0 +1,69 @@
+"(Make sure you keep it in a safe place.)","(Zachowaj w bezpiecznym miejscu.)"
+"Base Path","Ścieżka bazowa"
+"Before you continue to your store, please make a note of your encryption key (Magento uses it to encrypt passwords, credit cards and more).","Zapisz kod szyfrujący i zachowaj go w bezpiecznym miejscu. Jest on wykorzystywany do szyfrowania danych w sklepie."
+"Check out our","Sprawdź nasze"
+"Check this box only if you are unable to automatically validate Magento URL, for example if HTTP authentication is required.","Zaznacz tylko jeżeli otrzymujesz błąd walidacji URL"
+Configuration,Konfiguracja
+"Configuration options","Opcje konfiguracji"
+"Confirm Password","Potwierdź hasło"
+Connection,Połączenie
+Continue,Kontynuuj
+"Create Admin Account","Stwórz konto administratora"
+"Database Connection","Połączenie z bazą"
+"Database connection error","Błąd połączenia z bazą"
+"Database host","Host połączenia z bazą"
+"Database Name","Nazwa bazy"
+"Database user name","Użytkownik bazy"
+"Database user password","Hasło do bazy"
+"Default Currency","Domyślna waluta"
+"Default store","Domyślny sklep"
+Email,Email
+"Email Address","Adres email"
+"Encryption Key","Klucz szyfrowania"
+"First Name",Imię
+"For HTTP connections, the default port is 80.","Dla połączeń HTTP domyślny port to 80."
+"For HTTPS connections, default port is 443.","Dla HTTPS domyślny port to 443."
+"Get ready to experience Open-Source eCommerce Evolved.","Przygotuj się na nowe rozwiązanie ecommerce."
+"Go to Backend","Przejdź do panelu administracyjnego"
+"Go to Frontend","Przejdź do sklepu"
+"Having trouble installing Magento?","Czy masz problem z instalacją Magento?"
+Host,Host
+"Host name",Host
+"I agree to the above terms and conditions","Zgadzam się z warunkami licencji"
+Installation,Instalacja
+"Installation Guide","Przewodnik instalacji"
+"Last Name",Nazwisko
+Locale,Locale
+"Locale settings","Ustawienia Locale"
+Localization,Lokalizacja
+"Login Information","Informacje o logowaniu"
+"Magento uses this key to encrypt passwords, credit cards and more. If this field is left empty the system will create an encription key for you and will display it on the next page.","Magento korzysta z tego klucza aby szyfrować dane. Wprowadź go lub pozos"
+"One from PHP Extensions ""%s"" must be loaded","Jedno z rozszerzeń PHP: ""%s"" musi być załadowane"
+Password,Hasło
+"Password Confirmation","Potwierdź hasło"
+"Path ""%s"" must be writable","Ścieżka ""%s"" musi mieć prawa zapisu"
+"Personal Information","Dane personalne"
+"PHP Extension ""%s"" must be loaded","Rozszerzenie PHP: ""%s"" musi być załadowane"
+"PHP Extension '%s' loaded","Rozszerzenie PHP '%s' załadowane"
+"Please set all required settings before clicking Continue","Uzupełnij wszystkie pola przed kontunuowaniem"
+Port,Port
+Protocol,Protokół
+"Required Fields","Pola wymagane"
+"Secure Base Path","Ścieżka bazowa dla połączeń https"
+"Secure Connection","Połączenie bezpieczne"
+"Secure Host","Host SSL"
+"Secure host name","Adres https"
+"Secure Port","Port SSL"
+"Secure Protocol","Protokół szyfrowania"
+"Secure www base path","Ścieżka bazowa dla połączenia SSL"
+"Skip URL validation","Pomiń sprawdzanie URL"
+"This Url is invalid","Ten url jest nieprawidłowy"
+"Time Zone","Strefa czasowa"
+"Url ""%s"" is invalid","Adres ""%s"" jest nieprawidłowy"
+"Url ""%s"" is not accessible","Url ""%s"" nie jest dostępny"
+"User Name","Nazwa użytkownika"
+"User Password","Hasło użytkownika"
+Username,Użytkownik
+"Welcome to Magento's Installation Wizard","Witaj w instalatorze Magento"
+"WWW base path","Ścieżka bazowa WWW"
+"You're All Set",Koniec!

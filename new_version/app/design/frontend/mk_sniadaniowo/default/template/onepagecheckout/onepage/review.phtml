@@ -1,0 +1,21 @@
+<div id="checkout-review" class="onepagecheckout_block">
+    <?php //echo $this->getChildHtml('coupon') ?>
+    <div class="step-title">
+        <span class="number"><img src="<?php echo $this->getSkinUrl('images/checkout-shape-3.png') ?>" /></span>
+
+        <h2><?php echo $this->__('Kwota transakcji') ?></h2>
+    </div>
+
+    <div id="checkout-review-load">
+        <?php //echo $this->getChildHtml('info') ?>
+    </div>
+    <div id="checkout-review-submit">    
+        <?php echo $this->getChildHtml('agreements') ?>
+        <div class="buttons-set" id="review-buttons-container">
+        <button type="submit" title="<?php echo $this->__('Place Order') ?>" class="button btn-checkout" onclick="checkout.save(); return false;"><?php echo $this->__('Zapłać') ?></button>
+            <span class="please-wait" id="review-please-wait" style=" ">
+                <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" alt="<?php echo $this->__('Wysyłanie danych zamówienia...') ?>" title="<?php echo $this->__('Wysyłanie danych zamówienia...') ?>" class="v-middle" />
+            </span>
+        </div>
+    </div>
+</div>

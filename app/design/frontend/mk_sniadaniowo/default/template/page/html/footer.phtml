@@ -1,0 +1,21 @@
+<div class="footer-container">
+    <div class="footer">        
+    	<div class="footer-left">
+    		<ul>
+            	<li><a href="<?php echo $this->getUrl('regulamin ')?>"><?php echo $this->__('Regulamin ') ?></a></li>
+            	<li><a href="<?php echo $this->getUrl('polityka-prywatnosci')?>"><?php echo $this->__('Polityka Prywatności ') ?></a></li>
+            	<li><a href="<?php echo $this->getUrl('polityka-cookies')?>"><?php echo $this->__('Cookies') ?></a></li>
+            	<li><a href="<?php echo $this->getUrl('o-nas')?>"><?php echo $this->__('O nas') ?></a></li>
+            	<li class="facebook"><a href="#"><img src="<?php echo $this->getSkinUrl('images/img-facebook.png') ?>" style="margin-top: -3px" /></a></li>
+        	</ul>
+    	</div>
+    	<div class="footer-right">
+    		<span>© 2014  |  <strong>Warszawa czuje się</strong><a href="#"><img src="<?php echo $this->getSkinUrl('images/logo-footer.png') ?>" /></a></span>
+    	</div>
+        <address><?php //echo $this->getCopyright() ?></address>
+    </div>
+</div>
+<script type="text/javascript">
+jQuery.noConflict();
+</script> 
+<?php echo $this->getChildHtml('before_body_end') ?>

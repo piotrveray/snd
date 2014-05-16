@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <modules>
+        <Swift_OnepageCheckout>
+            <version>1.3.0</version>
+        </Swift_OnepageCheckout>
+    </modules>
+
+    <global>
+        <models>
+            <onepagecheckout>
+                <class>Swift_OnepageCheckout_Model</class>
+            </onepagecheckout>
+            <onepagecheckout_adminhtml>
+                <class>Swift_OnepageCheckout_Adminhtml_Model</class>
+            </onepagecheckout_adminhtml>
+        </models>
+        <blocks>
+            <checkout>
+                <rewrite>
+                    <links>Swift_OnepageCheckout_Block_Links</links>
+                </rewrite>
+            </checkout>
+            <onepagecheckout>
+                <class>Swift_OnepageCheckout_Block</class>
+            </onepagecheckout>
+        </blocks>
+        <helpers>
+            <checkout>
+                <rewrite>
+                    <url>Swift_OnepageCheckout_Helper_Url</url>
+                </rewrite>
+            </checkout>
+            <onepagecheckout>
+                <class>Swift_OnepageCheckout_Helper</class>
+            </onepagecheckout>
+        </helpers>
+    </global>
+    <frontend>
+        <routers>
+            <onepagecheckout>
+                <use>standard</use>
+                <args>
+                    <module>Swift_OnepageCheckout</module>
+                    <frontName>onepagecheckout</frontName>
+                </args>
+            </onepagecheckout>
+        </routers>        
+        <layout>
+             <updates>
+                  <onepagecheckout>
+                        <file>onepagecheckout.xml</file>
+                  </onepagecheckout>
+             </updates>
+        </layout>
+        <events>
+             <sales_model_service_quote_submit_after>
+                <observers>
+                    <onepagecheckout>
+                        <type>model</type>
+                        <class>onepagecheckout/observer</class>
+                        <method>removeHistoryComment</method>
+                    </onepagecheckout>
+                </observers>
+            </sales_model_service_quote_submit_after>
+            <sales_model_service_quote_submit_before>
+                <observers>
+                    <onepagecheckout>
+                        <type>model</type>
+                        <class>onepagecheckout/observer</class>
+                        <method>addHistoryComment</method>
+                    </onepagecheckout>
+                </observers>
+            </sales_model_service_quote_submit_before>
+ 
+      		<controller_action_layout_render_before_checkout_cart_index>
+                <observers>
+                    <onepagecheckout>
+                        <class>onepagecheckout/observer</class>
+                        <method>setEmptyCartTemplate</method>
+                    </onepagecheckout>
+                </observers>
+            </controller_action_layout_render_before_checkout_cart_index>
+ 
+        </events>
+    </frontend>
+
+    <adminhtml>        
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <onepagecheckout translate="title" module="onepagecheckout">
+                                            <title>One Page Checkout Section</title>
+                                        </onepagecheckout>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl> 
+    </adminhtml>
+
+    <default>
+        <onepagecheckout>
+            <general>
+                <enabled>0</enabled>
+                <title>One Page Checkout</title>
+                
+                <payment_method>paypal_express</payment_method>
+                <country>US</country>
+                <guest_checkout>1</guest_checkout>
+                <shipping_address>1</shipping_address>
+                <newsletter_checkbox>1</newsletter_checkbox>
+                <comment>0</comment>
+            </general>
+            
+        </onepagecheckout>
+    </default>
+    <admin>
+        <routers>
+            <onepagecheckout>
+                <use>admin</use>            
+                <args>
+                    <module>Swift_OnepageCheckout</module>
+                    <frontName>onepagecheckout</frontName>
+                </args>
+            </onepagecheckout>
+        </routers>
+    </admin>
+</config>

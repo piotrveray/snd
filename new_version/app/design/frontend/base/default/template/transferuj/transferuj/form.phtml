@@ -1,0 +1,11 @@
+
+<ul class="form-list" id="payment_form_transferuj" style="display: none">
+  <li>
+    <p><?php echo Mage::helper('transferuj')->__('Po wyborze Transferuj.pl, zostanie wykonane przekierowanie na bezpieczny formularz transakcyjny.') ?></p>
+    <?php if ($src = $this->getPaymentImageSrc()): ?>
+      <img src="<?php echo $src ?>"/>
+		<?php Mage::app()->getStore()->setCurrentCurrencyCode("PLN"); ?>
+    <?php endif ?>
+  </li>
+</ul>
+

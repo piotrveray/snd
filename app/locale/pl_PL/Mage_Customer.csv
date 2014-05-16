@@ -1,0 +1,163 @@
+"* Required Fields","* Pola wymagane"
+"A new password was sent","Nowe hasło zostało wysłane"
+"Account Information","Dane konta"
+"Account information was successfully saved","Zmiany w danych konta zostały zachowane."
+"Add New Address","Dodaj nowy adres"
+"Additional Address Entries","Dodatkowe adresy"
+Address,Adres
+"Address Book","Książka adresowa"
+"Address Information","Informacje o adresie"
+Addresses,Adresy
+Admin,Administrator
+"Are you sure you want to delete this address?","Czy na pewno chcesz usunąć ten adres?"
+Back,Powrót
+"Back to Login","Wróć do logowania"
+Balance,Stan
+"Billing Information","Informacje o płatności"
+"By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.","Tworząc konto w sklepie będziesz mógł szybciej składać zamówienia, śledzić statusy zamówień, korzystać z wielu adresów oraz wielu innych opcji."
+"Cannot delete customer","Nie można usunąć klienta"
+"Change Account Password","Zmień hasło do konta"
+"Change Billing Address","Zmień adres płatnika"
+"Change Password","Zmień hasło"
+"Change Shipping Address","Zmień adres dostawy"
+City,Miasto
+Company,Firma
+"Confirm New Password","Potwierdź nowe hasło"
+"Confirm Password","Potwierdź hasło"
+"Contact Information","Dane kontaktowe"
+"Continue Shopping","Kontynuuj zakupy"
+Country,Państwo
+"Create Account","Create Account"
+"Create an Account","Utwórz konto"
+"Create In","Stwórz w "
+"Create New Customer Account","Utwórz nowe konto klienta"
+"Created From","Utworzono z"
+"Current customer password is empty","Klient nie posiada hasła"
+"Current Password","Aktualne hasło"
+"Customer email already exists","Taki klient już istnieje"
+"Customer Group","Grupa Klientów"
+"Customer group already exists.","Grupa klientów już istnieje"
+Date,Data
+"Default Addresses","Domyślne adresy"
+"Default Billing Address","Domyślny adres płatnika"
+"Default Shipping Address","Domyślny adres dostawy"
+"Delete Address","Usuń adres"
+Details,Szczegóły
+"Edit Account Information","Edytuj dane konta"
+"Edit Address","Edytuj adres"
+"Edit Address Entry","Edytuj wpis"
+"Edit Newsletter Subscription","Edycja danych subskrybcji newslettera"
+"Edit Newsletters","Edycja ustawień newslettera"
+"Edit Personal Information","Edytuj dane personalne"
+Email,Email
+"Email Address","Adres email"
+"Error during customer deletion","Błąd podczas kasowania klienta"
+"Error during saving customer","Błąd podczas zapisu danych klienta"
+"Error during saving customer address","Błąd podczas zapisywania adresu klienta"
+"Error during updating the password","Błąd podczas aktualizacji hasła"
+"Error while updating the password","Błąd podczas aktualizacji hasła"
+"Ext. Price",Cena
+Fax,Fax
+"First Name",Imię
+"Forgot Your Password?","Zapomniałeś hasła ?"
+"From your My Account Dashboard you have the ability to view a snapshot of your recent account activity. Select a link below to view.","Ze strony głównej konta masz podgląd swoich ostatnich działań. Zobacz je klikając w link"
+"General Subscription","Ogólny newsletter"
+"Go to Address Book",sowej
+"Grand Total: %s","Suma całkowita: <strong>%s</strong>"
+"Hello, %s!","Witaj, %s!"
+"If you have an account with us, please log in.","Jeżeli posiadasz już konto w naszym sklepie, zaloguj się."
+"Invalid current password","Nieprawidłowe hasło"
+"Invalid customer ID","Nieproprawne ID klienta"
+"Invalid customer ID in the address data","Błędne ID klienta w danych adresowych"
+"Invalid login or password","Nieprawidłowy login lub hasło"
+"Invalid region for country specified in the address","Nieprawidłowe województwo dla wybranego kraju"
+"Items Order","Items Order"
+"Last 5 Orders","Ostatnie 5 zamówień"
+"Last Name","Last Name"
+"Last Viewed Items","Ostatnio oglądane produkty"
+Login,Logowanie
+"Login Information","Informacje o logowaniu"
+"Login or Create an Account","Zaloguj się lub załóż konto"
+"Manage Addresses","Zarządzaj adresami"
+"My Account","Moje konto"
+"My Balance","Stan konta"
+"My Orders","Moje zamówienia"
+"My Reviews","Twoje recenzje"
+"My Tags","Moje tagi"
+"My Wishlist","Lista życzeń"
+"New Address","Nowy adres"
+"New Address Entry","Nowy adres"
+"New Customers","Nowi klienci"
+"New Password","Nowe hasło"
+"New passwords do not match","Nowe hasła się nie zgadzają"
+Newsletter,Newsletter
+"Newsletter Subscriptions","Subskrybcje newslettera"
+Newsletters,Newslettery
+"Order #","Zamówienie nr."
+"Order #%s (%s)","Zamówienie nr.%s (%s)"
+"Order List...","Lista zamówień..."
+Password,Hasło
+"Password was successfully updated","Hasło zostało zaktualizowane"
+"Payment Method","Forma płatności"
+"Personal Information","Dane osobiste"
+"Please enter your email below and we\'ll send you a new password.","Wpisz poniżej adres email aby otrzymać nowe hasło"
+"Please select region, state or province","Wybierz województwo"
+Price,Cena
+"Primary Billing Address","Podstawowy adres płatnika"
+"Primary Shipping Address","Podstawowy adres płatnika"
+Product,Produkt
+Qty,Ilość
+"Registered Customers","Zarejestrowani klienci"
+Remove,Usuń
+"Retrieve your password here","Odzyskaj swoje hasło"
+Save,Zapisz
+"Save Address","Zapisz adres"
+"Save Password","Zapisz hasło"
+"Save Subscription","Zapisz dane subskrybcji"
+"Shipping Information","Informacje o wysyłce"
+"Shipping Method","Forma dostawy"
+"Shoppping Cart",Koszyk
+"Sign Up for Newsletter","Zapisz się na newsletter"
+"Sign up for our newsletter","Zapisz się na newsletter"
+State/Province,Województwo
+Status,Status
+"Street Address",Ulica
+"Street Address 2","Ulica cd."
+Submit,Wyślij
+Subscribe,Subskrybuj
+Telephone,Telefon
+"Thank you for registering with %s","Dziękujemy za rejestrację przy pomocy %s"
+"The address does not belong to this customer","Ten adres nie jest przypisany do tego klienta"
+"The address was successfully deleted","Adres został skasowany"
+"The address was successfully saved","Adres został zapisany"
+"There was an error while deleting the address","Błąd w trakcie usuwania tego adresu"
+"This email address was not found in our records","Nie ma takiego adresu email w naszej bazie"
+"This is My Primary %s Address","To jest twój podstawowy adres <strong>%s</strong>"
+"To Cart","Do koszyka"
+Total,Suma
+Update,Aktualizuj
+"Use as my default billing address","Użyj jako mojego domyślnego adresu <strong>płatności</strong>"
+"Use as my default shipping address","Użyj jako mojego podstawowego adresu <strong>dostawy</strong>"
+"Use as My Primary %s Address","Użyj adresu <strong>%s</strong> jako podstawowego"
+"View Order","Zobacz zamówienie"
+"View Order List","Zobacz zamówienia"
+Wishlist,"Lista życzeń"
+"Wrong region id by selected country","Błędne ID województwa dla wybranego kraju"
+"You are currently not subscribed to our newsletter","Nie korzystasz z naszego newslettera"
+"You are currently subscribed to 'General Subscription'.","Jesteś zapisany na ogólny newsletter w naszym sklepie."
+"You are currently subscribed to no newsletters.","Nie korzystasz z naszego newslettera."
+"You are currently subscribed to our newsletter","Już jesteś zapisany na nasz newsletter"
+"You are currently subscribed to our newsletter.","Jesteś już zapisany na newsletter w naszym sklepie."
+"You have been successfully logged out and will be redirected to our homepage in 5 seconds.","Zostałeś wylogowany i w ciągu 5 sekund zostaniesz przeniesiony na stronę główną."
+"You have no additional address entries in your address book.","Nie masz innych wpisów w swojej książce adresowej."
+"You have no additional entries in your address book.","Nie masz dodatkowych adresów w ksiażce adresowej."
+"You have no default billing address in your address book.","Nie masz podstawowego adresu płatnika w książce adresowej."
+"You have no default shipping address in your address book.","Nie masz podstawowego adresu wysyłki w książce adresowej."
+"You have no primary entries in your address book.","Nie masz jeszcze adresów podstawowych w swojej książce adresowej"
+"You have not set a primary billing address.","Nie wybrałeś podstawowego adresu płatnika."
+"You have not set a primary shipping address.","Nie ustaliłeś podstawowego adresu dostawy."
+"You have placed no orders yet.","Nie składałeś jeszcze zamówień."
+"You have placed no products yet.","Nie składałeś jeszcze zamówień."
+"You're now Logged Out","Wylogowałeś się"
+"Your account balance is: %s","Stan konta: <strong>%s</strong>"
+"Zip/Postal Code","Kod pocztowy"

@@ -1,0 +1,294 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+/* @var $this Mage_Catalog_Block_Product_Compare_Sidebar */
+?>
+<?php 
+
+$snhelper = Mage::helper('general');
+$snhelper->checkCart();
+
+$_helper = $this->helper('catalog/product_compare');
+$_items = $_helper->getItemCount() > 0 ? $_helper->getItemCollection() : null;
+
+$day_change = array(
+    'Mon' => 'PN',
+    'Tue' => 'WT',
+    'Wed' => 'SR',
+    'Thu' => 'CZ',
+    'Fri' => 'PT',
+    'Sat' => 'SO',
+    'Sun' => 'ND',
+);
+
+$daycodes = array(
+    '1' => 'PN',
+    '2' => 'WT',
+    '3' => 'ŚR',
+    '4' => 'CZ',
+    '5' => 'PT',
+    '6' => 'SO',
+    '7' => 'ND',
+);
+
+$month_change = array(
+    'Jan' => 'Styczeń',
+    'Feb' => 'Luty',
+    'Mar' => 'Marzec',
+    'Apr' => 'Kwiecień',
+    'May' => 'Maj',
+    'Jun' => 'Czerwiec',
+    'Jul' => 'Lipiec',
+    'Aug' => 'Siepień',
+    'Sep' => 'Wrzesień',
+    'Oct' => 'Pazdziernik',
+    'Nov' => 'Listopad',
+    'Dec' => 'Grudzień',
+);
+
+if(Mage::getSingleton('customer/session')->isLoggedIn()) {
+    $customer = Mage::getSingleton('customer/session')->getCustomer();
+    $abonament_expiration = $customer->getAbonamentExpiration();
+}
+else{
+    $abonament_expiration = Sniadaniowo_Customer_Model_Customer::getAbonamenExpirationForNotLogged();
+}
+
+$d = new DateTime();
+$d->setTimezone(new DateTimeZone('Europe/Warsaw'));
+$d->add(new DateInterval('P1D'));
+$_day = clone $d;
+$next_day = false;
+if(intval($d->format('G')) >= 20){
+    $next_day = true;
+}
+
+$_day->sub(new DateInterval('P'.(intval($d->format('N')) - 1).'D'));
+
+$_first_possible = clone $d;
+$_first_possible = ($next_day) ? $_first_possible->add(new DateInterval('P1D')) : $_first_possible;
+$_first_possible_tag = $snhelper->getDayDate($_first_possible);
+$_last_abonament = clone $d;
+if($abonament_expiration instanceof DateTime){
+    if($_last_abonament>$abonament_expiration){
+        $_last_abonament = clone $_day;
+    }
+    else{
+        $_last_abonament = clone $abonament_expiration;
+    }
+}
+else{
+    $abonament_expiration = intval($abonament_expiration);
+    if($abonament_expiration == 0){
+        $_last_abonament = clone $_first_possible;
+    }
+    else{
+        $_last_abonament->add(new DateInterval('P'.$abonament_expiration.'D'));
+    }
+}
+
+$_last_abonament_tag = $snhelper->getDayDate($_last_abonament);
+
+$months = array();
+$_days = 42;
+$_week = -1;
+
+while($_days-- > 0){
+    if($_day->format('N') == '1'){
+        $_week++;
+        $months[$_week] = array();
+    }
+    $months[$_week][] = $snhelper->getDayDate($_day);
+    $_day->add(new DateInterval('P1D'));
+}
+
+?>
+
+<script>
+jQuery(document).ready(function() {
+
+    //jQuery('ul.bjqs .content').hide();
+
+    jQuery('#calendar-fade').bjqs({
+
+        width     : 270,
+        automatic : false,
+        nexttext : 'następny tydzień',
+        prevtext : 'porzedni tydzień',
+        centercontrols : false,
+        showmarkers : false,
+    });
+
+    jQuery("a#show").click(function(){
+        jQuery(this).next().fadeToggle();
+    });
+    
+    jQuery(".add_abo_trigger").colorbox({
+        inline:true,
+        width:"620px",
+        opacity: 0.50,
+        height: "238px",
+        closeButton: true,
+        onOpen: function(){
+            abo_popup_active = true;
+        },
+        onCleanup: function(){
+        console.log('close');
+            dont_add_abo();
+            abo_popup_active = false;
+        }
+    });
+});
+ </script>
+ 
+ <div style='display:none'>
+    <div id="popup_form_abonament" style='background:#fff;'>
+        <div class="shape-popup-top"></div>
+            <?php echo $this->getChildHtml('addabo') ?>
+        <div class="shape-popup-bottom"></div>
+    </div>
+</div>
+ 
+  <div style='display:none'>
+    <div id="popup_remove_abo" class="general-popup" style='background:#fff;'>
+        <div class="shape-popup-top"></div>
+            <?php echo $this->getChildHtml('removeabo') ?>
+        <div class="shape-popup-bottom"></div>
+    </div>
+</div>
+ <div style="display:none;">
+     <a href="#popup_form_abonament" class="add_abo_trigger">dodaj abonament</a>
+ </div>
+ 
+ <div style="display:none;" id="day_week_empty_sample">
+    <ul class="products" data-subtotal="0,00" data-showday="0">
+                
+                                    </ul>
+<ul class="subtotals">
+    <li class="line">
+    </li>
+        <li class="topay">
+        razem do zapłaty: <span>0,00 zł</span>
+    </li>
+</ul>
+    <ul>
+        <a id="day-hide" class="day-hide" href="#hide-day" onclick="days_hide('row-{{dayweek}}');return false;">Gotowe</a>
+        <li>
+            <a id="day-clear" class="day-clear" href="#clear-day" onclick="clear_day('{{dayweek}}');return false;">opróżnij cały dzień</a>
+        </li>
+    </ul>
+ </div>
+ 
+ 
+<div class="col-right">
+    <div class="calendar-order">
+        <div id="calendar-fade" class="calendar-content">
+            <ul class="bjqs">
+            <?php 
+                for( $i = 0; $i < count($months); $i++ ){
+                ?>
+                    <li>
+                <?php
+                    for( $j = 0; $j < count($months[$i]); $j++ ){
+                        
+                        $month_name = $months[$i][$j];
+                        $day_code = $daycodes[$snhelper->getDayDateObject($month_name)->format('N')];
+                        
+                        if($months[$i][$j] == $_first_possible_tag){
+                            $_possible = true;
+                        }
+                        
+                        if($months[$i][$j] == $_last_abonament_tag){
+                            $_noabo = true;
+                            ?>
+                        <div class="row noabo noabo_sign">
+                            <span class="noabo">
+                                <img src="<?php echo $this->getSkinUrl('images/noabo.png'); ?>" alt="!" />
+                                <?php echo __('koniec abonamentu'); ?></span>
+                        </div>
+                        <?
+                        }
+
+                    if(!$_possible){
+                    ?>
+                        <div class="row">
+                            <input class="week" type="checkbox" name="weeks[]" value="" disabled="disabled"/>
+                            <label><span class="single-day-off"><?php echo $snhelper->getDayName($month_name); ?></span></label>
+                            <a id="show" href="#calendar"><?php echo $snhelper->getDayName($month_name); ?><span id="price-head"></span></a> 
+                            <div class="content-off">
+                            </div>
+                        </div>
+                    <?php
+                        }else{      
+                    ?>
+                        <div class="row active<?php if($_noabo):?> noabo<?php endif; ?>" data-daytag="<?php echo $month_name ?>">
+                            <input class="week" type="checkbox" id="c<?php echo $i.'-'.$j.'-'.$month_name ?>" name="weeks[]" value="<?php echo $month_name ?>" data-daycode="<?php echo $day_code; ?>"/>
+                            <label for="c<?php echo $i.'-'.$j.'-'.$month_name ?>"><span class="single-day"><?php echo $snhelper->getDayName($month_name); ?></span></label>
+                            <img src="<?php echo $this->getSkinUrl('images/noabo.png'); ?>" class="noabo" <?php if(!$_noabo):?>style="display:none;"<?php endif; ?> alt="!" />
+                            <a id="show" href="#calendar"><?php echo $snhelper->getDayName($month_name); ?>
+                            <span id="price-head" class="<?php echo $month_name ?>-sum sum">
+                            <?php 
+//                                for( $k = 0; $k < count($order_days); $k++ ){
+//                                    if( $order_days[$k]['data'] == $month_name ){
+//                                        if( $order_days[$k]['sum'] > 0 ){
+//                                            echo number_format($order_days[$k]['sum'], 2, ',', '');
+//                                        }
+//                                    }
+//                                }
+                            ?>
+                            </span></a> 
+                            <div id="row-<?php echo $month_name ?>" class="content">
+                            <?php 
+                            
+                            $day_week = $month_name;
+                            
+                            $dw_block = $this->getChild('dayweek');
+                            $dw_block->assign('day_week', $day_week);
+                            echo $dw_block->toHtml();
+
+                            ?>
+                            </div>
+                        </div>
+
+                    <?php
+                         }
+                    }
+                ?>
+                    <?php if($i+1 == count($months) && $_noabo == false): ?>
+                        <div class="row noabo noabo_sign" data-lastday="">
+                            <span class="noabo">
+                                <img src="<?php echo $this->getSkinUrl('images/noabo.png'); ?>" alt="!" />
+                                <?php echo __('koniec abonamentu'); ?></span>
+                        </div>
+                    <?php endif; ?>
+                    </li>
+            <?php
+                }
+            ?>
+
+            </ul>
+        </div>
+    </div>
+</div>

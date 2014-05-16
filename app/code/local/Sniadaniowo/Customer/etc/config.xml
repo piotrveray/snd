@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Sniadaniowo_Customer>
+            <version>0.0.1</version>
+        </Sniadaniowo_Customer>
+    </modules>
+    <global>
+        <fieldsets>
+            <customer_account>
+                <samples_ordered><create>1</create><update>1</update></samples_ordered>
+            </customer_account>
+        </fieldsets>
+        <models>
+            <sniadaniowo_customer>
+                <class>Sniadaniowo_Customer_Model</class>
+            </sniadaniowo_customer>
+            <customer>
+                <rewrite>
+                    <customer>Sniadaniowo_Customer_Model_Customer</customer>
+                </rewrite>
+            </customer>
+        </models>
+        <resources>
+            <sniadaniowo_customer_setup>
+                <setup>
+                    <module>Sniadaniowo_Customer</module>
+                    <class>Sniadaniowo_Customer_Model_Entity_Setup</class>
+                </setup>
+            </sniadaniowo_customer_setup>
+        </resources>
+    </global>
+</config>

@@ -1,0 +1,126 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Template for Mage_Page_Block_Html
+ */
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->getLang() ?>" lang="<?php echo $this->getLang() ?>">
+<head>
+<?php echo $this->getChildHtml('head') ?>
+
+<script>
+jQuery(document).ready(function (){
+    jQuery(".login-button").colorbox({inline:true, width:"620px", opacity: 0.50, closeButton: true});
+    jQuery(".reghister-button").colorbox({inline:true, width:"620px", height: "580px", opacity: 0.50, closeButton: true});
+
+    jQuery(".back-link").click(function(){
+        jQuery('#cboxClose').trigger('click');
+    });
+
+    jQuery(".faq ul li .content-faq").hide();
+    jQuery(".faq ul li#first .content-faq").show();
+    
+
+    jQuery(".faq ul li a").click(function(){
+        jQuery(this).next().slideToggle( "slow" );
+        if(jQuery('.text', this).text() == 'zwiń'){
+           jQuery('.text', this).text('rozwiń');
+        }else{
+           jQuery('.text', this).text('zwiń');
+        }
+
+    });
+
+});
+</script>
+
+</head>
+
+<body<?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?>>
+
+<?php echo $this->getChildHtml('after_body_start') ?>
+
+<!-- Login Form PopUp -->
+<div style='display:none'>
+    <div id="popup_form_mini_login" style='background:#fff;'>
+        <div class="shape-popup-top"></div>
+            <?php echo $this->getChildHtml('login') ?>
+        <div class="shape-popup-bottom"></div>
+    </div>
+</div>
+<!-- / End Login Form PopUp -->
+<div style='display:none'>
+    <div id="popup_form_register" style='background:#fff;'>
+        <div class="shape-popup-top"></div>
+            <?php echo $this->getChildHtml('register') ?>
+        <div class="shape-popup-bottom"></div>
+    </div>
+</div>
+<!-- Register Form PopUp -->
+
+<div style='display:none'>
+    <div id="popup_form_checkaddress" style='background:#fff;'>
+        <div class="shape-popup-top"></div>
+            <?php echo $this->getChildHtml('checkaddress') ?>
+        <div class="shape-popup-bottom"></div>
+    </div>
+</div>
+
+<div class="wrapper">
+    <?php echo $this->getChildHtml('global_notices') ?>
+    <div class="page">
+            <?php echo $this->getChildHtml('header') ?>
+
+ 
+
+        <div class="main-container-subpage">
+            
+            <div class="main">
+                    <div class="submenu">
+                        <ul id="nav"> 
+                            <li><a href="<?php echo $this->getUrl('ogolne')?>"><?php echo $this->__('W pigułce') ?></a></li>
+                            <li><a href="<?php echo $this->getUrl('zamowienie')?>"><?php echo $this->__('Zamówienie') ?></a></li>
+                            <li><a href="<?php echo $this->getUrl('dostawa')?>"><?php echo $this->__('Dostawa') ?></li>
+                            <li><a href="<?php echo $this->getUrl('platnosci')?>"><?php echo $this->__('Płatności') ?></a></li>
+                            <li><a href="<?php echo $this->getUrl('nasze-pieczywo')?>"><?php echo $this->__('Nasze Pieczywo') ?></a></li>
+                            <li><a href="<?php echo $this->getUrl('faq')?>"><?php echo $this->__('FAQ') ?></a></li>
+                        </ul>
+                    </div>
+                    <?php echo $this->getChildHtml('global_messages') ?>
+                    <?php echo $this->getChildHtml('content') ?>
+            </div>
+        </div>
+        <?php echo $this->getChildHtml('footer') ?>
+        <?php echo $this->getChildHtml('global_cookie_notice') ?>
+        <?php echo $this->getChildHtml('before_body_end') ?>
+    </div>
+</div>
+<?php echo $this->getAbsoluteFooter() ?>
+</body>
+</html>

@@ -1,0 +1,217 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+/* @var $this Mage_Catalog_Block_Product_Compare_Sidebar */
+?>
+<?php 
+$_helper = $this->helper('catalog/product_compare');
+$_items = $_helper->getItemCount() > 0 ? $_helper->getItemCollection() : null;
+
+    $months = array(
+        0 => array(
+            0 => 'PN-24-Marzec',
+            1 => 'WT-25-Marzec',
+            2 => 'SR-26-Marzec',
+            3 => 'CZ-27-Marzec',
+            4 => 'PT-28-Marzec',
+            5 => 'SO-29-Marzec',
+            6 => 'ND-30-Marzec',
+        ),
+        1 => array(
+            0 => 'PN-31-Marzec',
+            1 => 'WT-1-Kwiecien',
+            2 => 'SR-2-Kwiecien',
+            3 => 'CZ-3-Kwiecien',
+            4 => 'PT-4-Kwiecien',
+            5 => 'SO-5-Kwiecien',
+            6 => 'ND-6-Kwiecien',
+        ),
+        2 => array(
+            0 => 'PN-7-Kwiecien',
+            1 => 'WT-8-Kwiecien',
+            2 => 'SR-9-Kwiecien',
+            3 => 'CZ-10-Kwiecien',
+            4 => 'PT-11-Kwiecien',
+            5 => 'SO-12-Kwiecien',
+            6 => 'ND-13-Kwiecien',
+        ),
+        3 => array(
+            0 => 'PN-14-Kwiecien',
+            1 => 'WT-15-Kwiecien',
+            2 => 'SR-16-Kwiecien',
+            3 => 'CZ-17-Kwiecien',
+            4 => 'PT-18-Kwiecien',
+            5 => 'SO-19-Kwiecien',
+            6 => 'ND-20-Kwiecien',
+        ),
+        4 => array(
+            0 => 'PN-21-Kwiecien',
+            1 => 'WT-22-Kwiecien',
+            2 => 'SR-23-Kwiecien',
+            3 => 'CZ-24-Kwiecien',
+            4 => 'PT-25-Kwiecien',
+            5 => 'SO-26-Kwiecien',
+            6 => 'ND-27-Kwiecien',
+        ),
+        5 => array(
+            0 => 'PN-28-Kwiecien',
+            1 => 'WT-29-Kwiecien',
+            2 => 'SR-30-Kwiecien',
+            3 => 'CZ-1-Maj',
+            4 => 'PT-2-Maj',
+            5 => 'SO-3-Maj',
+            6 => 'ND-4-Maj',
+        ),
+        6 => array(
+            0 => 'PN-5-Maj',
+            1 => 'WT-6-Maj',
+            2 => 'SR-7-Maj',
+            3 => 'CZ-8-Maj',
+            4 => 'PT-9-Maj',
+            5 => 'SO-10-Maj',
+            6 => 'ND-11-Maj',
+        ),
+        7 => array(
+            0 => 'PN-12-Maj',
+            1 => 'WT-13-Maj',
+            2 => 'SR-14-Maj',
+            3 => 'CZ-15-Maj',
+            4 => 'PT-16-Maj',
+            5 => 'SO-17-Maj',
+            6 => 'ND-18-Maj',
+        ),
+    );
+
+
+    $order_days = Mage::getSingleton('core/session')->getWeeksCalendar();
+
+?>
+
+<script>
+jQuery(document).ready(function() {
+
+    jQuery('ul.bjqs .content').hide();
+
+    jQuery('#calendar-fade').bjqs({
+
+        width     : 270,
+        automatic : false,
+        nexttext : 'następny tydzień',
+        prevtext : 'porzedni tydzień',
+        centercontrols : false,
+        showmarkers : false,
+    });
+
+    jQuery("a#show").click(function(){
+        jQuery(this).next().fadeToggle();
+    });
+});
+ </script>
+
+<div class="col-right">
+    <div class="calendar-order">
+        <div id="calendar-fade" class="calendar-content">
+            <ul class="bjqs">
+            <?php 
+                for( $i = 0; $i < count($months); $i++ ){
+                ?>
+                    <li>
+                <?php
+                    for( $j = 0; $j < count($months[$i]); $j++ ){
+
+                    $month_arg = explode('-', $months[$i][$j] );
+
+                    if( ( $month_arg[1] < 25 && $month_arg[2] == 'Marzec' ) ){
+                    ?>
+                        <div class="row">
+                            <input class="week" type="checkbox" name="weeks[]" value="" disabled="disabled"/>
+                            <label><span class="single-day-off"><?php echo $month_arg[0] ?> | <?php echo $month_arg[1] ?> <?php echo $month_arg[2] ?></span></label>
+                            <a id="show" href="#calendar"><?php echo $month_arg[0] ?> | <?php echo $month_arg[1] ?> <?php echo $month_arg[2] ?><span id="price-head"></span></a> 
+                            <div class="content-off">
+                            </div>
+                        </div>
+                    <?php
+                        }else{      
+                    ?>
+                        <div class="row active">
+                            <input class="week" type="checkbox" id="c<?php echo $i.'-'.$j.'-'.$month_arg[1] ?>" name="weeks[]" value="<?php echo $months[$i][$j] ?>"/>
+                            <label for="c<?php echo $i.'-'.$j.'-'.$month_arg[1] ?>"><span class="single-day"><?php echo $month_arg[0] ?> | <?php echo $month_arg[1] ?> <?php echo $month_arg[2] ?></span></label>
+                            <a id="show" href="#calendar"><?php echo $month_arg[0] ?> | <?php echo $month_arg[1] ?> <?php echo $month_arg[2] ?>
+                            <span id="price-head" class="<?php echo $months[$i][$j] ?>-sum">
+                            <?php 
+                                for( $k = 0; $k < count($order_days); $k++ ){
+                                    if( $order_days[$k]['data'] == $months[$i][$j] ){
+                                        if( $order_days[$k]['sum'] > 0 ){
+                                            echo number_format($order_days[$k]['sum'], 2, ',', '');
+                                        }
+                                    }
+                                }
+                            ?>
+                            </span></a> 
+                            <div id="<?php echo $months[$i][$j] ?>" class="content">
+                            <?php 
+
+                                for( $k = 0; $k < count($order_days); $k++ ){
+                                   
+                                    if( $order_days[$k]['data'] == $months[$i][$j] ){
+                                        echo '<ul class="products">';
+                                            for( $m = 0; $m < count($order_days[$k]['product'] ); $m++ ){
+
+                                                if( $order_days[$k]['sum'] > 0 ){
+                                                    echo '<li id="'. $order_days[$k]['product'][$m]['id'] .'">';
+                                                    echo '<div class="'. $order_days[$k]['data'] .'-'. $order_days[$k]['product'][$m]['id'] .'-delete"></div>';
+                                                    echo '<div class="name"><span>'. $order_days[$k]['product'][$m]['name'] .'</span></div>';
+
+
+echo '<a onclick="remove_product(\''. $order_days[$k]['product'][$m]['product_url'].'\',\''.$order_days[$k]['data'] .'\',\''. $order_days[$k]['product'][$m]['price'] .'\',\''. $order_days[$k]['product'][$m]['id'] .'\',\''. $order_days[$k]['sum'] .'\',\''. 1 .'\');" href="#remove"><img src="'. $this->getSkinUrl('images/calendar-button-remove.png') .'" /></a><div class="price"><span>'. $order_days[$k]['product'][$m]['count'] .'x</span></div><a onclick="add_product(\''. $order_days[$k]['product'][$m]['product_url'].'\',\''.$order_days[$k]['data'] .'\');" href="#add"><img src="'. $this->getSkinUrl('images/calendar-button-add.png') .'" /></a>';
+echo '<div class="count"><span>'. number_format($order_days[$k]['product'][$m]['price'], 2, ',', '') .' zł</span></div><a onclick="remove_product(\''. $order_days[$k]['product'][$m]['product_url'].'\',\''.$order_days[$k]['data'] .'\',\''. $order_days[$k]['product'][$m]['price'] .'\',\''. $order_days[$k]['product'][$m]['id'] .'\',\''. $order_days[$k]['sum'] .'\',\''. $order_days[$k]['product'][$m]['count'] .'\');" href="#delete"><img src="'. $this->getSkinUrl('images/calendar-button-delete.png') .'" /></a>';
+                                                    echo '</li>';
+                                                }
+                                            }
+                                        echo '</ul>';
+                                        echo '<ul>';
+                                            echo '<a id="day-hide" href="#hide-day" onclick="days_hide(\''.$order_days[$k]['data'] .'\');">Gotowe</a>';
+                                            echo '<li><a id="day-clear" href="#clear-day" onclick="days_clear(\''. $order_days[$k]['data'] .'\');">opróżnij cały dzień</a></li>';
+                                        echo '</ul>';
+
+                                    }
+                                }
+                            ?>
+                            </div>
+                        </div>
+
+                    <?php
+                         }
+                    }
+                ?>
+                    </li>
+            <?php
+                }
+            ?>
+
+            </ul>
+        </div>
+    </div>
+</div>

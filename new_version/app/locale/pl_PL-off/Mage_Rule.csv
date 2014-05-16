@@ -1,0 +1,24 @@
+ALL,WSZYSTKIE
+ANY,KAŻDY
+by,o
+contains,zawiera
+"Description: %s","Opis: %s"
+"does not contain","nie zawiera"
+"equals or greater than","równy lub większy niż"
+"equals or less than","równy lub mniejszy niż"
+"Expire at: %s","Wygasa: %s"
+FALSE,FAŁSZ
+"greater than","większy niż"
+"If %s of these conditions are %s:","Jeżeli %s warunków jest %s:"
+is,jest
+"is not","nie jest"
+"is not one of","nie jest jednym z "
+"is one of","jest jednym z"
+"less than","mniej niż"
+"Name: %s","Nazwa: %s"
+"Perform following actions","Wykonuj następujące czynności"
+"Please choose a condition to add...","Wybierz warunek do dodania..."
+"Please choose an action to add...","Wybierz akcję do dodania..."
+"Start at: %s","Rozpoczęcie: %s"
+to,do
+TRUE,PRAWDA

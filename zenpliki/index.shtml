@@ -1,0 +1,38 @@
+<html>
+<head>
+	<title>
+	<!--#echo var="SERVER_NAME" -->
+	</title>
+<link rel="stylesheet" href="http://zenbox.pl/default_webpage/style.css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+<div id="container">
+  	<div class="info underconstruction">
+    	<h2>Witaj na stronie <b><!--#echo var="SERVER_NAME" --></b>!</h2>
+        <p>Aby zmienić wyświetlaną stronę, wgraj swoje pliki do folderu <!--#echo var="DOCUMENT_ROOT" --> usuwając wcześniej plik index.shtml. </p>
+        <p>Data utworzenia: <!--#echo var="LAST_MODIFIED" --></p>
+    </div>
+
+    <p>Nie jesteś naszym Klientem? <a href="http://zenbox.pl/zamow.html" target="_blank"><strong>Zobacz co możemy Ci zaoferować</strong></a> lub od razu <a href="https://panel.zenbox.pl/cart.php" target="_blank"><strong>zamów u nas testowy serwer</strong></a>.</p>
+
+<ul>
+        <li class="home">
+            <span>Strona główna</span>
+            <a href="http://zenbox.pl" target="_blank">zenbox.pl</a>
+        </li>
+        <li class="Shop">
+            <span>Zamów jedną z usług</span>
+            <a href="https://panel.zenbox.pl/cart.php" target="_blank">Złóż zamówienie</a>
+        </li>
+        <li class="help">
+            <span>Napisz jeśli masz problem</span>
+            <a href="http://pomoc.zenbox.pl" target="_blank">Dział pomocy ZB</a>
+        </li>
+
+    </ul>			
+
+</div><!-- Container -->
+</body>
+
+</html>

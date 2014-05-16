@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Sniadaniowo_Front>
+            <version>0.1.0</version>
+        </Sniadaniowo_Front>
+    </modules>
+    
+    <frontend>
+        <routers>
+            <sndfront>
+                <use>standard</use>
+                <args>
+                    <module>Sniadaniowo_Front</module>
+                    <frontName>front</frontName>
+                </args>
+            </sndfront>
+        </routers>
+    </frontend>
+    
+    <layout>
+   <updates>
+        <test>
+             <file>front.xml</file>
+         </test>
+    </updates>
+</layout>
+    
+</config>
