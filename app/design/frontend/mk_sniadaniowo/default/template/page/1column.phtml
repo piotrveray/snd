@@ -272,6 +272,12 @@ foreach($day_table as $day_week => $dt){
         return price.replace('.', ',');
     }
 </script>
+    <?php 
+
+$pp_block = $this->getLayout()->createBlock('core/template')->setTemplate('page/html/popups.phtml');
+echo $pp_block->toHtml();
+
+?>
 </body>
 </html>
 

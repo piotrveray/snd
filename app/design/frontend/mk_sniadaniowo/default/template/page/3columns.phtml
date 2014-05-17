@@ -38,11 +38,10 @@
 
 <script>
 jQuery(document).ready(function (){
-        jQuery(".login-button").colorbox({inline:true, width:"620px", opacity: 0.50, closeButton: true});
-        jQuery(".reghister-button").colorbox({inline:true, width:"620px", opacity: 0.50, height: "743px", closeButton: true});
 
         jQuery(".button-order-info").colorbox({inline:true, width:"620px", opacity: 0.50, closeButton: true});
         jQuery("#popup_check_open").colorbox({inline:true, width:"620px", opacity: 0.50, height: "348px", closeButton: true});
+        jQuery("#popup_not_available_open").colorbox({inline:true, width:"620px", opacity: 0.50, closeButton: true});
 
         jQuery(".back-link").click(function(){
             jQuery('#cboxClose').trigger('click');
@@ -89,8 +88,9 @@ $current_id = Mage::getModel('catalog/layer')->getCurrentCategory()->getId();
 
 <a id="popup_order_open" href="#popup_order_info" class="button-order-info"></a>
 <a id="popup_check_open" href="#popup_check_delivery"></a>
+<a id="popup_not_available_open" href="#popup_not_available"></a>
 <?php echo $this->getChildHtml('after_body_start') ?>
-
+<?php /*
 <!-- Login Form PopUp -->
 <div style='display:none'>
     <div id="popup_form_mini_login" style='background:#fff;'>
@@ -108,7 +108,7 @@ $current_id = Mage::getModel('catalog/layer')->getCurrentCategory()->getId();
     </div>
 </div>
 <!-- Register Form PopUp -->
-
+*/ ?>
 <div style='display:none'>
     <div id="popup_check_delivery" class="general-popup" style='background:#fff;height:310px;'>
         <div class="shape-popup-top"></div>
@@ -144,6 +144,27 @@ $current_id = Mage::getModel('catalog/layer')->getCurrentCategory()->getId();
     </div>
 </div>
 <!-- / End Info PopUp -->
+
+<!-- Not available PopUp -->
+<div style='display:none'>
+    <div id="popup_not_available" class="general-popup" style='background:#fff;'>
+        <div class="shape-popup-top"></div>
+            <div class="content">
+                <div class="page-title">
+        <h3>Produkt, który wybrałeś nie jest dostępny w niektóre z zaznaczonych przez Ciebie dni. Nie został on zatem dodany na następujące dni: <span class="failed_days"></span>.</h3>
+    </div>
+        <div>
+           
+            <div class="buttons-set">
+                <button onclick="jQuery('#popup_not_available_open').colorbox.close();return false;" type="button" title="<?php echo $this->__('Dalej') ?>" class="button snd-button" style="margin-top:0px;"><span><span><?php echo $this->__('Dalej') ?></span></span></button>
+            </div>
+        </div>
+            </div>
+        <div class="shape-popup-bottom"></div>
+    </div>
+</div>
+<!-- / Not available PopUp -->
+
 <div class="wrapper">
     <?php echo $this->getChildHtml('global_notices') ?>
     <div class="page">
@@ -232,7 +253,7 @@ $current_id = Mage::getModel('catalog/layer')->getCurrentCategory()->getId();
                }
             }
         );
-        
+        //set_days();
     });
 
     function showOptions(id){
@@ -255,27 +276,30 @@ $current_id = Mage::getModel('catalog/layer')->getCurrentCategory()->getId();
     function add_product(product_id, day_week){
         var updated_days = [];
         var day_html;
+        var failed_days = [];
         var success = true;
+        console.log(day_week);
         if(day_week == null){
             jQuery('input.week:checked').each(function(){
                 day_week = jQuery(this).val();
-                day_html = get_html('add', product_id, day_week);
-                if(day_week == false || day_week == ''){
-                    success = false;
+                var day = jQuery(this).attr('data-daycode');
+                var avail = check_availability(product_id, day);
+                console.log(avail);
+                if(avail === true){
+                    day_html = get_html('add', product_id, day_week);
                 }
-                else{
-                    updated_days[day_week] = day_html;
+                else if(avail === false){
+                    failed_days.push(jQuery(this).attr('data-dow')+' ('+jQuery(this).attr('data-dwf2')+')');
                 }
             });
+            if(failed_days.length){
+                var day_tags = failed_days.join(', ');
+                jQuery('#popup_not_available span.failed_days').text(day_tags);
+                jQuery('#popup_not_available_open').click();
+            }
         }
         else{
             day_html = get_html('add', product_id, day_week);
-            if(day_week == false || day_week == ''){
-                success = false;
-            }
-            else{
-                updated_days[day_week] = day_html;
-            }
         }
 //        if(!success){
 //            alert('Błąd podczas dodawania danych!');
@@ -375,6 +399,8 @@ $current_id = Mage::getModel('catalog/layer')->getCurrentCategory()->getId();
         jQuery('ul.bjqs div.row.active').each(function(){
             var subtotal = jQuery(this).find('ul.products').attr('data-subtotal');
             var showit = jQuery(this).find('ul.products').attr('data-showday');
+            var notempty = jQuery(this).find('ul.products').attr('data-daynotempty');
+            var has_bought = jQuery(this).find('ul.products').attr('data-hasbought');
             subtotal = (subtotal) ? parseFloat(subtotal.replace(',', '.')) : 0;
             if(showit > 0){
                 all_total += subtotal;
@@ -396,6 +422,22 @@ $current_id = Mage::getModel('catalog/layer')->getCurrentCategory()->getId();
                 jQuery(this).find('span.single-day').removeClass('checked');
                 jQuery(this).addClass('active');
             }
+            
+            if(has_bought == '1'){
+                jQuery(this).find('span.has_bought').show();
+                jQuery(this).find('span.sum').hide();
+            }else{
+                jQuery(this).find('span.has_bought').hide();
+                jQuery(this).find('span.sum').show();
+            }
+            
+            if(notempty == '1'){
+                jQuery(this).removeClass('no-products');
+            }
+            else{
+                jQuery(this).addClass('no-products');
+            }
+            
         });
         if(add_abo && abo_days.length == 0){
             jQuery('a.add_abo_trigger').trigger('click');
@@ -413,6 +455,10 @@ $current_id = Mage::getModel('catalog/layer')->getCurrentCategory()->getId();
             url:'<?php echo $this->getBaseUrl();?>checkout/cart/getaboprice',
             success: function(data){
                 jQuery('#price_total').html(data);
+                var sum_text = jQuery('#price_total').find('.price').attr('data-text');
+                if(sum_text.length){
+                    jQuery('.all-sum .sum_text').text(sum_text);
+                }
             },
             error: function(){
                 result = false;
@@ -555,7 +601,20 @@ $current_id = Mage::getModel('catalog/layer')->getCurrentCategory()->getId();
             }
         });
     }
+    
+    function check_availability(product_id, day){
+        console.log(product_id);
+        console.log(day);
+        var el = jQuery('.item_actions[data-pid="'+product_id+'"]');
+        if(el.length === 0){
+            return null;
+        }
+        var product_days = el.attr('data-days').split(';');
+        if(product_days.indexOf(day) === -1){
+            return false;
+        }
+        return true;
+    }
 </script>
-
 </body>
 </html>

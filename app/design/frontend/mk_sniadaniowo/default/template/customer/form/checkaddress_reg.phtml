@@ -1,0 +1,105 @@
+<?php
+    $_address_data = Mage::getSingleton('core/session')->getCheckAddressData();
+    if(empty($_address_data)){
+        $_address_data = array('city'=>'Warszawa', 'street'=>'', 'number'=>'');
+    }
+?>
+
+<div class="account-checkaddress form-container" style="height:100%">
+    <div class="page-title">
+        <h1><?php echo $this->__('Sprawdź czy do ciebie dostarczamy') ?></h1>
+    </div>
+    <form id="form-regcheck-address">
+        <input type="hidden" name="is_verified" value="0">
+        <div class="fieldset">
+            <ul class="form-list">
+                <li class="fields">
+                    <div class="field">
+                        <label for="regcheck_city"><?php echo $this->__('Miasto') ?></label>
+                        <div class="input-box">
+                            <input type="text" name="city" id="regcheck_city" value="<?php echo $this->escapeHtml($_address_data['city']) ?>" class="input-text" />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="regcheck_street" class="required"><?php echo $this->__('Ulica') ?></label>
+                        <div class="input-box">
+                            <input type="text" name="street" id="regcheck_street" value="<?php echo $this->escapeHtml($_address_data['street']) ?>" class="input-text" />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="regcheck_number" class="required"><?php echo $this->__('Numer domu') ?></label>
+                        <div class="input-box">
+                            <input type="text" name="number" value="<?php echo $this->escapeHtml($_address_data['number']) ?>" id="regcheck_number" class="input-text" />
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="fieldset address_notverified" style="display:none;">
+            <p class="error"><img src="<?php $this->getSkinUrl('images/sad.png'); ?>" /><?php echo $this->__('Niestety, jeszcze nie obsługujemy tej lokalizacji'); ?></p>
+        </div>
+        <div class="fieldset address_verified" style="display:none;">
+            <p class="success"><img src="<?php $this->getSkinUrl('images/happy.png'); ?>" /><?php echo $this->__('Świetnie, twoja lokalizacja jest obsługiwana'); ?></p>
+        </div>
+        <div class="buttons-set">
+            <p class="forward-link address_notverified continue_shopping" style="display:none;"><a href="#" class="forward-link"><?php echo $this->__('Kontynuuj zakupy bez wpisywania adresu') ?></a></p>
+            <button type="button" title="<?php echo $this->__('Sprawdź') ?>" class="button address_verification" id="checkaddress_but2"><span><span><?php echo $this->__('Sprawdź') ?></span></span></button>
+            <button style="display:none;width:180px;" type="button" title="<?php echo $this->__('Kontynuuj') ?>" class="button address_verified continue_shopping"><span><span><?php echo $this->__('Kontynuuj zakupy') ?></span></span></button>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    jQuery('input#regcheck_city').autocomplete({
+        source: '<?php echo Mage::getBaseUrl(); ?>front/front/autocomplete?type=city'
+    });
+    jQuery('input#regcheck_street').autocomplete({
+        source: '<?php echo Mage::getBaseUrl(); ?>front/front/autocomplete?type=street',
+        search: function( event, ui ) {
+            var city = encodeURIComponent(jQuery('input#regcheck_city').val());
+            jQuery('input#regcheck_street').autocomplete('option', 'source', '<?php echo Mage::getBaseUrl(); ?>front/front/autocomplete?type=street&city='+city);
+        }
+    });
+    jQuery('input#regcheck_number').autocomplete({
+        source: '<?php echo Mage::getBaseUrl(); ?>front/front/autocomplete?type=number',
+        search: function( event, ui ) {
+            var city = encodeURIComponent(jQuery('input#regcheck_city').val());
+            var street = encodeURIComponent(jQuery('input#regcheck_street').val());
+            jQuery('input#regcheck_number').autocomplete('option', 'source', '<?php echo Mage::getBaseUrl(); ?>front/front/autocomplete?type=number&city='+city+'&street='+street);
+        }
+    });
+    
+    jQuery('#checkaddress_but2').click(function(){
+        jQuery.ajax({
+            url: '<?php echo Mage::getBaseUrl(); ?>front/front/verifyaddress',
+            type: 'post',
+            dataType: 'json',
+            data: jQuery('#form-regcheck-address').serialize(),
+            success: function(resp){
+                if(resp.ok == 1){
+                    jQuery('.address_errorverified').hide();
+                    jQuery('.address_verification').hide();
+                    jQuery('.address_verified').show();
+                    jQuery('.address_notverified').hide();
+                    address_verified = 1;
+                }
+                else{
+                    jQuery('.address_errorverified').hide();
+                    jQuery('.address_notverified').show();
+                    jQuery('.address_verification').show();
+                    jQuery('.address_verified').hide();
+                    address_verified = 0;
+                }
+            },
+            error: function(){
+                jQuery('.address_notverified').hide();
+                jQuery('.address_errorverified').show();
+                address_verified = 0;
+            }
+        });
+        
+        jQuery('.continue_shopping').click(function(){
+            jQuery("#popup_register_trigger").click();
+        });
+    });
+</script>

@@ -36,8 +36,8 @@
 
 <script>
 jQuery(document).ready(function (){
-    jQuery(".login-button").colorbox({inline:true, width:"620px", opacity: 0.50, closeButton: true});
-    jQuery(".reghister-button").colorbox({inline:true, width:"620px", height: "580px", opacity: 0.50, closeButton: true});
+//    jQuery(".login-button").colorbox({inline:true, width:"620px", opacity: 0.50, closeButton: true});
+//    jQuery(".reghister-button").colorbox({inline:true, width:"620px", height: "580px", opacity: 0.50, closeButton: true});
 
     jQuery(".back-link").click(function(){
         jQuery('#cboxClose').trigger('click');
@@ -65,7 +65,7 @@ jQuery(document).ready(function (){
 <body<?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?>>
 
 <?php echo $this->getChildHtml('after_body_start') ?>
-
+<?php /*
 <!-- Login Form PopUp -->
 <div style='display:none'>
     <div id="popup_form_mini_login" style='background:#fff;'>
@@ -83,7 +83,7 @@ jQuery(document).ready(function (){
     </div>
 </div>
 <!-- Register Form PopUp -->
-
+*/ ?>
 <div style='display:none'>
     <div id="popup_form_checkaddress" style='background:#fff;'>
         <div class="shape-popup-top"></div>
