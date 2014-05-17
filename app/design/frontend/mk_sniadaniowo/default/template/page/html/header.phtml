@@ -81,3 +81,10 @@ jQuery(document).ready(function() {
 
     });
 </script>
+
+<?php 
+
+$pp_block = $this->getLayout()->createBlock('core/template')->setTemplate('page/html/popups.phtml');
+echo $pp_block->toHtml();
+
+?>

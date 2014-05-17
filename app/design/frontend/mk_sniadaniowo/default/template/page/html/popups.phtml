@@ -1,0 +1,58 @@
+<!-- Login Form PopUp -->
+<div style='display:none'>
+    <div id="popup_form_mini_login" style='background:#fff;'>
+        <div class="shape-popup-top"></div>
+        <?php 
+
+$lp_block = $this->getLayout()->createBlock('customer/form_login')->setTemplate('customer/form/login.phtml');
+echo $lp_block->toHtml();
+
+?>
+        <div class="shape-popup-bottom"></div>
+    </div>
+</div>
+<!-- / End Login Form PopUp -->
+<div style='display:none'>
+    <div id="popup_form_register" style='background:#fff;height:705px;'>
+        <div class="shape-popup-top"></div>
+        <?php 
+
+$rp_block = $this->getLayout()->createBlock('customer/form_register')->setTemplate('customer/form/register.phtml');
+echo $rp_block->toHtml();
+
+?>
+        <div class="shape-popup-bottom"></div>
+    </div>
+</div>
+<!-- Register Form PopUp -->
+
+<div style='display:none'>
+    <div id="popup_checkaddress_delivery" class="general-popup" style='background:#fff;height:310px;'>
+        <div class="shape-popup-top"></div>
+        <?php 
+
+$cp_block = $this->getLayout()->createBlock('core/template')->setTemplate('customer/form/checkaddress_reg.phtml');
+echo $cp_block->toHtml();
+
+?>
+        <div class="shape-popup-bottom"></div>
+    </div>
+</div>
+<a id="popup_register_trigger" href="#popup_form_register"></a>
+<a id="popup_checkaddress_open" href="#popup_checkaddress_delivery"></a>
+<script type="text/javascript">
+    jQuery(document).ready(function(){
+        jQuery(".login-button").colorbox({inline:true, width:"620px", opacity: 0.50, closeButton: true});
+        jQuery("#popup_register_trigger").colorbox({inline:true, width:"620px", opacity: 0.50, closeButton: true});
+        jQuery("#popup_checkaddress_open").colorbox({inline:true, width:"620px", opacity: 0.50, height: "348px", closeButton: true});
+        
+        jQuery('.reghister-button').click(function(){
+            if(typeof address_verified !== 'undefined' && address_verified === 1){
+                jQuery("#popup_register_trigger").click();
+            }
+            else{
+                jQuery("#popup_checkaddress_open").click();
+            }
+        });
+    });
+</script>

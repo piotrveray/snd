@@ -36,9 +36,6 @@
 <?php echo $this->getChildHtml('head') ?>
 <script>
 jQuery(document).ready(function (){
-        jQuery(".login-button").colorbox({inline:true, width:"620px", opacity: 0.50, closeButton: true});
-        jQuery(".reghister-button").colorbox({inline:true, width:"620px", opacity: 0.50, height: "743px", closeButton: true});
-
         jQuery(".back-link").click(function(){
             jQuery('#cboxClose').trigger('click');
         });
@@ -54,7 +51,7 @@ jQuery(document).ready(function (){
 <body<?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?>>
 
 <?php echo $this->getChildHtml('after_body_start') ?>
-
+<?php /*
 <!-- Login Form PopUp -->
 <div style='display:none'>
     <div id="popup_form_mini_login" style='background:#fff;'>
@@ -80,7 +77,7 @@ jQuery(document).ready(function (){
         <div class="shape-popup-bottom"></div>
     </div>
 </div>
-
+*/ ?>
 <?php 
     $checkout_days = Mage::getSingleton('core/session')->getWeeksCalendar();
 ?>
