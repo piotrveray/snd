@@ -1270,6 +1270,9 @@ ul.subpage-list{
 				background: #6aade4 url('../images/faq-shape-show.png') no-repeat 98% 50%;
 				padding: 5px 8px 5px 8px;
 			}
+                        .faq ul li#first a{
+                            background-image: url("/skin/frontend/mk_sniadaniowo/default/images/faq-shape-close.png");
+                        }
 				.faq ul li a .text{
 					font-size: 11px;
 					text-align: right;

@@ -48,11 +48,13 @@ jQuery(document).ready(function (){
     
 
     jQuery(".faq ul li a").click(function(){
-        jQuery(this).next().slideToggle( "slow" );
+        jQuery(this).next().slideToggle( "quick" );
         if(jQuery('.text', this).text() == 'zwiń'){
            jQuery('.text', this).text('rozwiń');
+           jQuery(this).css('background-image', 'url("/skin/frontend/mk_sniadaniowo/default/images/faq-shape-show.png")');
         }else{
            jQuery('.text', this).text('zwiń');
+           jQuery(this).css('background-image', 'url("/skin/frontend/mk_sniadaniowo/default/images/faq-shape-close.png")');
         }
 
     });
@@ -69,10 +71,13 @@ jQuery(document).ready(function (){
     
     .std{
         border-bottom: 1px solid #ccc;
-        margin-bottom: 20px !important;
         padding-bottom: 0px;
-        display: block;
     }
+    
+    .widget-left, .widget-right{
+        margin-top: 20px;
+    }
+    
 </style>
 
 </head>
