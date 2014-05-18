@@ -126,11 +126,25 @@ while($_days-- > 0){
 
 ?>
 
+<style>
+    
+    li.bjqs-prev a, li.bjqs-next a{
+        padding-top: 0px !important;
+        padding-bottom: 0px !important;
+    }
+    
+    ul.bjqs{
+        padding-top: 20px;
+    }
+</style>
+
 <script>
 jQuery(document).ready(function() {
 
     //jQuery('ul.bjqs .content').hide();
-
+    
+    jQuery('ul.bjqs').css('padding-top', '20px');
+    
     jQuery('#calendar-fade').bjqs({
 
         width     : 270,
@@ -202,7 +216,7 @@ jQuery(document).ready(function() {
  </div>
  
  
-<div class="col-right">
+<div class="col-right" style="padding-bottom: 0px;">
     <div class="calendar-order">
         <div id="calendar-fade" class="calendar-content">
             <ul class="bjqs">

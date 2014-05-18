@@ -118,9 +118,32 @@ else{
 <script type="text/javascript" src="<?php echo Mage::getBaseUrl('skin'); ?>frontend/mk_sniadaniowo/default/js/autocomplete/jquery-ui-autocomplete.min.js"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo Mage::getBaseUrl('skin'); ?>frontend/mk_sniadaniowo/default/js/autocomplete/jquery-ui-autocomplete.css" />
 
+
+
+<style>
+    #advice-required-entry-privacy_policy{
+        margin-bottom: 10px;
+        padding-left: 10px;
+    }
+    div.validation-advice{
+        width: 250px;
+        margin-left: 130px;
+    }
+    
+</style>
+
+
+<script type="text/javascript" src="/js/validation.js"></script>
+
 <script type="text/javascript">
     
     jQuery.noConflict();
+    
+    jQuery(document).ready(function(){
+        jQuery('input', jQuery('.input-box')).css('margin-bottom', '1px');
+        jQuery('div.validation-advice', jQuery('.input-box')).css('width', '250px');
+        jQuery('.name-lastname').css('margin-top', '6px');
+    });
     
     jQuery('input#city').autocomplete({
         source: '<?php echo Mage::getBaseUrl(); ?>front/front/autocomplete?type=city'
@@ -143,26 +166,8 @@ else{
     
     jQuery('#button_save_address').click(function(){
     
-        var is_ok = true;
-        
-        jQuery("input.required-entry").each(function(){
-            if(jQuery(this).is(":hidden") == false)
-            {
-                if(jQuery(this).val().length > 0){
-                    jQuery(this).removeClass('validation-failed');
-                }
-                else{
-                    jQuery(this).addClass('validation-failed');
-                    is_ok = false;
-                }
-            }
-        });
-        
-        if(is_ok === false)
-        {
-            alert('aaa');
+        if(jQueryValidation() === false)
             return false;
-        }
             
 		
         jQuery.ajax({

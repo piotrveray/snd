@@ -15,21 +15,25 @@
             <ul class="form-list">
                 <li class="fields">
                     <div class="field">
-                        <label for="regcheck_city"><?php echo $this->__('Miasto') ?></label>
-                        <div class="input-box">
-                            <input type="text" name="city" id="regcheck_city" value="<?php echo $this->escapeHtml($_address_data['city']) ?>" class="input-text" />
+                        <label for="regcheck_city" class="required"><em>*</em><?php echo $this->__('Miasto') ?></label>
+                        <div class="input-box" style="">
+                            <input type="text" name="city" id="regcheck_city" value="<?php echo $this->escapeHtml($_address_data['city']) ?>" class="input-text required-entry" />
                         </div>
                     </div>
+                </li>
+                <li class="fields">
                     <div class="field">
-                        <label for="regcheck_street" class="required"><?php echo $this->__('Ulica') ?></label>
+                        <label for="regcheck_street" class="required"><em>*</em><?php echo $this->__('Ulica') ?></label>
                         <div class="input-box">
-                            <input type="text" name="street" id="regcheck_street" value="<?php echo $this->escapeHtml($_address_data['street']) ?>" class="input-text" />
+                            <input type="text" name="street" id="regcheck_street" value="<?php echo $this->escapeHtml($_address_data['street']) ?>" class="input-text required-entry" />
                         </div>
                     </div>
+                </li>
+                <li class="fields">
                     <div class="field">
-                        <label for="regcheck_number" class="required"><?php echo $this->__('Numer domu') ?></label>
+                        <label for="regcheck_number" class="required"><em>*</em><?php echo $this->__('Numer domu') ?></label>
                         <div class="input-box">
-                            <input type="text" name="number" value="<?php echo $this->escapeHtml($_address_data['number']) ?>" id="regcheck_number" class="input-text" />
+                            <input type="text" name="number" value="<?php echo $this->escapeHtml($_address_data['number']) ?>" id="regcheck_number" class="input-text required-entry" />
                         </div>
                     </div>
                 </li>
@@ -49,6 +53,8 @@
     </form>
 </div>
 
+<script type="text/javascript" src="/js/validation.js"></script>
+    
 <script type="text/javascript">
     jQuery('input#regcheck_city').autocomplete({
         source: '<?php echo Mage::getBaseUrl(); ?>front/front/autocomplete?type=city'
@@ -70,6 +76,10 @@
     });
     
     jQuery('#checkaddress_but2').click(function(){
+    
+        if(jQueryValidation() === false)
+            return false;
+    
         jQuery.ajax({
             url: '<?php echo Mage::getBaseUrl(); ?>front/front/verifyaddress',
             type: 'post',

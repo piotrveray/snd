@@ -65,6 +65,8 @@ if (isset($_address_data['number'])) {
 if (strlen($this->getFormData()->getNumber())) {
     $number_value = $this->getFormData()->getNumber();
 }
+
+
 ?>
 <div class="account-create" style="height:100%">
     <div class="page-title">
@@ -76,6 +78,11 @@ if (strlen($this->getFormData()->getNumber())) {
     <?php /* Extensions placeholder */ ?>
     <?php echo $this->getChildHtml('customer.form.register.extra') ?>
     
+    <?php 
+    
+    Mage::getSingleton('customer/session')->setBeforeAuthUrl(Mage::helper('core/url')->getCurrentUrl());
+    
+    ?>
     
     <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="form-validate">
         <div class="fieldset">
@@ -313,8 +320,13 @@ if (strlen($this->getFormData()->getNumber())) {
         margin-bottom: 10px;
         padding-left: 10px;
     }
+    div.validation-advice{
+        width: 250px;
+    }
     
 </style>
+
+<script type="text/javascript" src="/js/validation.js"></script>
 
 <script type="text/javascript">
     jQuery(document).ready(function(){
@@ -343,22 +355,28 @@ if (strlen($this->getFormData()->getNumber())) {
         });
 
         jQuery('#checkaddress_but').click(function() {
-            if (jQuery('#city').val().length == '' ||
-                    jQuery('#street').val() == '' ||
-                    jQuery('#number').val() == '')
-            {
-                
-                if (jQuery('#city').val() == '')
-                    jQuery('#city').addclass('validation-failed');
-
-                if (jQuery('#street').val() == '')
-                    jQuery('#street').addclass('validation-failed');
-
-                if (jQuery('#number').val() == '')
-                    jQuery('#number').addclass('validation-failed');
-            }
-            else
-            {
+        
+        
+        if(jQueryValidation() === false)
+            return false;
+        
+        
+//            if (jQuery('#city').val().length == '' ||
+//                    jQuery('#street').val() == '' ||
+//                    jQuery('#number').val() == '')
+//            {
+//                
+//                if (jQuery('#city').val() == '')
+//                    jQuery('#city').addclass('validation-failed');
+//
+//                if (jQuery('#street').val() == '')
+//                    jQuery('#street').addclass('validation-failed');
+//
+//                if (jQuery('#number').val() == '')
+//                    jQuery('#number').addclass('validation-failed');
+//            }
+//            else
+//            {
                 
                 console.log('csd');
                 jQuery.ajax({
@@ -385,6 +403,6 @@ if (strlen($this->getFormData()->getNumber())) {
                         jQuery('.address_errorverified').show();
                     }
                 });
-            }
+            //}
         });
 </script>
