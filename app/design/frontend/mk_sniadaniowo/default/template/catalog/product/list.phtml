@@ -85,9 +85,6 @@ foreach($session->getQuote()->getAllItems() as $item)
             <li class="item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>">
                 <a class='iframe' href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(135); ?>" width="135" height="135" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" /></a>
                 <h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></a>
-                    <p>
-                        <?php echo $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description') ?>
-                    </p>
                 </h2>
 
                 <?php if($_product->getRatingSummary()): ?>
@@ -96,21 +93,19 @@ foreach($session->getQuote()->getAllItems() as $item)
                 <?php echo $this->getPriceHtml($_product, true) ?>
                 <div class="attributes">
                 <?php 
-
-                $attribute = $_product->getResource()->getAttribute("days_week"); $af = $attribute->getFrontend(); 
+                $_product->load('days_week');
+                $attribute = $_product->getResource()->getAttribute("days_week");
+                $af = $attribute->getFrontend(); 
                 $selectOptions = $af->getSelectOptions();
-                $data_days = array();
+                $data_days = $_product->getAttributeText('days_week');
 
-                    foreach($selectOptions as $value) {
-                        echo '<span>'. $value['label'] .'</span>';
-                        if(strlen($value['label'])){
-                            $data_days[] = $value['label'];
-                        }
+                    foreach($data_days as $value) {
+                        echo '<span>'. $value .'</span>';
                     }  
                 ?>
                 </div>
 
-                <div class="actions item_actions" data-days="<?php echo implode(';',$data_days); ?>">
+                <div class="actions item_actions" data-days="<?php echo implode(';',$data_days); ?>" data-pid="<?php echo $_product->getId(); ?>">
                     <?php if($_product->isSaleable()): ?>
                     <?php if ( !($_product->getTypeInstance(true)->hasRequiredOptions($_product) || $_product->isGrouped()) ) { ?>
                         <p><button type="button" title="<?php echo $this->__('Dodaj') ?>" class="button btn-cart" onclick="add_product('<?php echo $_product->getId()?>', null); show_loader(this); return false;"><span><span><?php echo $this->__('Dodaj') ?></span></span></button></p>

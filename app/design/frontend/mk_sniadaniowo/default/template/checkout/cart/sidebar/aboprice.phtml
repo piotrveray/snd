@@ -31,14 +31,21 @@ if(Mage::getSingleton('customer/session')->isLoggedIn()) {
     $overpayment = $customer->getOverpay();
     $subtotal -= $overpayment;
 }
+
+$sum_text = $this->__('do zapłaty').':';
+
 if($subtotal < 0 ){
-    $subtotal = 0;
+    $sum_text = $this->__('nadpłata').':';
+    $subtotal = -$subtotal;
+}
+else if($subtotal == 0){
+    $sum_text = $this->__('suma zamówienia').':';
 }
 
 ?>
 
 <strong>
-    <span class="price">
+    <span class="price" data-text="<?php echo $sum_text; ?>">
     <?php echo number_format($subtotal, 2, ',', ''); ?> zł
     <span>
 </strong>

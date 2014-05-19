@@ -13,6 +13,7 @@ if(Mage::getSingleton('customer/session')->isLoggedIn()) {
 //    Zend_Debug::dump(get_class($cart1));
 //    Zend_Debug::dump(get_class($cart2));
     $_day_subtotal = 0;
+    $has_items = false;
     foreach($cart->getQuote()->getAllItems() as $item){
         $_item_day_week_ob = $item->getOptionByCode('day_week');
         if(is_object($_item_day_week_ob)){
@@ -22,17 +23,20 @@ if(Mage::getSingleton('customer/session')->isLoggedIn()) {
             $_item_day_week = 'no day';
         }
         if($_item_day_week == $day_week){
+            $has_items = true;
             $_day_subtotal += $item->getProduct()->getPrice()*$item->getQty();
         }
     }
-    
+    $products_subtotal = $_day_subtotal;
     $_day_subtotal -= $overpayment;
     if($_day_subtotal < 0) $_day_subtotal = 0;
     
     $show_day = ($overpayment > 0 || $_day_subtotal > 0) ? '1' : '0';
+    $has_something = ((isset($bought_products[$day_week]) && count($bought_products[$day_week]) > 0) || $has_items) ? '1' : '0';
+    $has_bought = (isset($bought_products[$day_week]) && count($bought_products[$day_week]) > 0) ? '1' : '0';
 ?>
 
-    <ul class="products" data-subtotal="<?php echo number_format($_day_subtotal, 2, ',', ''); ?>" data-showday="<?php echo $show_day; ?>">
+    <ul class="products" data-subtotal="<?php echo number_format($_day_subtotal, 2, ',', ''); ?>" data-showday="<?php echo $show_day; ?>" data-daynotempty="<?php echo $has_something; ?>" data-hasbought="<?php echo $has_bought; ?>">
         <?php if(isset($bought_products[$day_week])): ?>
             <?php foreach($bought_products[$day_week]['items'] as $bitem):?>
                 <?php $bi = $bitem['data']; ?>
@@ -95,6 +99,7 @@ if(Mage::getSingleton('customer/session')->isLoggedIn()) {
         <?php endforeach; ?>
     </ul>
 <ul class="subtotals">
+    <?php if($overpayment > 0 || $products_subtotal > 0): ?>
     <li class="line">
     </li>
     <?php if($overpayment > 0): ?>
@@ -102,9 +107,15 @@ if(Mage::getSingleton('customer/session')->isLoggedIn()) {
         nadpłata za dzień: <span><?php echo number_format($overpayment, 2, ',', ''); ?> zł</span>
     </li>
     <?php endif; ?>
+    <?php if($products_subtotal > 0): ?>
+    <li class="topay">
+        zamówiono na kwotę: <span><?php echo number_format($products_subtotal, 2, ',', ''); ?> zł</span>
+    </li>
+    <?php endif; ?>
     <li class="topay">
         razem do zapłaty: <span><?php echo number_format($_day_subtotal, 2, ',', ''); ?> zł</span>
     </li>
+    <?php endif; ?>
 </ul>
     <ul>
         <a id="day-hide" class="day-hide" href="#hide-day" onclick="days_hide('row-<?php echo $day_week; ?>');return false;">Gotowe</a>

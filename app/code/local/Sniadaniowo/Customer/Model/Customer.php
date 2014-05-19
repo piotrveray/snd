@@ -71,6 +71,91 @@ class Sniadaniowo_Customer_Model_Customer extends Mage_Customer_Model_Customer {
         return $result;
     }
     
+    public function getAbonamentPeriod(){
+        $cart = Mage::getSingleton('checkout/cart');
+        $abos = 0;
+        $snhelper = Mage::helper('general');
+        $snhelper->checkCart();
+        foreach($cart->getQuote()->getAllItems() as $item){
+            if($item->getProduct()->getSKU() == 'MK_AB'){
+                $abos+=$item->getQty();
+            }
+        }
+        $_expires = $this->getData('abonament_expires');
+        $_expires_date = $snhelper->getDayDateObject($_expires, true);
+        if($_expires == null || $_expires_date === false){
+            $dwa = array();
+            foreach($cart->getQuote()->getAllItems() as $item){
+                $idwo = $item->getOptionByCode('day_week');
+                if(is_object($idwo)){
+                    $idw = $idwo->getValue();
+                    if(array_search($idw, $dwa) === false){
+                        $dwa[] = $idw;
+                    }
+                }
+            }
+            if(count($dwa)){
+                foreach($dwa as &$di){
+                    $di = $snhelper->getDayDateObject($di);
+                }
+                sort($dwa);
+                $first_day = $dwa[0];
+            }
+        }
+        else if(is_object($_expires_date)){
+            $first_day = $_expires_date;
+        }
+        if(empty($first_day)){
+            $first_day = new DateTime();
+            $first_day->add(new DateInterval('P1D'));
+        }
+        $first_day->add(new DateInterval('P'.$this->getLeftFreeDays().'D'));
+        $last_day = clone $first_day;
+        $last_day->add(new DateInterval('P'.(($abos*30)).'D')); //todo  dodanie faktycznej ilosci dni
+        return ''.$first_day->format('d.m.y').' - '.$last_day->format('d.m.y').'';
+    }
+    
+    public static function getAbonamentPeriodForNotLogged(){
+        $cart = Mage::getSingleton('checkout/cart');
+        $abos = 0;
+        $snhelper = Mage::helper('general');
+        $snhelper->checkCart();
+        foreach($cart->getQuote()->getAllItems() as $item){
+            if($item->getProduct()->getSKU() == 'MK_AB'){
+                $abos+=$item->getQty();
+            }
+        }
+        $dwa = array();
+        foreach($cart->getQuote()->getAllItems() as $item){
+            $idwo = $item->getOption('day_week');
+            if(is_object($idwo)){
+                $idw = $idwo->getValue();
+                if(array_search($idw, $dwa) !== false){
+                    $dwa[] = $idw;
+                }
+            }
+        }
+        if(count($dwa)){
+            foreach($dwa as &$di){
+                $di = $snhelper->getDayDateObject($di);
+            }
+            sort($dwa);
+            $first_day = $dwa[0];
+        }
+        if(empty($first_day)){
+            $first_day = new DateTime();
+            $first_day->add(new DateInterval('P1D'));
+        }
+        $first_day->add(new DateInterval('P7D'));
+        $last_day = clone $first_day;
+        $last_day->add(new DateInterval('P'.(($abos*30)+1+7).'D')); //todo sprawdzenie czy przed 20
+        return ''.$first_day->format('d.m.y').' - '.$last_day->format('d.m.y').'';
+    }
+    
+    public function getLeftFreeDays(){
+        return 7; //todo: dorobić tu jakąs logikę
+    }
+    
     public function setAbonamentData($quote){
         //Zend_Debug::dump(get_class($quote));
     }

@@ -60,7 +60,7 @@ Load this update on every page when customer is logged in
 
     <customer_logged_in>
         <reference name="top.links">
-            <action method="addLink" translate="label title" module="customer"><label>Wyloguj sie</label><url helper="customer/getLogoutUrl"/><title>Wyloguj się</title><prepare/><urlParams/><position>100</position></action>
+            <action method="addLink" translate="label title" module="customer"><label>Wyloguj się</label><url helper="customer/getLogoutUrl"/><title>Wyloguj się</title><prepare/><urlParams/><position>100</position></action>
             <action method="addLink" translate="label title" module="customer"><label>Moje Konto</label><url helper="customer/getAccountUrl"/><title>Moje Konto</title><prepare/><urlParams/><position>10</position></action>
         </reference>
     </customer_logged_in>

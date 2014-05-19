@@ -26,6 +26,7 @@
 /* Reset ================================================================================= */
 @import url(http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300,700&subset=latin,latin-ext);
 
+/*
 @font-face {
     font-family: 'canterlight';
     src: url('../fonts/canter/canter_light-webfont.eot');
@@ -36,7 +37,13 @@
     font-weight: normal;
     font-style: normal;
 
+}*/
+@font-face {
+    font-family: 'canter';
+    src: url('../fonts/canter/canter-light.ttf');
+
 }
+
 
 * { margin:0; padding:0; }
 
@@ -559,7 +566,6 @@ tr.summary-details-excluded { font-style:italic; }
 
 		.belt-container .belt .links{
 			float: right;
-
 		}
 
 			.belt-container .belt .links li{
@@ -624,7 +630,7 @@ tr.summary-details-excluded { font-style:italic; }
 		}
 /********** < Navigation */
 #nav{
-	width: 725px;
+	width: 730px;
 	float: left;
 	margin-top: 50px;
 	margin-left: 100px;
@@ -725,6 +731,7 @@ tr.summary-details-excluded { font-style:italic; }
 		width: 695px;
 		height: 600px;
 		float: left;
+                position: relative;
 	}
 
 	.main-container-home .main-home .main-home-right{
@@ -738,32 +745,41 @@ tr.summary-details-excluded { font-style:italic; }
 		.main-container-home .main-home .content-juice{
 			width: 90px;
 			height: 45px;
-			float: left;
 		}
 
 			.main-container-home .main-home .content-milk{
 				margin-top: 270px;
-				margin-left: 85px;
+margin-left: 186px;
+position: absolute;
 			}
 			.main-container-home .main-home .content-bread{
-				margin-top: 200px;
-				margin-left: 30px;
+				top: 200px;
+left: 123px;
+position: absolute;
 			}
 
 			.main-container-home .main-home .content-juice{
 				margin-top: 115px;
-				margin-left: 40px;
+margin-left: 311px;
+position: absolute;
 			}
 
 		.main-container-home .main-home .content-info{
 			width: 110px;
-			float: left;
-			margin-top: 175px;
-			margin-left: 133px;
+                        top: 175px;
+                        left: 591px;
+                        position: absolute;
 		}
-			.main-container-home .main-home .content-info img{
-				position: relative;
-				margin-left: 35px;
+			.main-container-home .main-home .content-info a{
+                            text-indent:-1000px;
+				width:100px;
+                                height:170px;
+                                display:inline-block;
+                                background-image:url('../images/button-main-info.png');
+			}
+                        
+                        .main-container-home .main-home .content-info a:hover{
+				 background-image:url('../images/button-main-info-focus.png');
 			}
 
 	.home-right-content{
@@ -777,16 +793,19 @@ tr.summary-details-excluded { font-style:italic; }
 			text-align: center;
 		}
 			.home-right-content .home-text-header h1{
-				font-size: 18px;
-				color: #141414;
-				font-weight: 300;
-
-				margin-bottom: 0;
+				font-size: 26px;
+                                color: #141414;
+                                font-weight: normal;
+                                font-family: 'canter','Roboto Condensed',sans-serif;
+                                margin: 12px 0 0 0;
+                                line-height: 17px;
 			}
 			.home-right-content .home-text-header h2{
-				font-size: 24px;
-				color: #141414;
-				font-weight: 300;
+				font-size: 35px;
+                                color: #141414;
+                                font-weight: normal;
+                                font-family: 'canter','Roboto Condensed',sans-serif;
+                                margin: 4px 0 0 0;
 			}
 
 			.home-right-content .home-text-header h2 strong{
@@ -812,7 +831,8 @@ tr.summary-details-excluded { font-style:italic; }
 
 			.home-right-content .home-text-center ul li span{
 				font-size: 16px;
-font-weight: bolder;
+font-weight: 500;
+color:#b5b5b5;
 
 			}
 
@@ -1651,6 +1671,9 @@ ul.subpage-list{
 		.calendar-order div#calendar-fade.calendar-content ul.bjqs li.bjqs-slide .active{
 			background: #dfeef9;
 		}
+                .calendar-order div#calendar-fade.calendar-content ul.bjqs li.bjqs-slide .active.no-products{
+			background: #fff;
+		}
 		.calendar-order div#calendar-fade.calendar-content ul.bjqs li.bjqs-slide .selected{
 			background: #6aade4 url('../images/calendar-shape-active.png') no-repeat 15% 60%;
 		}
@@ -1658,6 +1681,11 @@ ul.subpage-list{
 			.calendar-order #calendar-fade.calendar-content ul.bjqs li.bjqs-slide div.selected a#show span#price-head,
 			.calendar-order #calendar-fade.calendar-content ul.bjqs li.bjqs-slide div.selected a#show{
 				color: #fff !important;
+			}
+                        
+                        .calendar-order #calendar-fade.calendar-content ul.bjqs li.bjqs-slide div.selected.no-products a#show span#price-head,
+			.calendar-order #calendar-fade.calendar-content ul.bjqs li.bjqs-slide div.selected.no-products a#show{
+				color: #6aade4 !important;
 			}
 
 
@@ -1732,6 +1760,23 @@ ul.subpage-list{
 				padding-right: 20px;
 				color: #6aade4;
 			}
+
+			.calendar-order div#calendar-fade.calendar-content ul.bjqs li.bjqs-slide div.row a span.has_bought{
+				right: 0;
+                                top: 0;
+                                color: #dedede !important;
+                                display: block;
+                                background-color: #b6b6b6;
+                                font-size: 13px !important;
+                                border: 0px solid #b6b6b6;
+                                border-radius: 3px;
+                                padding: 0px 9px 0px 6px;
+                                height: 15px;
+                                line-height: 13px;
+                                text-align: center;
+                                margin: 3px 11px 0 0;
+			}
+                        
 			.calendar-order div#calendar-fade.calendar-content ul.bjqs li.bjqs-slide .row a:hover{
 				color: #6AADE4;
 			}
@@ -1928,7 +1973,7 @@ ul.subpage-list{
 		}
 		.sum-cart .sum-content .summary .all-sum .actions button.button{
 			font-size: 21px;
-			width: 130px;
+			width: 163px;
 			height: 49px;
 			text-align: center;
 			color: #fff !important;
@@ -3868,6 +3913,10 @@ ul.subpage-list{
 .abonament-add-popup .page-title {padding:25px;border:0px;width:auto; margin:0;}
 .abonament-add-popup .buttons-set {padding:0;border:0px;text-align:center;margin-top: 22px;}
 .abonament-add-popup .buttons-set button {display: inline-block; float:none;}
+.general-popup {}
+.general-popup .page-title {padding:25px;border:0px;width:auto; margin:0;}
+.general-popup .buttons-set {padding:0;border:0px;text-align:center;margin:0 0 13px 0;}
+.general-popup .buttons-set button {display: inline-block; float:none;}
 
 /* Captcha ================================================================================ */
 .captcha-note      { clear:left; padding-top:5px; }
@@ -4114,11 +4163,13 @@ ul.subpage-list{
 
 		.footer-right img{
 			position: relative;
-			margin-top: -10px;
+			margin-top: -15px;
 			margin-left: 5px;
 		}
+                
+                .footer-right span>span {color:#141414}
 
-.footer { width:930px; margin:0 auto; padding:15px 10px 15px; }
+.footer { width:930px; margin:0 auto; padding: 18px 10px 0px; }
 .footer .store-switcher { display:inline; margin:0 5px 0 0; color:#fff; }
 .footer .store-switcher label { font-weight:bold; vertical-align:middle; }
 .footer .store-switcher select { padding:0; vertical-align:middle; }

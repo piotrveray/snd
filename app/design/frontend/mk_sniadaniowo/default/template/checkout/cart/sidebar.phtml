@@ -98,7 +98,7 @@ jQuery(document).ready(function (){
                     ?>
                 </div>
                 <div class="all-sum">
-                    <span>do zapłaty:</span>
+                    <span class="sum_text">do zapłaty:</span>
                     <span id="price_total">
                         <?php
                         $dw_block = $this->getChild('aboprice');
@@ -108,12 +108,12 @@ jQuery(document).ready(function (){
                     <?php if( $customer = Mage::getSingleton('customer/session')->isLoggedIn() ): ?>
                         <div class="actions">
                             <?php echo $this->getChildHtml('extra_actions') ?>
-                            <button type="button" title="<?php echo $this->__('Dalej') ?>" class="button" onclick="setLocation('<?php echo $this->getCheckoutUrl() ?>')"><span><span><?php echo $this->__('Dalej') ?></span></span></button>
+                            <button type="button" title="<?php echo $this->__('Potwierdź') ?>" class="button" onclick="setLocation('<?php echo $this->getCheckoutUrl() ?>')"><span><span><?php echo $this->__('Potwierdź') ?></span></span></button>
                         </div>
 
                     <?php else: ?>
                         <div class="actions">
-                            <a href="#popup_order_buy" class="button-order-buy"><?php echo $this->__('Dalej') ?></a>
+                            <a href="#popup_order_buy" class="button-order-buy"><?php echo $this->__('Potwierdź') ?></a>
                         </div>
                     <?php endif; ?>
 
