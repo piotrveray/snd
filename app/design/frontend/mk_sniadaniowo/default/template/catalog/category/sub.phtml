@@ -1,12 +1,14 @@
 <?php
 $category = Mage::getSingleton('catalog/layer')->getCurrentCategory();
 $categories = $category->getCollection()
+        ->addAttributeToSort('position', 'ASC')
         ->addAttributeToSelect(array('name', 'thumbnail'))
         ->addAttributeToSelect('all_children')
         ->addAttributeToFilter('is_active', 1);
 $cat_count = count($categories);
 if($cat_count == 0) $cat_count = 1;
-$nav_width = floor(100/$cat_count);
+$nav_width = floor(644/$cat_count);
+$last_nav_width = 644-(($cat_count-1)*$nav_width);
         
 ?>
 <!-- 
@@ -38,17 +40,13 @@ for display image on category use:
 	<?php $current_id = Mage::getModel('catalog/layer')->getCurrentCategory()->getId();  ?>
 	<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('offert_info')->toHtml(); ?>
 	<ul class="subcategories">
+            <?php $_c = 1; ?>
 	    <?php foreach ($categories as $category): ?>
-	        <li style="width:<?php echo $nav_width; ?>%;">
+	        <li style="width:<?php echo ($_c++ == $cat_count) ? $last_nav_width : $nav_width; ?>px;">
 	        	<?php if( $category->getId() != 2 ){ ?>
 		        	<?php if( $category->getId() != 14 ){ ?>
-		        		<?php if( $current_id == $category->getId() ){ ?>
-		            		<a class="subcategories-button selected" href="<?php echo $category->getUrl() ?>" onclick="return false;" data-categoryid="<?php echo $category->getId(); ?>">
-		                		<span><?php echo $category->getName() ?></span></a>
-		                <?php }else{ ?>
-		                	<a class="subcategories-button" href="<?php echo $category->getUrl() ?>" onclick="return false;" data-categoryid="<?php echo $category->getId(); ?>">
-		                		<span><?php echo $category->getName() ?></span></a>
-		                <?php } ?>
+		            		<a class="subcategories-button<?php if( $current_id == $category->getId() ): ?> selected<?php endif; ?>" href="<?php echo $category->getUrl() ?>" onclick="return false;" data-categoryid="<?php echo $category->getId(); ?>">
+		                		<span<?php if(strlen($category->getName()) > 12): ?> style="font-size:16px;<?php endif; ?>"><?php echo $category->getName() ?></span></a>
 		            <?php } ?>
 	            <?php } ?>
 	        </li>
