@@ -8,7 +8,7 @@ $categories = $category->getCollection()
 $cat_count = count($categories);
 if($cat_count == 0) $cat_count = 1;
 $nav_width = floor(644/$cat_count);
-$last_nav_width = 644-(($cat_count-1)*$nav_width);
+$last_nav_width = 644-2-(($cat_count-1)*$nav_width);
         
 ?>
 <!-- 
