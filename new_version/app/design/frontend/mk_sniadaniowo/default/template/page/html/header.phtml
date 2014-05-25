@@ -53,13 +53,13 @@
             <!-- 
             <li><a href="<?php //echo $this->getUrl('oferta')?>"><?php //echo $this->__('Oferta') ?></a></li> 
             -->
-            <li><a href="http://sniadaniowo.stronazen.pl/index.php/pieczywo-1.html">Oferta</a></li>
+            <li><a href="/index.php/pieczywo-1.html">Oferta</a></li>
             <li><a href="<?php echo $this->getUrl('ogolne')?>"><?php echo $this->__('Jak to działa?') ?></a></li>
             <li><a href="<?php echo $this->getUrl('gdzie-dostarczamy')?>"><?php echo $this->__('Gdzie dostarczamy?') ?></a></li>
             <li><a href="<?php echo $this->getUrl('kontakt')?>"><?php echo $this->__('Kontakt') ?></a></li>
             <li class="register">
                 <?php  if( $customer = Mage::getSingleton('customer/session')->isLoggedIn() ){ ?>
-                    <a href="http://sniadaniowo.stronazen.pl/index.php/pieczywo-1.html" class="order-button" >Zamów</a>
+                    <a href="/index.php/pieczywo-1.html" class="order-button" >Zamów</a>
                 <?php }else{ ?>
                     <a href="#popup_form_register" class="reghister-button" >Zarejestruj się</a>
                 <?php } ?>

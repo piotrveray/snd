@@ -48,6 +48,9 @@ jQuery(document).ready(function (){
     
 
     jQuery(".faq ul li a").click(function(){
+        if(jQuery(this).parent().attr("class") == "content-faq")
+            return;
+        
         jQuery(this).next().slideToggle( "quick" );
         if(jQuery('.text', this).text() == 'zwiń'){
            jQuery('.text', this).text('rozwiń');
@@ -78,8 +81,17 @@ jQuery(document).ready(function (){
         margin-top: 20px;
     }
     
+    .faq ul li .content-faq a{
+        background: none; 
+        color: inherit; 
+        font-size: inherit; 
+        float: none; 
+        padding: 0px; 
+        font-weight: bold;
+    }
+    
 </style>
-
+<script type="text/javascript" src="/js/global.js"></script>
 </head>
 
 <body<?php echo $this->getBodyClass()?' class="'.$this->getBodyClass().'"':'' ?>>
