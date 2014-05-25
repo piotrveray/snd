@@ -53,6 +53,16 @@ $daycodes = array(
     '7' => 'ND',
 );
 
+$daynames = array(
+    '1' => 'poniedziałek',
+    '2' => 'wtorek',
+    '3' => 'środa',
+    '4' => 'czwartek',
+    '5' => 'piątek',
+    '6' => 'sobota',
+    '7' => 'niedziela',
+);
+
 $month_change = array(
     'Jan' => 'Styczeń',
     'Feb' => 'Luty',
@@ -229,6 +239,8 @@ jQuery(document).ready(function() {
                         
                         $month_name = $months[$i][$j];
                         $day_code = $daycodes[$snhelper->getDayDateObject($month_name)->format('N')];
+                        $dow_name = $daynames[$snhelper->getDayDateObject($month_name)->format('N')];
+                        $dwf2 = $snhelper->getDayDateObject($month_name)->format('d.m.Y');
                         
                         if($months[$i][$j] == $_first_possible_tag){
                             $_possible = true;
@@ -250,29 +262,21 @@ jQuery(document).ready(function() {
                         <div class="row">
                             <input class="week" type="checkbox" name="weeks[]" value="" disabled="disabled"/>
                             <label><span class="single-day-off"><?php echo $snhelper->getDayName($month_name); ?></span></label>
-                            <a id="show" href="#calendar"><?php echo $snhelper->getDayName($month_name); ?><span id="price-head"></span></a> 
+                            <a id="show" href="#calendar" class="inactive"><?php echo $snhelper->getDayName($month_name); ?><span id="price-head"></span></a> 
                             <div class="content-off">
                             </div>
                         </div>
                     <?php
                         }else{      
                     ?>
-                        <div class="row active<?php if($_noabo):?> noabo<?php endif; ?>" data-daytag="<?php echo $month_name ?>">
-                            <input class="week" type="checkbox" id="c<?php echo $i.'-'.$j.'-'.$month_name ?>" name="weeks[]" value="<?php echo $month_name ?>" data-daycode="<?php echo $day_code; ?>"/>
+                        <div class="row active<?php if($_noabo):?> noabo<?php endif; ?>" data-daytag="<?php echo $month_name ?>" data-day="<?php echo $day_code; ?>">
+                            <input class="week" type="checkbox" id="c<?php echo $i.'-'.$j.'-'.$month_name ?>" name="weeks[]" value="<?php echo $month_name ?>" data-daycode="<?php echo $day_code; ?>"  data-dow="<?php echo $dow_name; ?>"  data-dwf2="<?php echo $dwf2; ?>" />
                             <label for="c<?php echo $i.'-'.$j.'-'.$month_name ?>"><span class="single-day"><?php echo $snhelper->getDayName($month_name); ?></span></label>
                             <img src="<?php echo $this->getSkinUrl('images/noabo.png'); ?>" class="noabo" <?php if(!$_noabo):?>style="display:none;"<?php endif; ?> alt="!" />
                             <a id="show" href="#calendar"><?php echo $snhelper->getDayName($month_name); ?>
                             <span id="price-head" class="<?php echo $month_name ?>-sum sum">
-                            <?php 
-//                                for( $k = 0; $k < count($order_days); $k++ ){
-//                                    if( $order_days[$k]['data'] == $month_name ){
-//                                        if( $order_days[$k]['sum'] > 0 ){
-//                                            echo number_format($order_days[$k]['sum'], 2, ',', '');
-//                                        }
-//                                    }
-//                                }
-                            ?>
-                            </span></a> 
+                            </span>
+                            <span class="has_bought" style="display:none;">zapłacono</span></a> 
                             <div id="row-<?php echo $month_name ?>" class="content">
                             <?php 
                             

@@ -40,12 +40,15 @@ class Sniadaniowo_General_Helper_Data extends Mage_Core_Helper_Abstract
         return $day;
     }
     
-    public function getDayDateObject($day){
+    public function getDayDateObject($day, $strict = false){
         $ob = new DateTime();
         try{
             $ob = new DateTime($day);
         }
         catch(Exception $e){
+            if($strict){
+                return false;
+            }
         }
         return $ob;
     }
@@ -54,7 +57,7 @@ class Sniadaniowo_General_Helper_Data extends Mage_Core_Helper_Abstract
         return array(
             1 => 'PN',
             2 => 'WT',
-            3 => 'SR',
+            3 => 'ŚR',
             4 => 'CZ',
             5 => 'PT',
             6 => 'SO',
@@ -64,18 +67,18 @@ class Sniadaniowo_General_Helper_Data extends Mage_Core_Helper_Abstract
     
     public function getMonthsNames(){
         return array(
-            1 => 'Styczenia',
-            2 => 'Lutego',
-            3 => 'Marca',
-            4 => 'Kwietnia',
-            5 => 'Maja',
-            6 => 'Czerwca',
-            7 => 'Lipca',
-            8 => 'Siepnia',
-            9 => 'Wrzesnia',
-            10 => 'Października',
-            11 => 'Listopada',
-            12 => 'Grudnia',
+            1 => 'styczenia',
+            2 => 'lutego',
+            3 => 'marca',
+            4 => 'kwietnia',
+            5 => 'maja',
+            6 => 'czerwca',
+            7 => 'lipca',
+            8 => 'siepnia',
+            9 => 'wrzesnia',
+            10 => 'października',
+            11 => 'listopada',
+            12 => 'grudnia',
         );
     }
     

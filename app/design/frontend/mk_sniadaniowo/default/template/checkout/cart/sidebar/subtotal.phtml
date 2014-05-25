@@ -36,10 +36,16 @@ if(Mage::getSingleton('customer/session')->isLoggedIn()) {
 if(Mage::getSingleton('customer/session')->isLoggedIn()) {
     $customer = Mage::getSingleton('customer/session')->getCustomer();
     $abonament_expiration = $customer->getAbonamentExpiration(true);
+    $abonament_freedays = $customer->getLeftFreeDays();
+    $abonament_period = $customer->getAbonamentPeriod();
 }
 else{
     $abonament_expiration = Sniadaniowo_Customer_Model_Customer::getAbonamenExpirationForNotLogged();
+    $abonament_freedays = 7;
+    $abonament_period = Sniadaniowo_Customer_Model_Customer::getAbonamentPeriodForNotLogged();
 }
+
+$abonament_paydays = $abonament_expiration - $abonament_freedays;
 ?>
                     <span>zaplanowałeś dostawę na <span id="sum-days"><?php echo $days; ?></span> dni: 
                         <strong>
@@ -48,20 +54,32 @@ else{
                     </span>
                     
                     <span>abonament dostawczy: <span id="abonament">
+                            <?php if($abonament_paydays > 0 && $abonament_freedays > 0): ?>
+                            <br>
+                            <?php endif; ?>
                             <strong>
                                 <?php if($abonament_expiration <= 0): ?>
                                 brak
                                 <?php else: ?>
-                                <?php echo $abonament_expiration; ?> dni
-                                <?php if($aboprice > 0): ?>
-                                    <?php echo number_format($aboprice, 2, ',', ''); ?> zł
-                                <?php else: ?>
-                                    gratis
-                                <?php endif; ?>
+                                    <?php if($abonament_freedays > 0): ?>
+                                        <?php echo $abonament_freedays; ?> dni gratis
+                                    <?php endif; ?>
+                                    <?php if($abonament_paydays > 0 && $abonament_freedays > 0): ?>
+                                        +
+                                    <?php endif; ?>
+                                    <?php if($abonament_paydays > 0): ?>
+                                        <?php echo $abonament_paydays; ?> dni za
+                                        <?php echo number_format($aboprice, 2, ',', ''); ?> zł
+                                    <?php endif; ?>
                                 <?php endif; ?>
                             </strong>
                         </span>
                     </span>
+<?php if($abonament_paydays > 0): ?><br>
+<span class="abo_period">
+    (<?php echo $this->__('na okres').' '.$abonament_period; ?>)
+</span>
+<?php endif; ?>
                     <?php if($aboprice > 0): ?>
 <br>
                     <span>
