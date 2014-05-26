@@ -15,6 +15,16 @@ class Sniadaniowo_General_Model_Observer {
         $customer->setAbonamentData($quote);
         $customer->saveSubstraction();
     }
+    
+    public function checkCartChanges($observer){
+        $quote=$observer->getEvent()->getQuote();
+        if(count($quote->getAllItems()) > 0){
+            Mage::getSingleton('core/session')->setCartWasNotEmpty(true);
+        }
+        else{
+            Mage::getSingleton('core/session')->setCartWasNotEmpty(false); 
+        } 
+    }
 
 }
 

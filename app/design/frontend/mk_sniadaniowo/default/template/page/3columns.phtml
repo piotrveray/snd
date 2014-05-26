@@ -70,6 +70,13 @@ jQuery(document).ready(function (){
 });
 </script>
 <?php endif; ?>
+<?php if(Mage::getSingleton('core/session')->getCartWasNotEmpty()): ?>
+<script type="text/javascript">
+jQuery(document).ready(function (){
+    jQuery('#popup_order_open').trigger('click');
+});
+</script>
+<?php endif; ?>
 <?php endif; ?>
 <script type="text/javascript" src="/js/global.js"></script>
 
