@@ -115,10 +115,11 @@ if (strlen($this->getFormData()->getNumber())) {
                     </div>
                 </li>
             </ul> 
+            <!--
             <ul class="form-list address_verified" style="display:none;">
                 <li class="fields">
                     <div class="field">
-                        <label for="apartment" class="required"><?php echo $this->__('Numer mieszkania') ?></label>
+                        <label for="apartment" class="required">c<?php echo $this->__('Numer mieszkania') ?></label>
                         <div class="input-box">
                             <input type="text" name="shipping_apartment" value="" title="<?php echo $this->__('Numer mieszkania') ?>" id="apartment" class="input-text required-entry <?php echo $this->helper('customer/address')->getAttributeValidationClass('apartment') ?>" />
                         </div>
@@ -132,6 +133,7 @@ if (strlen($this->getFormData()->getNumber())) {
                   </div>
                   </li> */ ?>
             </ul>            
+            -->
             <ul class="form-list address_verified" id="correct_address" style="display:none;">
                 <li class="fields">
                     <?php echo $this->getLayout()->createBlock('customer/widget_name')->setObject($this->getFormData())->setForceUseCustomerAttributes(true)->toHtml() ?>
