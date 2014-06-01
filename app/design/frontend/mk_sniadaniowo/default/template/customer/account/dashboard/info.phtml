@@ -32,8 +32,9 @@
             </div>
             <div class="box-content">
                 <p>
-                    <?php echo $this->escapeHtml($this->getCustomer()->getName()) ?><br />
-                    <?php echo $this->escapeHtml($this->getCustomer()->getEmail()) ?><br /><br />
+                    <?php //echo $this->escapeHtml($this->getCustomer()->getName()) ?><br />
+                    <?php echo $this->escapeHtml($this->getCustomer()->getEmail()) ?><br />
+                    hasło: *******<br /><br />
                     <a href="#popup_change_password" class="change-password" onclick="return false;"><?php echo $this->__('zmień hasło') ?></a>
                 </p>
             </div>

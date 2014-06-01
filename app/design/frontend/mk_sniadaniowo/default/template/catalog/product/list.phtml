@@ -96,6 +96,13 @@ foreach($session->getQuote()->getAllItems() as $item)
                 <?php endif; ?>
                 <?php echo $this->getPriceHtml($_product, true) ?>
                 <div class="attributes">
+                    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+                    <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+                    <script>
+                        jQuery(function() {
+                            jQuery("span").tooltip();
+                        });
+                    </script>
                 <?php 
                 $_product->load('days_week');
                 $attribute = $_product->getResource()->getAttribute("days_week");
@@ -104,7 +111,7 @@ foreach($session->getQuote()->getAllItems() as $item)
                 $data_days = $_product->getAttributeText('days_week');
 
                     foreach($data_days as $value) {
-                        echo '<span>'. $value .'</span>';
+                        echo '<span title="Dni, na które produkt jest dostępny">'. $value .'</span>';
                     }  
                 ?>
                 </div>

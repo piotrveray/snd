@@ -78,13 +78,15 @@
     
     jQuery('#checkaddress_but2').click(function(){
     
-        if(jQueryValidation() === false)
-            return false;
+        //if(jQueryValidation() === false)
+         //   return false;
     
+        //jQuery('.address_notverified .error').html("Trwa sprawdzanie danych ...");
+        
         jQuery.ajax({
             url: '<?php echo Mage::getBaseUrl(); ?>front/front/verifyaddress',
-            type: 'post',
-            dataType: 'json',
+            type: 'POST',
+            dataType: 'html',
             data: jQuery('#form-regcheck-address').serialize(),
             success: function(resp){
                 if(resp.ok == 1){
@@ -101,14 +103,15 @@
                     jQuery('.address_verified').hide();
                     address_verified = 0;
                 }
+                
             },
-            error: function(){
+            error: function(xhr, ajaxOptions, thrownError){
                 jQuery('.address_notverified').hide();
                 jQuery('.address_errorverified').show();
                 address_verified = 0;
             }
         });
-        
+
         jQuery('.continue_shopping').click(function(){
             jQuery("#popup_register_trigger").click();
         });
