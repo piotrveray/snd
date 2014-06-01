@@ -42,9 +42,9 @@ echo $cp_block->toHtml();
 <a id="popup_checkaddress_open" href="#popup_checkaddress_delivery"></a>
 <script type="text/javascript">
     jQuery(document).ready(function(){
-        jQuery(".login-button").colorbox({inline:true, width:"620px", opacity: 0.50, closeButton: true});
-        jQuery("#popup_register_trigger").colorbox({inline:true, width:"620px", opacity: 0.50, closeButton: true});
-        jQuery("#popup_checkaddress_open").colorbox({inline:true, width:"620px", opacity: 0.50, height: "348px", closeButton: true});
+        jQuery(".login-button").colorbox({inline:true, width:"620px", closeButton: true});
+        jQuery("#popup_register_trigger").colorbox({inline:true, width:"620px", closeButton: true});
+        jQuery("#popup_checkaddress_open").colorbox({inline:true, width:"620px", height: "348px", closeButton: true});
         
         jQuery('.reghister-button').click(function(){
             if(typeof address_verified !== 'undefined' && address_verified === 1){
@@ -54,5 +54,11 @@ echo $cp_block->toHtml();
                 jQuery("#popup_checkaddress_open").click();
             }
         });
+        
+//        jQuery('#city').removeAttr('disabled');
+//        jQuery('#street').removeAttr('disabled');
+//        jQuery('#number').removeAttr('disabled');
+//        jQuery('#checkaddress_but').removeAttr('disabled');
+        
     });
 </script>

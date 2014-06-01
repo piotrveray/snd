@@ -39,9 +39,9 @@
 <script>
 jQuery(document).ready(function (){
 
-        jQuery(".button-order-info").colorbox({inline:true, width:"620px", opacity: 0.50, closeButton: true});
-        jQuery("#popup_check_open").colorbox({inline:true, width:"620px", opacity: 0.50, height: "348px", closeButton: true});
-        jQuery("#popup_not_available_open").colorbox({inline:true, width:"620px", opacity: 0.50, closeButton: true});
+        jQuery(".button-order-info").colorbox({inline:true, width:"620px", closeButton: true});
+        jQuery("#popup_check_open").colorbox({inline:true, width:"620px", height: "348px", closeButton: true});
+        jQuery("#popup_not_available_open").colorbox({inline:true, width:"620px", closeButton: true});
 
         jQuery(".back-link").click(function(){
             jQuery('#cboxClose').trigger('click');
@@ -222,7 +222,7 @@ $current_id = Mage::getModel('catalog/layer')->getCurrentCategory()->getId();
 <script type="text/javascript">
     jQuery(document).ready(function(){
         
-        jQuery(".iframe").colorbox({iframe:true, width:"80%", height:"80%", opacity: 0.50 });
+        jQuery(".iframe").colorbox({iframe:true, width:"80%", height:"80%" });
             
             jQuery('input.week').change(function(){
                 if(jQuery(this).attr('checked') == 'checked'){
