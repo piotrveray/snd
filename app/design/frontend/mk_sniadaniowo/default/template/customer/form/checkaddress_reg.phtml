@@ -45,9 +45,10 @@
         <div class="fieldset address_verified" style="display:none;">
             <p class="success"><img src="<?php $this->getSkinUrl('images/happy.png'); ?>" /><?php echo $this->__('Świetnie, twoja lokalizacja jest obsługiwana'); ?></p>
         </div>
+        
         <div class="buttons-set">
             <p class="forward-link address_notverified continue_shopping" style="display:none;"><a href="#" class="forward-link"><?php echo $this->__('Kontynuuj zakupy bez wpisywania adresu') ?></a></p>
-            <button type="button" title="<?php echo $this->__('Sprawdź') ?>" class="button address_verification" id="checkaddress_but2"><span><span><?php echo $this->__('Sprawdź') ?></span></span></button>
+            <button style="margin-top: 20px;" type="button" title="<?php echo $this->__('Sprawdź') ?>" class="button address_verification" id="checkaddress_but2"><span><span><?php echo $this->__('Sprawdź') ?></span></span></button>
             <button style="display:none;width:180px;" type="button" title="<?php echo $this->__('Kontynuuj') ?>" class="button address_verified continue_shopping"><span><span><?php echo $this->__('Kontynuuj zakupy') ?></span></span></button>
         </div>
     </form>
