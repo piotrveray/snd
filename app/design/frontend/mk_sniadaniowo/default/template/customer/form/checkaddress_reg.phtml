@@ -45,9 +45,10 @@
         <div class="fieldset address_verified" style="display:none;">
             <p class="success"><img src="<?php $this->getSkinUrl('images/happy.png'); ?>" /><?php echo $this->__('Świetnie, twoja lokalizacja jest obsługiwana'); ?></p>
         </div>
-        <div class="buttons-set">
+        
+        <div class="buttons-set" style="margin-left: 80px;">
             <p class="forward-link address_notverified continue_shopping" style="display:none;"><a href="#" class="forward-link"><?php echo $this->__('Kontynuuj zakupy bez wpisywania adresu') ?></a></p>
-            <button type="button" title="<?php echo $this->__('Sprawdź') ?>" class="button address_verification" id="checkaddress_but2"><span><span><?php echo $this->__('Sprawdź') ?></span></span></button>
+            <button style="margin-top: 15px;" type="button" title="<?php echo $this->__('Sprawdź') ?>" class="button address_verification" id="checkaddress_but2"><span><span><?php echo $this->__('Sprawdź') ?></span></span></button>
             <button style="display:none;width:180px;" type="button" title="<?php echo $this->__('Kontynuuj') ?>" class="button address_verified continue_shopping"><span><span><?php echo $this->__('Kontynuuj zakupy') ?></span></span></button>
         </div>
     </form>
@@ -77,13 +78,15 @@
     
     jQuery('#checkaddress_but2').click(function(){
     
-        if(jQueryValidation() === false)
-            return false;
+        //if(jQueryValidation() === false)
+         //   return false;
     
+        //jQuery('.address_notverified .error').html("Trwa sprawdzanie danych ...");
+        
         jQuery.ajax({
             url: '<?php echo Mage::getBaseUrl(); ?>front/front/verifyaddress',
-            type: 'post',
-            dataType: 'json',
+            type: 'POST',
+            dataType: 'html',
             data: jQuery('#form-regcheck-address').serialize(),
             success: function(resp){
                 if(resp.ok == 1){
@@ -100,14 +103,15 @@
                     jQuery('.address_verified').hide();
                     address_verified = 0;
                 }
+                
             },
-            error: function(){
+            error: function(xhr, ajaxOptions, thrownError){
                 jQuery('.address_notverified').hide();
                 jQuery('.address_errorverified').show();
                 address_verified = 0;
             }
         });
-        
+
         jQuery('.continue_shopping').click(function(){
             jQuery("#popup_register_trigger").click();
         });

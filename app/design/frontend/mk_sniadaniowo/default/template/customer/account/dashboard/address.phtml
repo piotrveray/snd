@@ -45,7 +45,7 @@
         <div class="box-content">
             <div class="input-billing-checkbox">
                 <div class="row">
-                    <input class="week" id="invoice" type="checkbox" value="" />
+                    <input class="week" id="invoice" type="checkbox" value="" style="display: none;" />
                     <label for="invoice"><span id="invoice-buttons" class="single-day"></span></label>
                     <span>Chcę otrzymywać fakturę</span>
 
@@ -87,14 +87,12 @@
         jQuery(".address-change-shipping").colorbox({
             inline:true, 
             width:"620px", 
-            opacity: 0.50, 
             closeButton: true
         });
         
         jQuery(".address-change-billing").colorbox({
             inline:true, 
             width:"620px", 
-            opacity: 0.50, 
             closeButton: true
         });
 

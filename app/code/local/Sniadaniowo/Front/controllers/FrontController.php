@@ -1,7 +1,7 @@
 <?php
 
 class Sniadaniowo_Front_FrontController extends Mage_Core_Controller_Front_Action
-{
+{    
     public function indexAction()
     {
         
@@ -10,6 +10,7 @@ class Sniadaniowo_Front_FrontController extends Mage_Core_Controller_Front_Actio
     public function verifyaddressAction()
     {
         
+        return "O.K.";
         $p = $_POST;
         
         if(isset($_POST['create_shipping_address'])){
@@ -39,6 +40,8 @@ class Sniadaniowo_Front_FrontController extends Mage_Core_Controller_Front_Actio
         $number = strtolower($number);
         
         Mage::getSingleton('core/session')->setCheckAddressData($address_data);
+        
+        
         
         $csv = Mage::getBaseDir() .'/var/csv/adresy.csv';
         $adr = array();
