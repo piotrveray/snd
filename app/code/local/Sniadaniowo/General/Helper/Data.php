@@ -24,6 +24,12 @@ class Sniadaniowo_General_Helper_Data extends Mage_Core_Helper_Abstract
             }
         }
         $cart->save();
+        
+        if(Mage::getSingleton('customer/session')->isLoggedIn()) {
+            $customer = Mage::getSingleton('customer/session')->getCustomer();
+            $customer->removeUnusedOverpayment($this);
+        }
+        
     }
     
     public function getDayName($day){
@@ -82,6 +88,13 @@ class Sniadaniowo_General_Helper_Data extends Mage_Core_Helper_Abstract
         );
     }
     
+    public function getFirstPossibleOrderDay(){
+        $now = new DateTime();
+        $h = intval($now->format('G'));
+        $to_add = $h >= 20 ? 2 : 1;
+        $now->add(new DateInterval('P'.$to_add.'D'));
+        return $now;
+    }
     
 }
 

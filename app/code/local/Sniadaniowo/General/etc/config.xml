@@ -40,6 +40,15 @@
                     </customer_setabo>
                 </observers>
             </sales_order_save_after>
+            <load_customer_quote_before>
+                <observers>
+                    <customer_connect_cart>
+                        <type>singleton</type>
+                        <class>Sniadaniowo_General_Model_Observer</class>
+                        <method>checkCartChanges</method>
+                    </customer_connect_cart>
+                </observers>
+            </load_customer_quote_before>
         </events>
         <!--
         <rewrite>

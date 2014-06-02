@@ -420,7 +420,7 @@
             // create the elements for the controls
             $c_wrapper  = $('<ul class="bjqs-controls"></ul>');
             $c_fwd      = $('<li class="bjqs-next"><a href="#" data-direction="'+ vars.fwd +'">' + settings.nexttext + '</a></li>');
-            $c_prev     = $('<li class="bjqs-prev"><a href="#" data-direction="'+ vars.prev +'">' + settings.prevtext + '</a></li>');
+            $c_prev     = $('<li class="bjqs-prev inactive"><a href="#" data-direction="'+ vars.prev +'">' + settings.prevtext + '</a></li>');
 
             // bind click events
             $c_wrapper.on('click','a',function(e){
@@ -661,6 +661,13 @@
                     if(tmp_current_index) state.currentindex = tmp_current_index;
                     state.animating = false;
                     return;
+                }
+                
+                if(state.nextslide == 1){
+                    jQuery('.bjqs-prev').addClass('inactive');
+                }
+                if(state.nextslide == state.slidecount){
+                    jQuery('.bjqs-next').addClass('inactive');
                 }
 
                 // fade animation
