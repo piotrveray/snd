@@ -5,20 +5,17 @@ class Sniadaniowo_Customer_Model_Customer extends Mage_Customer_Model_Customer {
     public function getAbonamentExpiration($as_int = false){
         $_expires = $this->getData('abonament_expires');
         $_has_probation = $this->getData('abonament_probation');
-        $result = 0;
+        $snhelper = Mage::helper('general');
+        $result = $snhelper->getFirstPossibleOrderDay();
         if($_expires == null){
             if($_has_probation == 0){
-                $result = 7;
-            }
-            else{
-                $result = 0;
+                $result->add(new DateInterval('P7D'));
             }
         }
         else{
-            $result = new DateTime($_expires);
-            $now = new DateTime();
-            if($result<$now){
-                $result=$now;
+            $expires = new DateTime($_expires);
+            if($expires>$result){
+                $result=$expires;
             }
         }
         
@@ -39,7 +36,7 @@ class Sniadaniowo_Customer_Model_Customer extends Mage_Customer_Model_Customer {
             }
         }
         if($as_int && $result instanceof DateTime){
-            $diff = date_diff(new DateTime(), $result);
+            $diff = date_diff($snhelper->getFirstPossibleOrderDay(), $result);
             $result = intval($diff->format('%R%a'));
         }
         else if(!$as_int && is_int($result)){
@@ -51,6 +48,7 @@ class Sniadaniowo_Customer_Model_Customer extends Mage_Customer_Model_Customer {
     }
     
     public static function getAbonamenExpirationForNotLogged($as_int = true){
+        $snhelper = Mage::helper('general');
         $result = 7;
         $cart = Mage::getSingleton('checkout/cart');
         $abos = 0;
@@ -65,7 +63,7 @@ class Sniadaniowo_Customer_Model_Customer extends Mage_Customer_Model_Customer {
         }
         if(!$as_int && is_int($result)){
             $diff = $result;
-            $result = new DateTime();
+            $result = $snhelper->getFirstPossibleOrderDay();
             $result->add(new DateInterval('P'.$diff.'D'));
         }
         return $result;
@@ -82,36 +80,16 @@ class Sniadaniowo_Customer_Model_Customer extends Mage_Customer_Model_Customer {
             }
         }
         $_expires = $this->getData('abonament_expires');
-        $_expires_date = $snhelper->getDayDateObject($_expires, true);
-        if($_expires == null || $_expires_date === false){
-            $dwa = array();
-            foreach($cart->getQuote()->getAllItems() as $item){
-                $idwo = $item->getOptionByCode('day_week');
-                if(is_object($idwo)){
-                    $idw = $idwo->getValue();
-                    if(array_search($idw, $dwa) === false){
-                        $dwa[] = $idw;
-                    }
-                }
-            }
-            if(count($dwa)){
-                foreach($dwa as &$di){
-                    $di = $snhelper->getDayDateObject($di);
-                }
-                sort($dwa);
-                $first_day = $dwa[0];
-            }
+        $_expires_date = $snhelper->getDayDateObject($_expires);
+        $first_day = $snhelper->getFirstPossibleOrderDay();
+        if($this->getLeftFreeDays() > 0){
+            $first_day->add(new DateInterval('P'.($this->getLeftFreeDays()).'D'));
         }
-        else if(is_object($_expires_date)){
-            $first_day = $_expires_date;
+        if($_expires_date<$first_day){
+            $_expires_date = $first_day;
         }
-        if(empty($first_day)){
-            $first_day = new DateTime();
-            $first_day->add(new DateInterval('P1D'));
-        }
-        $first_day->add(new DateInterval('P'.$this->getLeftFreeDays().'D'));
         $last_day = clone $first_day;
-        $last_day->add(new DateInterval('P'.(($abos*30)).'D')); //todo  dodanie faktycznej ilosci dni
+        $last_day->add(new DateInterval('P'.(($abos*30)).'D'));
         return ''.$first_day->format('d.m.y').' - '.$last_day->format('d.m.y').'';
     }
     
@@ -125,27 +103,7 @@ class Sniadaniowo_Customer_Model_Customer extends Mage_Customer_Model_Customer {
                 $abos+=$item->getQty();
             }
         }
-        $dwa = array();
-        foreach($cart->getQuote()->getAllItems() as $item){
-            $idwo = $item->getOption('day_week');
-            if(is_object($idwo)){
-                $idw = $idwo->getValue();
-                if(array_search($idw, $dwa) !== false){
-                    $dwa[] = $idw;
-                }
-            }
-        }
-        if(count($dwa)){
-            foreach($dwa as &$di){
-                $di = $snhelper->getDayDateObject($di);
-            }
-            sort($dwa);
-            $first_day = $dwa[0];
-        }
-        if(empty($first_day)){
-            $first_day = new DateTime();
-            $first_day->add(new DateInterval('P1D'));
-        }
+        $first_day = $snhelper->getFirstPossibleOrderDay();
         $first_day->add(new DateInterval('P7D'));
         $last_day = clone $first_day;
         $last_day->add(new DateInterval('P'.(($abos*30)+1+7).'D')); //todo sprawdzenie czy przed 20
@@ -153,11 +111,121 @@ class Sniadaniowo_Customer_Model_Customer extends Mage_Customer_Model_Customer {
     }
     
     public function getLeftFreeDays(){
-        return 7; //todo: dorobić tu jakąs logikę
+        $_has_probation = $this->getData('abonament_probation');
+        if(!$_has_probation) return 7;
+        $_probation_expires_val = $this->getData('probation_expires');
+        if(!empty($_probation_expires_val)){
+            try{
+                $probation_expires = new DateTime($_probation_expires_val);
+            }
+            catch(Exception $e){
+                $probation_expires = new DateTime();
+            }
+        }
+        else{
+            $probation_expires = new DateTime();
+        }
+        
+        $diff = date_diff(new DateTime(), $probation_expires);
+        $result = intval($diff->format('%R%a'));
+        if($result < 0) $result = 0;
+        if($result > 7) $result = 7;
+        return $result;
+        
     }
     
-    public function setAbonamentData($quote){
-        //Zend_Debug::dump(get_class($quote));
+    public function setOverPayment($order){
+        if($this->isOrderInvalid($order)){
+            return false;
+        }
+        
+        $items = $order->getAllItems();
+        $customer_overpayment = floatval($this->getOverpayment());
+        foreach($items as $i){
+            $status = $i->getStatusId();
+            if($this->isStatusInvalid($status)){
+                continue;
+            }
+            $options = $i->getProductOptions();
+            if(isset($options['pending_sub']) && is_int($options['pending_sub'])){
+                $price = $i->getPrice();
+                $customer_overpayment += $price*$options['pending_sub']*-1;
+            }
+        }
+        $this->setOverpayment($customer_overpayment);
+    }
+    
+    public function setAbonamentData($order){
+        if($this->isOrderInvalid($order)){
+            return false;
+        }
+        
+        $snhelper = Mage::helper('general');
+        $first_order = $snhelper->getFirstPossibleOrderDay();
+        
+        $_expires_val = $this->getData('abonament_expires');
+        $_probation_expires_val = $this->getData('probation_expires');
+        $_has_probation = $this->getData('abonament_probation');
+        
+        if(!empty($_expires_val)){
+            try{
+                $expires = new DateTime($_expires_val);
+            }
+            catch(Exception $e){
+                $expires = new DateTime();
+            }
+        }
+        else{
+            $expires = new DateTime();
+        }
+        
+        if(!empty($_probation_expires_val)){
+            try{
+                $probation_expires = new DateTime($_probation_expires_val);
+            }
+            catch(Exception $e){
+                $probation_expires = new DateTime();
+            }
+        }
+        else{
+            $probation_expires = new DateTime();
+        }
+        
+        if($probation_expires < $first_order){
+            $probation_expires = clone $first_order;
+        }
+        
+        $items = $o->getAllItems();
+        $abo_days = 0;
+        $has_items = false;
+        
+        foreach($items as $i){
+            $product = $i->getProduct();
+            if($product->getSKU() == 'MK_AB'){
+                $abo_days += 30*$i->getQtyOrdered();
+            }
+            else{
+                $has_items = true;
+            }
+        }
+        
+        if($has_items && $_has_probation == 0){
+            $probation_expires->add(new DateInterval('P7D'));
+            $this->setData('probation_expires', $probation_expires->format('Y-m-d'));
+        }
+        
+        if($abo_days > 0){
+            if($expires < $probation_expires){
+                $expires = clone $first_order;
+            }
+            $expires->add(new DateInterval('P'.$abo_days.'D'));
+            $this->setData('abonament_expires', $expires->format('Y-m-d'));
+        }
+        
+        if($has_items || $abo_days > 0){
+            $this->setData('abonament_probation', 1);
+        }
+        
     }
     
     public function getBoughtProducts(){
@@ -393,6 +461,40 @@ class Sniadaniowo_Customer_Model_Customer extends Mage_Customer_Model_Customer {
             }
         }
         return false;
+    }
+    
+    public function removeUnusedOverpayment($snhelper){
+        if(!($snhelper instanceof Sniadaniowo_General_Helper_Data)){
+            throw new Exception('Application error - invalid helper');
+        }
+        
+        $first_day = $snhelper->getFirstPossibleOrderDay();
+        
+        $orders = Mage::getResourceModel('sales/order_collection')
+            ->addFieldToSelect('*')
+            ->addFieldToFilter('customer_id', $this->getId())
+            ->addAttributeToSort('created_at', 'DESC');
+        foreach($orders as $o){
+            $items = $o->getAllItems();
+            if($this->isOrderInvalid($o)){
+                continue;
+            }
+            foreach($items as $i){
+                $status = $i->getStatusId();
+                if($this->isStatusInvalid($status)){
+                    continue;
+                }
+                $options = $i->getProductOptions();
+                $item_dw = isset($options['info_buyReques']['day_week']) ? $options['info_buyReques']['day_week'] : null;
+                $item_day = $snhelper->getDayDateObject($item_dw);
+                if($item_day<$first_day){
+                    $options['pending_sub'] = 0;
+                    $i->setProductOptions($options);
+                    $i->save();
+                }
+            }
+        }
+        
     }
     
     public function addDiscountToQuote(){

@@ -39,6 +39,7 @@
 <script>
 jQuery(document).ready(function (){
 
+        jQuery("#popup_connect_cart_open").colorbox({inline:true, width:"620px", closeButton: true});
         jQuery(".button-order-info").colorbox({inline:true, width:"620px", closeButton: true});
         jQuery("#popup_check_open").colorbox({inline:true, width:"620px", height: "348px", closeButton: true});
         jQuery("#popup_not_available_open").colorbox({inline:true, width:"620px", closeButton: true});
@@ -70,6 +71,15 @@ jQuery(document).ready(function (){
 });
 </script>
 <?php endif; ?>
+<?php else: ?>
+<?php if(Mage::getSingleton('core/session')->getCartWasNotEmpty()): ?>
+<script type="text/javascript">
+jQuery(document).ready(function (){
+    jQuery('#popup_connect_cart_open').trigger('click');
+});
+</script>
+    <?php Mage::getSingleton('core/session')->setCartWasNotEmpty(false); ?>
+<?php endif; ?>
 <?php endif; ?>
 <script type="text/javascript" src="/js/global.js"></script>
 
@@ -91,6 +101,7 @@ $current_id = Mage::getModel('catalog/layer')->getCurrentCategory()->getId();
 <a id="popup_order_open" href="#popup_order_info" class="button-order-info"></a>
 <a id="popup_check_open" href="#popup_check_delivery"></a>
 <a id="popup_not_available_open" href="#popup_not_available"></a>
+<a id="popup_connect_cart_open" href="#popup_connect_cart"></a>
 <?php echo $this->getChildHtml('after_body_start') ?>
 <?php /*
 <!-- Login Form PopUp -->
@@ -166,6 +177,26 @@ $current_id = Mage::getModel('catalog/layer')->getCurrentCategory()->getId();
     </div>
 </div>
 <!-- / Not available PopUp -->
+
+<!-- Connect cart PopUp -->
+<div style='display:none'>
+    <div id="popup_connect_cart" class="general-popup" style='background:#fff;'>
+        <div class="shape-popup-top"></div>
+            <div class="content">
+                <div class="page-title">
+        <h3>Dokonałeś zamówienia nie będąc zalogowanym na swoje konto, Twoje nowe zamówienie zostało dodane do już istniejącego zamówienia. Możesz je obejrzeć i dokonać zmian w Podsumowaniu zamówienia.</h3>
+    </div>
+        <div>
+           
+            <div class="buttons-set">
+                <button onclick="jQuery('#popup_connect_cart_open').colorbox.close();return false;" type="button" title="<?php echo $this->__('Dalej') ?>" class="button snd-button" style="margin-top:0px;"><span><span><?php echo $this->__('Dalej') ?></span></span></button>
+            </div>
+        </div>
+            </div>
+        <div class="shape-popup-bottom"></div>
+    </div>
+</div>
+<!-- / Connect cart PopUp -->
 
 <div class="wrapper">
     <?php echo $this->getChildHtml('global_notices') ?>

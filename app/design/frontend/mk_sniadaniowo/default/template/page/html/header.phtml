@@ -59,12 +59,15 @@
             <li><a href="<?php echo $this->getUrl('ogolne')?>"><?php echo $this->__('Jak to działa?') ?></a></li>
             <li><a href="<?php echo $this->getUrl('gdzie-dostarczamy')?>"><?php echo $this->__('Gdzie dostarczamy?') ?></a></li>
             <li><a href="<?php echo $this->getUrl('kontakt')?>"><?php echo $this->__('Kontakt') ?></a></li>
-            <li class="register">
-                <?php  if( $customer = Mage::getSingleton('customer/session')->isLoggedIn() ){ ?>
+            <?php  if( $customer = Mage::getSingleton('customer/session')->isLoggedIn() ): ?>
+            <li class="register" style="margin-top:-3px;">
                     <a href="/index.php/pieczywo-1.html" class="order-button" >Zamów</a>
-                <?php }else{ ?>
+            </li>
+            <?php else: ?>
+            <li class="register">
                     <a href="#popup_form_register" class="reghister-button" >Zarejestruj się</a>
-                <?php } ?>
+            </li>
+            <?php endif; ?>
             </li>
         </ul>
 
