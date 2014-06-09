@@ -10,7 +10,6 @@ class Sniadaniowo_Front_FrontController extends Mage_Core_Controller_Front_Actio
     public function verifyaddressAction()
     {
         
-        return "O.K.";
         $p = $_POST;
         
         if(isset($_POST['create_shipping_address'])){

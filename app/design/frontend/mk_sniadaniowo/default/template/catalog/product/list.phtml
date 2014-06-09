@@ -100,7 +100,7 @@ foreach($session->getQuote()->getAllItems() as $item)
                     <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
                     <script>
                         jQuery(function() {
-                            jQuery("span").tooltip();
+                            jQuery("span.tooltip").tooltip();
                         });
                     </script>
                 <?php 
@@ -111,7 +111,7 @@ foreach($session->getQuote()->getAllItems() as $item)
                 $data_days = $_product->getAttributeText('days_week');
 
                     foreach($data_days as $value) {
-                        echo '<span title="Dni, na które produkt jest dostępny">'. $value .'</span>';
+                        echo '<span title="Dni, na które produkt jest dostępny" class="tooltip">'. $value .'</span>';
                     }  
                 ?>
                 </div>
