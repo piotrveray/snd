@@ -1,0 +1,49 @@
+<div class="grid np">
+  <div class="hor-scroll">
+    <table cellspacing="0" class="data report-table">
+        <col width="1" />
+        <col width="1" />
+        <col width="1" />
+        <?php foreach($categories as $cat): ?>
+        <col width="1" />
+        <?php endforeach; ?>
+        <thead>
+            <tr class="headings">
+                <th><?php echo $this->__('Dzień') ?></th>
+                <?php foreach($categories as $cat): ?>
+                <th><span class="nobr"><?php echo $cat->getName(); ?></span></th>
+                <?php endforeach; ?>
+                <th><span class="nobr"><?php echo $this->__('Razem') ?></span></th>
+                <th><span class="nobr"><?php echo $this->__('Akcje') ?></span></th>
+                
+            </tr>
+        </thead>
+        <?php $i=0;foreach ($list as $day_name => $day):?>
+            <?php $i++;?>
+            <tbody class="<?php echo $i%2?'even':'odd' ?>">
+                <tr>
+                    <td><?php echo $day_name; ?></td>
+                    <?php foreach($categories as $cat): ?>
+                    <td>
+                        <?php echo $this->__('Produktów'); ?>: <?php echo $day[$cat->getId()]['items']; ?>
+                        <br>
+                        <?php echo $this->__('Wartość'); ?>: <?php echo number_format($day[$cat->getId()]['sum'], 2, ',', ''); ?> zł
+                    </td>
+                    <?php endforeach; ?>
+                    <td>
+                        <?php echo $this->__('Produktów'); ?>: <?php echo $day['all_items']; ?>
+                        <br>
+                        <?php echo $this->__('Wartość'); ?>: <?php echo number_format($day['all_sum'], 2, ',', ''); ?> zł
+                    </td>
+                    <td>
+                        <a href="#"><?php echo $this->__('Podsumowanie dnia'); ?></a>
+                        <br>
+                        <a href="#"><?php echo $this->__('Szczegóły zamówień'); ?></a>
+                    </td>
+                </tr>
+            </tbody>
+        <?php endforeach; ?>
+    </table>
+  </div>
+</div>
+<br />

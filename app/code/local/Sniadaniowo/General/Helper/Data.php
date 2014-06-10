@@ -96,6 +96,29 @@ class Sniadaniowo_General_Helper_Data extends Mage_Core_Helper_Abstract
         return $now;
     }
     
+    public function getBlockedDays(){
+        $adr= array();
+        $csv = Mage::getBaseDir() .'/var/csv/dates.csv';
+        if (($handle = fopen($csv, "r")) !== FALSE) {
+            while (($data = fgetcsv($handle, 0, ";")) !== FALSE) {
+                $date = $this->getDayDateObject($data[0], true);
+                if($date === false) continue;
+                $adr[] = $date;
+            }
+            fclose($handle);
+        }
+        return $adr;
+    }
+    
+    public function isDayBlocked(array $blocked_days, DateTime $day){
+        foreach($blocked_days as $bd){
+            if($bd->format('Y-m-d') === $day->format('Y-m-d')){
+                return true;
+            }
+        }
+        return false;
+    }
+    
 }
 
 ?>

@@ -100,7 +100,7 @@ foreach($session->getQuote()->getAllItems() as $item)
                     <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
                     <script>
                         jQuery(function() {
-                            jQuery("span").tooltip();
+                            //jQuery("span").tooltip();
                         });
                     </script>
                 <?php 
@@ -118,8 +118,12 @@ foreach($session->getQuote()->getAllItems() as $item)
 
                 <div class="actions item_actions" data-days="<?php echo implode(';',$data_days); ?>" data-pid="<?php echo $_product->getId(); ?>">
                     <?php if($_product->isSaleable()): ?>
+                    
+                    <div class="no_selection_tooltip" title=""></div>
+                    <div class="not_available_tooltip" title=""></div>
+                    
                     <?php if ( !($_product->getTypeInstance(true)->hasRequiredOptions($_product) || $_product->isGrouped()) ) { ?>
-                        <p><button type="button" title="<?php echo $this->__('Dodaj') ?>" class="button btn-cart" onclick="add_product('<?php echo $_product->getId()?>', null); show_loader(this); return false;"><span><span><?php echo $this->__('Dodaj') ?></span></span></button></p>
+                        <p><button type="button" title="<?php echo $this->__('Dodaj') ?>" class="button btn-cart" onclick="show_loader(this); add_product('<?php echo $_product->getId()?>', null); return false;"><span><span><?php echo $this->__('Dodaj') ?></span></span></button></p>
                         <span class="ajax_loader" id='ajax_loader<?php echo $_product->getId()?>' style='position:relative; z-index: 9999; float: left; margin-top: -35px; margin-left: 20px; display: none;'><img src='<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif')?>'  width="20" height="20"/></span>
                     <?php } else { ?>
                             <button type="button" title="<?php echo $this->__('Dodaj') ?>" class="button btn-cart" onclick="showOptions('<?php echo $_product->getId()?>')"><span><span><?php echo $this->__('Dodaj') ?></span></span></button>

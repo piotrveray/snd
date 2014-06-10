@@ -287,6 +287,42 @@ $current_id = Mage::getModel('catalog/layer')->getCurrentCategory()->getId();
             }
         );
         //set_days();
+        
+        jQuery('.no_selection_tooltip').each(function(){
+            var el = jQuery(this);
+            jQuery(this).tooltip({
+                content:"<?php echo $this->__('Najpierw wybierz dni w kalendarzu, na które chcesz dodać produkt.'); ?>",
+                position: {
+                    at: 'center top-50',
+                    my: 'center top',
+                    collision: 'none'
+                },
+                open: function(event, ui){
+                    setTimeout(function(){
+                        el.tooltip('close');
+                        el.attr('title', '');
+                    }, 2500);
+                }
+            });
+        });
+        jQuery('.not_available_tooltip').each(function(){
+            var el = jQuery(this);
+            jQuery(this).tooltip({
+                content:"<?php echo $this->__('Ten produkt jest niedostępny w wybrany przez Ciebie dzień.'); ?>",
+                position: {
+                    at: 'center top-50',
+                    my: 'center top',
+                    collision: 'none'
+                },
+                open: function(event, ui){
+                    setTimeout(function(){
+                        el.tooltip('close');
+                        el.attr('title', '');
+                    }, 2500);
+                }
+            });
+        });
+        
     });
 
     function showOptions(id){
@@ -311,13 +347,25 @@ $current_id = Mage::getModel('catalog/layer')->getCurrentCategory()->getId();
         var day_html;
         var failed_days = [];
         var success = true;
-        console.log(day_week);
         if(day_week == null){
+            if(jQuery('input.week:checked').length == 0){
+                console.log('case1');
+                jQuery('div.item_actions[data-pid="'+product_id+'"] div.no_selection_tooltip').tooltip('enable');
+                jQuery('div.item_actions[data-pid="'+product_id+'"] div.no_selection_tooltip').tooltip('open');
+                console.log(jQuery('div.item_actions[data-pid="'+product_id+'"] div.no_selection_tooltip').tooltip('option', 'content'));
+                jQuery('.ajax_loader').hide();
+                return;
+            }
+            else if(jQuery('div.item_actions[data-pid="'+product_id+'"] .btn-cart[data-disabled="disabled"]').length === 1){
+                console.log('case2');
+                jQuery('div.item_actions[data-pid="'+product_id+'"] div.not_available_tooltip').tooltip('open');
+                jQuery('.ajax_loader').hide();
+                return;
+            }
             jQuery('input.week:checked').each(function(){
                 day_week = jQuery(this).val();
                 var day = jQuery(this).attr('data-daycode');
                 var avail = check_availability(product_id, day);
-                console.log(avail);
                 if(avail === true){
                     day_html = get_html('add', product_id, day_week);
                 }
@@ -621,14 +669,16 @@ $current_id = Mage::getModel('catalog/layer')->getCurrentCategory()->getId();
                 active_days.push(input_day);
             }
         });
-        jQuery('.btn-cart').attr('disabled', 'disabled');
+        //jQuery('.btn-cart').attr('disabled', 'disabled');
+        jQuery('.btn-cart').attr('data-disabled', 'disabled');
         jQuery('.btn-cart').removeClass('checked');
         jQuery('.btn-cart').each(function(){
             var product_days = jQuery(this).parents('.item_actions').attr('data-days').split(';');
             for(var i in product_days){
                 if(active_days.indexOf(product_days[i]) !== -1){
-                    jQuery(this).attr('disabled', false);
-                    jQuery(this).addClass('checked');;
+                    //jQuery(this).attr('disabled', false);
+                    jQuery(this).removeAttr('data-disabled');
+                    jQuery(this).addClass('checked');
                     break;
                 }
             }
@@ -636,8 +686,6 @@ $current_id = Mage::getModel('catalog/layer')->getCurrentCategory()->getId();
     }
     
     function check_availability(product_id, day){
-        console.log(product_id);
-        console.log(day);
         var el = jQuery('.item_actions[data-pid="'+product_id+'"]');
         if(el.length === 0){
             return null;

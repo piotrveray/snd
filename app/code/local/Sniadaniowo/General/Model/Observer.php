@@ -10,6 +10,7 @@ class Sniadaniowo_General_Model_Observer {
     }
     
     public function updateCustomerAfterOrder($observer){
+        return; //todo: sprawdzić działanie
         $customer = Mage::getSingleton('customer/session')->getCustomer();
         $order = $observer->getEvent()->getOrder();
         $customer->setOverPayment($order);
