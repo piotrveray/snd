@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <config>
     <modules>
-        <Sniadaniowo_Snddelivery>
+        <Sniadaniowo_Blockeddates>
             <version>0.1.0</version>
-        </Sniadaniowo_Snddelivery>
+        </Sniadaniowo_Blockeddates>
     </modules>
     
     <admin>
@@ -11,10 +11,11 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <Sniadaniowo_Snddelivery after="Mage_Adminhtml">Sniadaniowo_Snddelivery</Sniadaniowo_Snddelivery>
+                        <Sniadaniowo_Blockeddates after="Mage_Adminhtml">Sniadaniowo_Blockeddates</Sniadaniowo_Blockeddates>
                     </modules>
                 </args>
             </adminhtml>
         </routers>
     </admin>
+    
 </config>

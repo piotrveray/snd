@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Sniadaniowo_Reports>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Sniadaniowo_Reports>
+    </modules>
+</config>

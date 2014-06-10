@@ -86,10 +86,12 @@
         jQuery.ajax({
             url: '<?php echo Mage::getBaseUrl(); ?>front/front/verifyaddress',
             type: 'POST',
-            dataType: 'html',
+            dataType: 'json',
             data: jQuery('#form-regcheck-address').serialize(),
             success: function(resp){
-                if(resp.ok == 1){
+                console.log(resp);
+                console.log(resp.ok);
+                if(resp.ok == '1'){
                     jQuery('.address_errorverified').hide();
                     jQuery('.address_verification').hide();
                     jQuery('.address_verified').show();

@@ -134,6 +134,8 @@ while($_days-- > 0){
     $_day->add(new DateInterval('P1D'));
 }
 
+$blocked_days = $snhelper->getBlockedDays();
+
 ?>
 
 <style>
@@ -256,7 +258,7 @@ jQuery(document).ready(function() {
                         <?
                         }
 
-                    if(!$_possible){
+                    if(!$_possible || $snhelper->isDayBlocked($blocked_days, $snhelper->getDayDateObject($month_name))){
                     ?>
                         <div class="row">
                             <input class="week" type="checkbox" name="weeks[]" value="" disabled="disabled"/>

@@ -2,14 +2,24 @@
 <config>
     <menu>
         <sniadaniowo>
-            <title>Lista adresów</title>
+            <title>Śniadaniowo</title>
             <sort_order>1</sort_order>
             <children>
-                <example>
-                    <title>Edytuj listę</title>
-                    <sort_order>1</sort_order>
+                <reports>
+                    <title>Raporty sprzedaży</title>
+                    <sort_order>10</sort_order>
+                    <action>adminhtml/reports/index</action>
+                </reports>
+                <address_list>
+                    <title>Obsługiwane adresy</title>
+                    <sort_order>20</sort_order>
                     <action>adminhtml/addresslist/index</action>
-                </example>
+                </address_list>
+                <blocked_dates>
+                    <title>Zablokowane dni</title>
+                    <sort_order>30</sort_order>
+                    <action>adminhtml/blockeddates/index</action>
+                </blocked_dates>
             </children>
         </sniadaniowo>
     </menu>

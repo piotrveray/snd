@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Sniadaniowo_Reports>
+            <version>0.1.0</version>
+        </Sniadaniowo_Reports>
+    </modules>
+    
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Sniadaniowo_Reports after="Mage_Adminhtml">Sniadaniowo_Reports</Sniadaniowo_Reports>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    
+    <stores>
+        <admin>
+            <!-- default admin design package and theme -->
+            <design>
+                <package>
+                    <name>mk_sniadaniowo</name>
+                </package>
+            </design>
+        </admin>
+    </stores>
+    
+</config>

@@ -1675,7 +1675,7 @@ ul.subpage-list{
 			background: #fff;
 		}
 		.calendar-order div#calendar-fade.calendar-content ul.bjqs li.bjqs-slide .selected{
-			background: #6aade4 url('../images/calendar-shape-active.png') no-repeat 15% 60%;
+			background: #6aade4 url('../images/calendar-shape-active.png') no-repeat 39px 8px;
 		}
 
 			.calendar-order #calendar-fade.calendar-content ul.bjqs li.bjqs-slide div.selected a#show span#price-head,
